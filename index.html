@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style4.css">
 </head>
 <body>
-
+    <div id="landing-page-container">
     <header>
         <div class="top-bar">
             <p>Keep Himalayas Clean & Plastic Free</p> 
@@ -25,7 +25,7 @@
                 <li><a href="#">About</a></li> 
             </ul>
             <div class="logo">
-                <img src="Frame 9.png" alt="Himachalites Logo">
+                <img src="img/Frame 9.png" alt="Himachalites Logo">
             </div>
             <ul class="main-nav nav-right">
                 <li><a href="#">News</a></li> 
@@ -35,14 +35,26 @@
         </nav>
     </header>
 
+
     <main class="content-area">
         <h1></h1>
         <p></p>
     </main>
 
     <div class="bottom-image">
-        <img src="Frame 15.png" alt="Scenic background image">
+        <img src="img/Frame 15.png" alt="Scenic background image">
+    </div>
     </div>
 
+    <script>
+    // Find the landing page container element
+    const landingPage = document.getElementById('landing-page-container');
+
+    // Calculate the position of the bottom of that container
+    const scrollToPosition = landingPage.offsetTop + landingPage.offsetHeight;
+
+    // Scroll the window to that exact position
+    window.scrollTo(0, scrollToPosition);
+</script>
 </body>
 </html>
