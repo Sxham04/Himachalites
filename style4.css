@@ -1,6 +1,6 @@
-/*
+/* ==========================================================================
    1. Core Layout & Fonts
- */
+   ========================================================================== */
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -9,9 +9,9 @@ body {
     flex-direction: column;
 }
 
-/*
+/* ==========================================================================
    2. Landing Page
-*/
+   ========================================================================== */
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -137,9 +137,9 @@ header {
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
 }
 
-/* 
+/* ==========================================================================
    3. States Section
-*/
+   ========================================================================== */
 
 /* --- States Section: Main Wrapper & Dashed Line --- */
 #states-wrapper {
@@ -253,9 +253,9 @@ header {
     background-color: #555;
 }
 
-/*
+/* ==========================================================================
    4. Specific Container Tweaks & Overrides
-*/
+   ========================================================================== */
 .state-container-1 { margin-bottom: -10rem; }
 .state-container-1 .image-column { margin-left: 6rem; margin-right: -6rem; }
 .state-container-1 .info-column { margin-bottom: 2rem; }
@@ -284,17 +284,13 @@ header {
 
 .state-container-9 { margin-bottom: -5rem; }
 
-.state-container-10 .image-column{margin-right: 6rem;}
-.state-container-10 .info-column{margin-right: -10rem;}
-
 .state-container-11 { margin-bottom: -14rem; }
 
 .state-container-12 { padding-bottom: 7rem; }
-.state-container-12 .image-column{margin-right: 8rem;}
 
-/* 
+/* ==========================================================================
    5. UI Elements
-*/
+   ========================================================================== */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -318,4 +314,121 @@ header {
 #scrollToBottomBtn:hover {
     background-color: #555;
     transform: scale(1.1);
+}
+
+/* ==========================================================================
+   6. Mobile & Portrait View Responsiveness
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* --- Landing Page Adjustments --- */
+    header {
+        height: auto; /* Allow header to grow */
+    }
+
+    .top-bar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .top-bar::after {
+        left: 5%;
+        right: 5%;
+    }
+
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .logo img {
+        height: 100px; /* Smaller logo */
+    }
+
+    .main-nav {
+        gap: 15px;
+        flex-wrap: wrap; /* Allow links to wrap */
+        justify-content: center;
+        flex: 1 1 100%;
+    }
+
+    .main-nav a {
+        padding: 10px; /* Reduce link padding */
+        font-size: 1em;
+    }
+
+    .bottom-image {
+        height: 60vh; /* Adjust image height */
+    }
+
+    /* --- States Section Adjustments --- */
+    .dashed-line-center {
+        display: none; /* Hide decorative line on mobile */
+    }
+
+    .state-container {
+        padding: 2rem 0;
+    }
+
+    .state-container--split,
+    .state-container--split.reverse {
+        flex-direction: column; /* Stack columns vertically */
+    }
+
+    .info-column,
+    .image-column {
+        max-width: 100%; /* Columns take full width */
+        flex-basis: auto;
+    }
+
+    .image-column {
+        padding: 0 1rem; /* Add padding to images */
+    }
+    
+    .info-column {
+        padding: 2rem 1.5rem; /* Adjust padding */
+        align-items: center; /* Center-align content */
+        text-align: center;
+    }
+
+    .info-column h2 {
+        font-size: 2.5rem; /* Reduce header size */
+        padding: 0.5rem 1rem;
+        background-image: none; /* Remove complex backgrounds on mobile */
+        text-align: center;
+        border: 2px solid #eee;
+    }
+
+    .info-column p {
+        padding-left: 0; /* Remove left padding on paragraphs */
+        max-width: 90%; /* Allow paragraph to use more width */
+    }
+    
+    .info-button {
+        margin-left: 0; /* Remove margin from button */
+    }
+
+    /* Reset all specific container margins and paddings */
+    .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5, .state-container-6, .state-container-7, .state-container-8, .state-container-9, .state-container-10, .state-container-11, .state-container-12 {
+        margin: 0 !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .state-container .image-column, 
+    .state-container .info-column {
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* --- UI Element Adjustments --- */
+    #scrollToBottomBtn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        bottom: 15px;
+        right: 15px;
+    }
 }
