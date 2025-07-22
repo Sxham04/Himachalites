@@ -160,6 +160,7 @@ header {
     height: auto;
     width: auto;
     z-index: -1;
+    display: none; /* CHANGE: Hide dashed line by default */
 }
 
 
@@ -236,7 +237,7 @@ header {
     margin: 0 0 1.5rem 0;
     padding-left: 1.8rem;
     font-size: 1.2rem;
-    max-width: 55ch; /* MODIFIED: Set a consistent width for all paragraphs */
+    max-width: 55ch;
 }
 
 .info-button {
@@ -283,6 +284,7 @@ header {
 .state-container-8 .image-column { margin-right: 16rem; }
 
 .state-container-9 { margin-bottom: -5rem; }
+.state-container-9 .image-column{margin-left: 4rem;}
 
 .state-container-10 .image-column{margin-right: 6rem;}
 
@@ -320,9 +322,19 @@ header {
 }
 
 /* ==========================================================================
-   6. Mobile & Portrait View Responsiveness
+   6. Responsive Layout Rules
    ========================================================================== */
-@media (max-width: 768px) {
+
+/* --- Rule for showing the dashed line on wide, landscape screens ONLY --- */
+@media screen and (min-width: 1024px) and (orientation: landscape) {
+    .dashed-line-center {
+        display: block; /* Show the line only when conditions are met */
+    }
+}
+
+
+/* --- Rules for all smaller devices (Tablets in Portrait, All Phones) --- */
+@media (max-width: 1023px) {
     /* --- Landing Page Adjustments --- */
     header {
         height: auto; /* Allow header to grow */
@@ -367,10 +379,6 @@ header {
     }
 
     /* --- States Section Adjustments --- */
-    .dashed-line-center {
-        display: none; /* Hide decorative line on mobile */
-    }
-
     .state-container {
         padding: 2rem 0;
     }
