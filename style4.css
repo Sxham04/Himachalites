@@ -1,62 +1,55 @@
-/* General Body and Font Styles */
+/*
+   1. Core Layout & Fonts
+ */
 body {
-    /* REMOVED width, max-width, and margin to make the page full-width */
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    /* background-color: #D9D9D9; Gray background fills the entire browser window */
     color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+   2. Landing Page
+*/
+#landing-page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-#landing-page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* This ensures the landing page itself is always at least the full height of the screen */
-}
-
-/* --- UPDATED HEADER STYLES --- */
+/* --- Landing Page: Header --- */
 header {
     width: 100%;
-    height: 25vh; /* Total height for the header */
-    /* background-color: #D9D9D9; */
+    height: 25vh;
     display: flex;
     flex-direction: column;
 }
 
 .top-bar {
     display: flex;
-    justify-content: space-between; /* Pushes items to the ends */
+    justify-content: space-between;
     align-items: center;
-    padding: 0 15%;
-    padding-bottom: 1%;
-    padding-top: 1%;
-    /* background-color: #D9D9D9; */
-    color: #333;
-    font-size: 0.9em;
-    min-height: 60px; /* Sets a minimum height for the top bar */
+    padding: 1% 15%;
+    min-height: 60px;
     position: relative;
+    font-size: 0.9em;
 }
 
 .top-bar::after {
-    content: ''; /* Required for pseudo-elements */
+    content: '';
     position: absolute;
-    bottom: 0; /* Position the line at the very bottom of the top-bar */
-    height: 2px; /* This is the thickness of the line */
-    background-color: #4a4a4a; 
-
-    /* --- CONTROL THE LENGTH HERE --- */
-    left: 10%;  /* The gap from the left edge */
-    right: 10%; /* The gap from the right edge */
-    /* By setting left and right to 5%, the line will span the middle 90% */
+    bottom: 0;
+    height: 2px;
+    background-color: #4a4a4a;
+    left: 10%;
+    right: 10%;
 }
 
 .top-bar p {
     margin: 0;
     color: black;
-    font-size: 1.2em; /* Adjust this value to make it larger or smaller */
-    font-family: Helvetica, Arial, sans-serif; /* Sets font to Helvetica with fallbacks */
+    font-size: 1.2em;
 }
 
 .social-links {
@@ -77,14 +70,14 @@ header {
 
 .navbar {
     display: flex;
-    justify-content: space-between; /* Spaces out nav lists and logo */
+    justify-content: space-between;
     align-items: center;
     padding: 0 5%;
-    flex-grow: 1; /* Allows navbar to fill remaining header height */
+    flex-grow: 1;
 }
 
 .logo img {
-    height: 140px; /* Adjust logo height as needed */
+    height: 140px;
 }
 
 .main-nav {
@@ -92,16 +85,16 @@ header {
     display: flex;
     margin: 0;
     padding: 0;
-    gap: 40px; /* Space between nav items */
-    flex: 1; /* Allows nav lists to take up equal space */
+    gap: 40px;
+    flex: 1;
 }
 
 .nav-left {
-    justify-content: flex-end; /* Aligns items to the right (towards the logo) */
+    justify-content: flex-end;
 }
 
 .nav-right {
-    justify-content: flex-start; /* Aligns items to the left (towards the logo) */
+    justify-content: flex-start;
 }
 
 .main-nav a {
@@ -109,24 +102,25 @@ header {
     color: black;
     font-weight: 150;
     font-size: 1.1em;
-    transition: color 0.3s ease;
     padding: 60px;
-    font-family: Helvetica;
+    font-family: Helvetica, Arial, sans-serif;
+    transition: color 0.3s ease;
 }
 
 .main-nav a:hover {
-    color: #7d7d7d; /* Lighter shade on hover */
+    color: #7d7d7d;
 }
-/* --- END OF HEADER STYLES --- */
 
-
-/* Main Content Area */
+/* Style for the active navigation link */
+.main-nav a.active {
+  color: #7d7d7d; /* Lighter color to indicate the active page */
+}
+/* --- Landing Page: Main Content & Bottom Image --- */
 .content-area {
-    flex-grow: 1; 
+    flex-grow: 1;
     text-align: center;
 }
 
-/* Bottom Image with Blending Effect */
 .bottom-image {
     width: 100%;
     height: 75vh;
@@ -137,428 +131,114 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block; 
-    
-    /* --- EDIT THIS LINE TO POSITION THE IMAGE --- */
-    object-position: 50% 80%; /* Default is 'center' or '50% 50%' */
-
-    mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15% );
-    -webkit-mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15% );
+    display: block;
+    object-position: 50% 80%;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
 }
 
-/* frame styles */
+/* 
+   3. States Section
+*/
+
+/* --- States Section: Main Wrapper & Dashed Line --- */
 #states-wrapper {
-  /* This creates a positioning and layering context */
-  position: relative;
-  z-index: 0; /* <-- This is the crucial fix */
-  width: 100%;
+    position: relative;
+    z-index: 0;
+    width: 100%;
 }
 
-.dashed-line{
+.dashed-line {
     height: 100%;
 }
 
 .dashed-line-center {
-  position: absolute;
-  bottom: 40vh;
-  left: 50%;
-  transform: translateX(-50%);
-  height: auto;
-  width: auto;
-  z-index: -1;
+    position: absolute;
+    bottom: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    height: auto;
+    width: auto;
+    z-index: -1;
 }
 
 
-/* .line-container {
-  position: absolute;
-  bottom: 50vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: -1;
-  height: 8888px;
-  width: 2px;
-}
-
-.line-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-} */
-
-.state-container-11{
-  margin-bottom: -14rem;
-}
-.state-container-9{
-  margin-bottom: -5rem;
-}
-.state-container-8{
-  margin-left: -10rem;
-  padding-left: -10rem;
-  padding-right: 20rem;
-  margin-bottom: -10rem;
-}
-
-.state-container-8 .image-column{
-  margin-right: 16rem;
-}
-
-.state-container-7{
-  margin-bottom: -13rem;
-}
-
-.state-container-7 .image-column{
-  margin-left: 8rem;
-}
-
-.state-container-7 .info-column{
-  margin-left: -10rem;
-  margin-bottom: 4rem;
-}
-
-.state-container-6{
-  margin-bottom: -8rem;
-}
-
-.state-container-6 .image-column{
-  margin-right: 7rem;
-}
-
-.state-container-5{
-  margin-bottom: -10rem;
-}
-.state-container-5 .image-column{
-  margin-left: 7rem;
-  margin-right: -8rem;
-}
-
-.state-container-4{
-  margin-left: -6rem;
-}
-
-.state-container-4 .image-column{
-  margin-right: 17rem;
-  max-width: 40%;
-  margin-left: -14rem;
-}
-
-.state-container-3{
-  margin-bottom: -10rem;
-}
-
-.state-container-3 .image-column{
-  margin-left: 10rem;
-  margin-right: -6rem;
-  margin-top: 4rem;
-}
-
-.state-container-2{
-  margin-bottom: -7rem;
-}
-
-.state-container-2 .image-column{
-  margin-right: 10rem;
-}
-
-.state-container-1{
-  margin-bottom: -10rem;
-}
-
-.state-container-1 .image-column{
-  margin-left: 6rem;
-  margin-right: -6rem;
-}
-
-.state-container-1 .info-column{
-  margin-bottom: 2rem;
-}
-
+/* --- States Section: General Container Layout --- */
 .state-container {
-  min-height: 75vh;
-  display: flex;
-  justify-content: center;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
-  align-items: center;
-  padding: 5rem 0;
-  box-sizing: border-box;
+    padding: 5rem 0;
 }
 
-.state-container-12{
-    padding-bottom: 7rem;
-}
-
-/* state container */
-/* --- New Split Container Styles --- */
-
-/* This rule applies the side-by-side layout */
-.state-container--split {
-  display: flex;
-  align-items: center; /* Vertically centers the columns */
-  justify-content: center;
-}
-
-/* Add this class to your HTML to flip the layout */
 .state-container--split.reverse {
-  flex-direction: row-reverse;
+    flex-direction: row-reverse;
 }
 
-/* Defines the columns to share the space */
-.image-column {
-  /* This tells the column to take up space but not grow too large */
-  flex: 0 0 45%; 
-  
-  /* The main fix: This caps the width of the image's container */
-  max-width: 45%; 
-}
-
-/* Styles the content within the info column */
+/* --- States Section: Column Layout --- */
 .info-column {
-  /* This tells the column to take up available space but allows it to shrink */
-  flex: 1 1 55%; 
-  min-width: 0; /* Allows the column to shrink properly */
-  flex-basis: 35%;
-
-  /* These styles remain for internal layout */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 2rem; /* Use simple, balanced padding */
-  padding-left: 15rem;
+    flex: 1 1 55%; /* Defines how the column grows and shrinks */
+    min-width: 0;   /* Allows the column to shrink correctly */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 2rem 2rem 15rem; /* Consolidated padding */
 }
 
-/* Add these new rules to your CSS file */
+.image-column {
+    flex: 0 0 45%;   /* Defines a fixed size for the column */
+    max-width: 45%; /* Caps the width to prevent oversized images from breaking layout */
+}
 
-/* Controls the space AFTER the header */
+.image-column img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* --- States Section: Info Content Styling --- */
+
+/* Base styles for ALL state headers (h2) */
 .info-column h2 {
-  font-size: 4rem;  
-  margin: 0; /* Resets any default margin */
-  margin-bottom: -0.3rem; /* Adjust this small value for the perfect gap */
+    font-size: 4rem;
+    display: inline-block;
+    color: black;
+    border-radius: 8px;
+    margin: 0 0 0.5rem 0;
+    padding: 6rem 13rem 1rem 1.5rem; /* Default padding for most headers */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 25% 50%;
 }
 
+/* Unique background images for each header */
+.header-1 { background-image: url('img/lh bg.png'); }
+.header-2 { background-image: url('img/Kin bg.png'); }
+.header-3 { background-image: url('img/cha bg.png'); }
+.header-4 { background-image: url('img/Kul bg.png'); }
+.header-5 { background-image: url('img/Shm bg.png'); }
+.header-6 { background-image: url('img/Kang bg.png'); }
+.header-7 { background-image: url('img/Sir bg.png'); }
+.header-8 { background-image: url('img/Man bg.png'); }
+.header-9 { background-image: url('img/Sol bg.png'); }
+.header-10 { background-image: url('img/Bil bg.png'); }
+.header-11 { background-image: url('img/Hamir bg.png'); }
 .header-12 {
-  /* --- Background Image Styles --- */
-  background-image: url('img/image 3.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 20rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;
+    background-image: url('img/image 3.png');
+    padding: 6rem 20rem 1rem 1.5rem; /* Unique padding for this header */
 }
 
-.header-11{
-  /* --- Background Image Styles --- */
-  background-image: url('img/Hamir\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem; 
-}
-
-.header-10{
-  /* --- Background Image Styles --- */
-  background-image: url('img/Bil\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.header-9{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Sol\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.header-8{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Man\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.header-7{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Sir\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.header-6{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Kang\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-
-.header-5{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Shm\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-
-.header-4{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Kul\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-
-.header-3{
-    /* --- Background Image Styles --- */
-  background-image: url('img/cha\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-
-.header-2{
-    /* --- Background Image Styles --- */
-  background-image: url('img/Kin\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-
-.header-1{
-    /* --- Background Image Styles --- */
-  background-image: url('img/lh\ bg.png');
-  background-size: contain;      /* Ensures the whole image is visible without cropping */
-  background-repeat: no-repeat;  /* Prevents the image from tiling */
-  background-position: 25% 50%;   /* Centers the contained image */
-
-  /* --- Sizing and Spacing --- */
-  display: inline-block;
-  padding: 6rem 13rem 1rem 1.5rem;
-
-  /* --- Text and Polish --- */
-  color: black;
-  border-radius: 8px;
-  margin: 0;
-  margin-bottom: 0.5rem;  
-}
-/* Controls the space AFTER the paragraph (before the button) */
+/* Base styles for paragraph and button */
 .info-column p {
-  margin: 0; /* Resets any default margin */
-  margin-bottom: 1.5rem; /* Adjust this value as needed */
-  padding-left: 1.8rem;
-  font-size: 1.2rem;
-  max-width: 65ch;
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.8rem;
+    font-size: 1.2rem;
+    max-width: 55ch; /* MODIFIED: Set a consistent width for all paragraphs */
 }
 
-/* Styles the button in the info column */
 .info-button {
     background-color: #333;
     color: white;
@@ -573,54 +253,65 @@ header {
     background-color: #555;
 }
 
+/*
+   4. Specific Container Tweaks & Overrides
+*/
+.state-container-1 { margin-bottom: -10rem; }
+.state-container-1 .image-column { margin-left: 6rem; margin-right: -6rem; }
+.state-container-1 .info-column { margin-bottom: 2rem; }
 
-/* Ensures the image fits its column without distortion */
-.image-column img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px; /* Optional: adds rounded corners to the image */
+.state-container-2 { margin-bottom: -7rem; }
+.state-container-2 .image-column { margin-right: 10rem; }
+
+.state-container-3 { margin-bottom: -10rem; }
+.state-container-3 .image-column { margin-left: 10rem; margin-right: -6rem; margin-top: 4rem; }
+
+.state-container-4 { margin-left: -6rem; }
+.state-container-4 .image-column { margin-right: 17rem; max-width: 40%; margin-left: -14rem; }
+
+.state-container-5 { margin-bottom: -10rem; }
+.state-container-5 .image-column { margin-left: 7rem; margin-right: -8rem; }
+
+.state-container-6 { margin-bottom: -8rem; }
+.state-container-6 .image-column { margin-right: 7rem; }
+
+.state-container-7 { margin-bottom: -13rem; }
+.state-container-7 .image-column { margin-left: 8rem; }
+.state-container-7 .info-column { margin-left: -10rem; margin-bottom: 4rem; }
+
+.state-container-8 { margin-left: -10rem; margin-bottom: -10rem; }
+.state-container-8 .image-column { margin-right: 16rem; }
+
+.state-container-9 { margin-bottom: -5rem; }
+
+.state-container-11 { margin-bottom: -14rem; }
+
+.state-container-12 { padding-bottom: 7rem; }
+
+/* 
+   5. UI Elements
+*/
+#scrollToBottomBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-
-
-.state-container-11 p{
-  padding-right: 10%;
-}
-
-.state-container-9 p{
-  padding-right: 14%;
-}
-
-.state-container-8 p{
-  padding-right: 20%;
-}
-
-.state-container-7 p{
-  padding-right: 20%;
-}
-
-.state-container-6 p{
-  padding-right: 10%;
-}
-
-.state-container-5 p{
-  padding-right: 10%;
-}
-
-.state-container-4 p{
-  max-width: 50ch;
-}
-
-.state-container-3 p{
-  padding-right: 10%;
-  max-width: 50ch;
-}
-
-.state-container-2 p{
-  max-width: 50ch;
-}
-
-.state-container-1 p{
-  padding-right: 10%;
+#scrollToBottomBtn:hover {
+    background-color: #555;
+    transform: scale(1.1);
 }
