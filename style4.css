@@ -29,8 +29,9 @@ header {
     display: flex;
     justify-content: space-between; /* Pushes items to the ends */
     align-items: center;
-    padding: 0 12%;
+    padding: 0 15%;
     padding-bottom: 1%;
+    padding-top: 1%;
     /* background-color: #D9D9D9; */
     color: #333;
     font-size: 0.9em;
@@ -128,7 +129,7 @@ header {
 /* Bottom Image with Blending Effect */
 .bottom-image {
     width: 100%;
-    height: 40vh;
+    height: 75vh;
     align-self: flex-end;
 }
 
@@ -141,8 +142,8 @@ header {
     /* --- EDIT THIS LINE TO POSITION THE IMAGE --- */
     object-position: 50% 80%; /* Default is 'center' or '50% 50%' */
 
-    mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35% );
-    -webkit-mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35% );
+    mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15% );
+    -webkit-mask-image: linear-gradient( to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15% );
 }
 
 /* frame styles */
@@ -154,7 +155,7 @@ header {
 }
 
 .dashed-line{
-    height: 8888px;
+    height: 100%;
 }
 
 .dashed-line-center {
@@ -184,6 +185,93 @@ header {
   display: block;
 } */
 
+.state-container-11{
+  margin-bottom: -14rem;
+}
+.state-container-9{
+  margin-bottom: -5rem;
+}
+.state-container-8{
+  margin-left: -10rem;
+  padding-left: -10rem;
+  padding-right: 20rem;
+  margin-bottom: -10rem;
+}
+
+.state-container-8 .image-column{
+  margin-right: 16rem;
+}
+
+.state-container-7{
+  margin-bottom: -13rem;
+}
+
+.state-container-7 .image-column{
+  margin-left: 8rem;
+}
+
+.state-container-7 .info-column{
+  margin-left: -10rem;
+  margin-bottom: 4rem;
+}
+
+.state-container-6{
+  margin-bottom: -8rem;
+}
+
+.state-container-6 .image-column{
+  margin-right: 7rem;
+}
+
+.state-container-5{
+  margin-bottom: -10rem;
+}
+.state-container-5 .image-column{
+  margin-left: 7rem;
+  margin-right: -8rem;
+}
+
+.state-container-4{
+  margin-left: -6rem;
+}
+
+.state-container-4 .image-column{
+  margin-right: 17rem;
+  max-width: 40%;
+  margin-left: -14rem;
+}
+
+.state-container-3{
+  margin-bottom: -10rem;
+}
+
+.state-container-3 .image-column{
+  margin-left: 10rem;
+  margin-right: -6rem;
+  margin-top: 4rem;
+}
+
+.state-container-2{
+  margin-bottom: -7rem;
+}
+
+.state-container-2 .image-column{
+  margin-right: 10rem;
+}
+
+.state-container-1{
+  margin-bottom: -10rem;
+}
+
+.state-container-1 .image-column{
+  margin-left: 6rem;
+  margin-right: -6rem;
+}
+
+.state-container-1 .info-column{
+  margin-bottom: 2rem;
+}
+
 .state-container {
   min-height: 75vh;
   display: flex;
@@ -195,12 +283,9 @@ header {
 }
 
 .state-container-12{
-    padding-bottom: 8rem;
+    padding-bottom: 7rem;
 }
 
-.image-12{
-
-}
 /* state container */
 /* --- New Split Container Styles --- */
 
@@ -267,11 +352,210 @@ header {
   margin-bottom: 0.5rem;
 }
 
+.header-11{
+  /* --- Background Image Styles --- */
+  background-image: url('img/Hamir\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem; 
+}
+
+.header-10{
+  /* --- Background Image Styles --- */
+  background-image: url('img/Bil\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-9{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Sol\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-8{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Man\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-7{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Sir\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-6{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Kang\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
+
+.header-5{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Shm\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
+
+.header-4{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Kul\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
+
+.header-3{
+    /* --- Background Image Styles --- */
+  background-image: url('img/cha\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
+
+.header-2{
+    /* --- Background Image Styles --- */
+  background-image: url('img/Kin\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
+
+.header-1{
+    /* --- Background Image Styles --- */
+  background-image: url('img/lh\ bg.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 13rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;  
+}
 /* Controls the space AFTER the paragraph (before the button) */
 .info-column p {
   margin: 0; /* Resets any default margin */
   margin-bottom: 1.5rem; /* Adjust this value as needed */
   padding-left: 1.8rem;
+  font-size: 1.2rem;
+  max-width: 65ch;
 }
 
 /* Styles the button in the info column */
@@ -296,4 +580,47 @@ header {
   height: auto;
   display: block;
   border-radius: 8px; /* Optional: adds rounded corners to the image */
+}
+
+
+
+.state-container-11 p{
+  padding-right: 10%;
+}
+
+.state-container-9 p{
+  padding-right: 14%;
+}
+
+.state-container-8 p{
+  padding-right: 20%;
+}
+
+.state-container-7 p{
+  padding-right: 20%;
+}
+
+.state-container-6 p{
+  padding-right: 10%;
+}
+
+.state-container-5 p{
+  padding-right: 10%;
+}
+
+.state-container-4 p{
+  max-width: 50ch;
+}
+
+.state-container-3 p{
+  padding-right: 10%;
+  max-width: 50ch;
+}
+
+.state-container-2 p{
+  max-width: 50ch;
+}
+
+.state-container-1 p{
+  padding-right: 10%;
 }
