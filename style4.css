@@ -5,6 +5,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     /* background-color: #D9D9D9; Gray background fills the entire browser window */
     color: #333;
+    display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
@@ -145,3 +146,154 @@ header {
 }
 
 /* frame styles */
+#states-wrapper {
+  /* This creates a positioning and layering context */
+  position: relative;
+  z-index: 0; /* <-- This is the crucial fix */
+  width: 100%;
+}
+
+.dashed-line{
+    height: 8888px;
+}
+
+.dashed-line-center {
+  position: absolute;
+  bottom: 40vh;
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  width: auto;
+  z-index: -1;
+}
+
+
+/* .line-container {
+  position: absolute;
+  bottom: 50vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  height: 8888px;
+  width: 2px;
+}
+
+.line-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+} */
+
+.state-container {
+  min-height: 75vh;
+  display: flex;
+  justify-content: center;
+    box-sizing: border-box;
+  align-items: center;
+  padding: 5rem 0;
+  box-sizing: border-box;
+}
+
+.state-container-12{
+    padding-bottom: 8rem;
+}
+
+.image-12{
+
+}
+/* state container */
+/* --- New Split Container Styles --- */
+
+/* This rule applies the side-by-side layout */
+.state-container--split {
+  display: flex;
+  align-items: center; /* Vertically centers the columns */
+  justify-content: center;
+}
+
+/* Add this class to your HTML to flip the layout */
+.state-container--split.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Defines the columns to share the space */
+.image-column {
+  /* This tells the column to take up space but not grow too large */
+  flex: 0 0 45%; 
+  
+  /* The main fix: This caps the width of the image's container */
+  max-width: 45%; 
+}
+
+/* Styles the content within the info column */
+.info-column {
+  /* This tells the column to take up available space but allows it to shrink */
+  flex: 1 1 55%; 
+  min-width: 0; /* Allows the column to shrink properly */
+  flex-basis: 35%;
+
+  /* These styles remain for internal layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem; /* Use simple, balanced padding */
+  padding-left: 15rem;
+}
+
+/* Add these new rules to your CSS file */
+
+/* Controls the space AFTER the header */
+.info-column h2 {
+  font-size: 4rem;  
+  margin: 0; /* Resets any default margin */
+  margin-bottom: -0.3rem; /* Adjust this small value for the perfect gap */
+}
+
+.header-12 {
+  /* --- Background Image Styles --- */
+  background-image: url('img/image 3.png');
+  background-size: contain;      /* Ensures the whole image is visible without cropping */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  background-position: 25% 50%;   /* Centers the contained image */
+
+  /* --- Sizing and Spacing --- */
+  display: inline-block;
+  padding: 6rem 20rem 1rem 1.5rem;
+
+  /* --- Text and Polish --- */
+  color: black;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Controls the space AFTER the paragraph (before the button) */
+.info-column p {
+  margin: 0; /* Resets any default margin */
+  margin-bottom: 1.5rem; /* Adjust this value as needed */
+  padding-left: 1.8rem;
+}
+
+/* Styles the button in the info column */
+.info-button {
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-left: 2rem;
+}
+
+.info-button:hover {
+    background-color: #555;
+}
+
+
+/* Ensures the image fits its column without distortion */
+.image-column img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px; /* Optional: adds rounded corners to the image */
+}
