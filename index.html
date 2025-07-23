@@ -265,11 +265,13 @@
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
     const maskRect = document.getElementById("mask-rect");
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const svgLine = document.querySelector(".dashed-line-center");
     let lastScrollTop;
+    let svgDynamicHeight = 0;
 
     // --- Mobile Menu Functionality ---
     mobileMenuToggle.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open'); // Toggle class on the parent navbar
+        navbar.classList.toggle('nav-open');
         const isExpanded = navbar.classList.contains('nav-open');
         mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
         
@@ -283,22 +285,30 @@
         }
     });
 
+    // --- Function to measure and update SVG height ---
+    function updateSvgHeight() {
+        if (svgLine) {
+            svgDynamicHeight = svgLine.getBoundingClientRect().height;
+        }
+    }
+
     // --- SVG Line Animation ---
     function animateDashedLine() {
-        if (window.innerWidth <= 1023 || !maskRect) {
+        if (window.innerWidth <= 1023 || !maskRect || svgDynamicHeight === 0) {
             return;
         }
         const easingFactor = 0.34;
-        const svgHeight = 8888;
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollPercentage = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
         const linearPercentage = 1 - scrollPercentage;
         const easedPercentage = linearPercentage * linearPercentage;
         const finalPercentage = linearPercentage * (1 - easingFactor) + easedPercentage * easingFactor;
-        const yPosition = svgHeight * (1 - finalPercentage);
+        
+        const yPosition = svgDynamicHeight * (1 - finalPercentage);
+        
         maskRect.style.transform = `translateY(${yPosition}px)`;
-        maskRect.setAttribute('height', svgHeight);
+        maskRect.setAttribute('height', svgDynamicHeight);
     }
 
     // --- Page Setup and Event Listeners ---
@@ -306,8 +316,15 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
         document.body.style.opacity = '1';
         lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Hide the button initially
+        scrollToTopBtn.classList.add('is-hidden');
+
+        updateSvgHeight();
         animateDashedLine();
     };
+
+    window.addEventListener('resize', updateSvgHeight);
 
     scrollToTopBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -318,12 +335,17 @@
 
     window.addEventListener('scroll', function() {
         animateDashedLine();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (window.innerWidth > 1023) {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const triggerPoint = document.body.scrollHeight - landingPage.offsetHeight;
+        // --- Logic for Navbar Anchoring ---
+        if (window.innerWidth > 1023 && landingPage) {
+            const anchorThreshold = 0.90; 
+            const bottomOfViewport = scrollTop + window.innerHeight;
+            const topOfLandingPage = landingPage.offsetTop
+            const heightOfLandingPage = landingPage.offsetHeight;
+            const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
 
-            if (scrollTop < lastScrollTop && scrollTop < triggerPoint) {
+            if (scrollTop < lastScrollTop && bottomOfViewport < triggerPoint) {
                 navbar.classList.add('navbar--anchored');
                 scrollToTopBtn.classList.add('raised');
             } else {
@@ -332,7 +354,19 @@
             }
         }
         
-        lastScrollTop = (window.pageYOffset || document.documentElement.scrollTop) <= 0 ? 0 : (window.pageYOffset || document.documentElement.scrollTop);
+        // --- NEW: Logic for Button Visibility ---
+        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollFraction = scrollTop / scrollableHeight;
+
+        // Since scrolling is from bottom-to-top, a scrollFraction less than 0.4 means
+        // the user has scrolled past 60% of the page from the bottom.
+        if (scrollFraction < 0.4) {
+            scrollToTopBtn.classList.remove('is-hidden');
+        } else {
+            scrollToTopBtn.classList.add('is-hidden');
+        }
+
+        lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
     }, false);
 
     history.scrollRestoration = 'manual';
