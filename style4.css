@@ -12,6 +12,11 @@ body {
 /* ==========================================================================
    2. Landing Page
    ========================================================================== */
+
+/* #mask-rect {
+    transform: translateY(8888px);
+} */
+
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -111,9 +116,8 @@ header {
     color: #7d7d7d;
 }
 
-/* Style for the active navigation link */
 .main-nav a.active {
-  color: #7d7d7d; /* Lighter color to indicate the active page */
+  color: #7d7d7d;
 }
 /* --- Landing Page: Main Content & Bottom Image --- */
 .content-area {
@@ -146,32 +150,43 @@ header {
     position: relative;
     z-index: 0;
     width: 100%;
+    height: 100%;
+    padding-top: 0;
+    margin-top: -290vh;
+    padding-bottom: 20vh;
+    overflow: hidden; 
 }
 
 .dashed-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
+
 
 .dashed-line-center {
     position: absolute;
-    bottom: 40vh;
+    top: 300vh;
     left: 50%;
     transform: translateX(-50%);
-    height: auto;
-    width: auto;
-    z-index: -1;
-    display: none; /* CHANGE: Hide dashed line by default */
+    display: none;
+    width: 86vw;
 }
-
 
 /* --- States Section: General Container Layout --- */
 .state-container {
-    min-height: 75vh;
+    max-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 5rem 0;
+    padding: 2rem 0;
+    position: relative;
+    margin-bottom: 30vh;
 }
 
 .state-container--split.reverse {
@@ -180,17 +195,18 @@ header {
 
 /* --- States Section: Column Layout --- */
 .info-column {
-    flex: 1 1 55%; /* Defines how the column grows and shrinks */
-    min-width: 0;   /* Allows the column to shrink correctly */
+    flex: 1 1 55%;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem 2rem 2rem 15rem; /* Consolidated padding */
+    padding: 2rem 2rem 2rem 12vw;
 }
 
 .image-column {
-    flex: 0 0 45%;   /* Defines a fixed size for the column */
-    max-width: 45%; /* Caps the width to prevent oversized images from breaking layout */
+    flex: 0 0 45%;
+    max-width: 45%;
+    padding: 0 5vw;
 }
 
 .image-column img {
@@ -201,21 +217,18 @@ header {
 }
 
 /* --- States Section: Info Content Styling --- */
-
-/* Base styles for ALL state headers (h2) */
 .info-column h2 {
     font-size: 4rem;
     display: inline-block;
     color: black;
     border-radius: 8px;
     margin: 0 0 0.5rem 0;
-    padding: 6rem 13rem 1rem 1.5rem; /* Default padding for most headers */
+    padding: 6rem 13rem 1rem 1.5rem;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 25% 50%;
 }
 
-/* Unique background images for each header */
 .header-1 { background-image: url('img/lh bg.png'); }
 .header-2 { background-image: url('img/Kin bg.png'); }
 .header-3 { background-image: url('img/cha bg.png'); }
@@ -229,15 +242,14 @@ header {
 .header-11 { background-image: url('img/Hamir bg.png'); }
 .header-12 {
     background-image: url('img/image 3.png');
-    padding: 6rem 20rem 1rem 1.5rem; /* Unique padding for this header */
+    padding: 6rem 20rem 1rem 1.5rem;
 }
 
-/* Base styles for paragraph and button */
 .info-column p {
     margin: 0 0 1.5rem 0;
     padding-left: 1.8rem;
-    font-size: 1.2rem;
-    max-width: 55ch;
+    font-size: 1.1rem;
+    max-width: 50ch;
 }
 
 .info-button {
@@ -251,47 +263,54 @@ header {
 }
 
 .info-button:hover {
-    background-color: #555;
+    background-color: #0EA63C; /* Updated hover color */
 }
 
 /* ==========================================================================
    4. Specific Container Tweaks & Overrides
    ========================================================================== */
-.state-container-1 { margin-bottom: -10rem; }
-.state-container-1 .image-column { margin-left: 6rem; margin-right: -6rem; }
-.state-container-1 .info-column { margin-bottom: 2rem; }
 
-.state-container-2 { margin-bottom: -7rem; }
-.state-container-2 .image-column { margin-right: 10rem; }
+.state-container-1 { top: 290vh; }
+.state-container-1 .info-column {margin-left: -20vh;}
 
-.state-container-3 { margin-bottom: -10rem; }
-.state-container-3 .image-column { margin-left: 10rem; margin-right: -6rem; margin-top: 4rem; }
+.state-container-2 { top: 270vh; }
+.state-container-2 .image-column {margin-left: -15vh;}
+.state-container-2 .info-column {margin-left: -5vh;}
 
-.state-container-4 { margin-left: -6rem; }
-.state-container-4 .image-column { margin-right: 17rem; max-width: 40%; margin-left: -14rem; }
+.state-container-3 { top: 255vh; }
+.state-container-3 .info-column {margin-left: -15vh;}
 
-.state-container-5 { margin-bottom: -10rem; }
-.state-container-5 .image-column { margin-left: 7rem; margin-right: -8rem; }
+.state-container-4 { top: 225vh; }
+.state-container-4 .image-column{margin-right: 20vh;}
 
-.state-container-6 { margin-bottom: -8rem; }
-.state-container-6 .image-column { margin-right: 7rem; }
+.state-container-5 { top: 200vh; }
+.state-container-5 .info-column{margin-left: -25vh;}
 
-.state-container-7 { margin-bottom: -13rem; }
-.state-container-7 .image-column { margin-left: 8rem; }
-.state-container-7 .info-column { margin-left: -10rem; margin-bottom: 4rem; }
+.state-container-6 { top: 170vh; }
+.state-container-6 .image-column {margin-left: -20vh; margin-right: 15vh;}
 
-.state-container-8 { margin-left: -10rem; margin-bottom: -10rem; }
-.state-container-8 .image-column { margin-right: 16rem; }
+.state-container-7 { top: 135vh; }
+.state-container-7 .info-column {margin-left: -25vh;}
+.state-container .image-column {padding-top: 6vh;}
 
-.state-container-9 { margin-bottom: -5rem; }
-.state-container-9 .image-column{margin-left: 4rem;}
+.state-container-8 { top: 115vh; }
+.state-container-8 .image-column {margin-left: -20vh; margin-right: 10vh;}
 
-.state-container-10 .image-column{margin-right: 6rem;}
+.state-container-9 { top: 90vh; }
+.state-container-9 .info-column {margin-left: -20vh;}
 
-.state-container-11 { margin-bottom: -14rem; }
+.state-container-10 { top: 70vh; }
 
-.state-container-12 { padding-bottom: 5rem; margin-top: 2rem; }
-.state-container-12 .image-column{margin-right: 8rem;}
+.state-container-11 { top: 45vh; }
+.state-container-11 .info-column{ margin-left: -20vh; }
+
+.state-container-12 {
+    top: 12vh;
+    margin-bottom: 0;
+}
+
+.state-container-12 .info-column { margin-left: 6vh; }
+.state-container-3 .image-column { margin-top: 4rem; }
 
 /* ==========================================================================
    5. UI Elements
@@ -328,118 +347,143 @@ header {
 /* --- Rule for showing the dashed line on wide, landscape screens ONLY --- */
 @media screen and (min-width: 1024px) and (orientation: landscape) {
     .dashed-line-center {
-        display: block; /* Show the line only when conditions are met */
+        display: block;
     }
 }
 
 
 /* --- Rules for all smaller devices (Tablets in Portrait, All Phones) --- */
 @media (max-width: 1023px) {
-    /* --- Landing Page Adjustments --- */
-    header {
-        height: auto; /* Allow header to grow */
-    }
-
-    .top-bar {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 10px;
-        text-align: center;
-    }
     
-    .top-bar::after {
-        left: 5%;
-        right: 5%;
+    /* Resets the main wrapper for mobile layout */
+    #states-wrapper {
+        margin-top: 0;
+        height: auto;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
 
-    .navbar {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .logo img {
-        height: 100px; /* Smaller logo */
-    }
-
-    .main-nav {
-        gap: 15px;
-        flex-wrap: wrap; /* Allow links to wrap */
-        justify-content: center;
-        flex: 1 1 100%;
-    }
-
-    .main-nav a {
-        padding: 10px; /* Reduce link padding */
-        font-size: 1em;
-    }
-
-    .bottom-image {
-        height: 60vh; /* Adjust image height */
-    }
-
-    /* --- States Section Adjustments --- */
     .state-container {
-        padding: 2rem 0;
+        position: static; 
+        margin-bottom: 5rem;
+        padding: 0 1rem;
+        max-height: none;
     }
+
+    header { height: auto; }
+    .top-bar { flex-direction: column; padding: 1rem; gap: 10px; text-align: center; }
+    .top-bar::after { left: 5%; right: 5%; }
+    .navbar { flex-direction: column; padding: 1rem; gap: 1rem; }
+    .logo img { height: 100px; }
+    .main-nav { gap: 15px; flex-wrap: wrap; justify-content: center; flex: 1 1 100%; }
+    .main-nav a { padding: 10px; font-size: 1em; }
+    .bottom-image { height: 60vh; }
 
     .state-container--split,
     .state-container--split.reverse {
-        flex-direction: column; /* Stack columns vertically */
+        flex-direction: column-reverse;
     }
 
     .info-column,
     .image-column {
-        max-width: 100%; /* Columns take full width */
+        max-width: 100%;
         flex-basis: auto;
+        padding: 0;
     }
 
     .image-column {
-        padding: 0 1rem; /* Add padding to images */
+        margin-bottom: 1.5rem;
     }
-    
-    .info-column {
-        padding: 2rem 1.5rem; /* Adjust padding */
-        align-items: center; /* Center-align content */
+
+    .info-column { 
+        padding: 0 1rem;
+        align-items: center;
         text-align: center;
     }
 
     .info-column h2 {
-        font-size: 2.5rem; /* Reduce header size */
+        font-size: 2.5rem;
         padding: 0.5rem 1rem;
-        background-image: none; /* Remove complex backgrounds on mobile */
+        background-image: none;
         text-align: center;
         border: 2px solid #eee;
+        margin-bottom: 1rem;
     }
 
-    .info-column p {
-        padding-left: 0; /* Remove left padding on paragraphs */
-        max-width: 90%; /* Allow paragraph to use more width */
-    }
-    
-    .info-button {
-        margin-left: 0; /* Remove margin from button */
-    }
+    .info-column p { padding-left: 0; max-width: 90%; }
+    .info-button { margin-left: 0; }
 
-    /* Reset all specific container margins and paddings */
     .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5, .state-container-6, .state-container-7, .state-container-8, .state-container-9, .state-container-10, .state-container-11, .state-container-12 {
-        margin: 0 !important;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
+        margin-bottom: 5rem !important;
+        top: auto !important;
     }
     
-    .state-container .image-column, 
+    .state-container:last-of-type {
+        margin-bottom: 0 !important;
+    }
+
+    .state-container .image-column,
     .state-container .info-column {
-        margin: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         max-width: 100% !important;
     }
 
-    /* --- UI Element Adjustments --- */
     #scrollToBottomBtn {
         width: 45px;
         height: 45px;
         font-size: 18px;
         bottom: 15px;
         right: 15px;
+    }
+}
+
+/* ==========================================================================
+   7. Anchored Navbar Effect (Desktop Only)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    /* Base transition for the navbar element for a smoother effect */
+    .navbar {
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Styles for the anchored state */
+    .navbar.navbar--anchored {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10vh;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+        z-index: 1001;
+        align-items: center;
+        /* REVISED: Remove parent padding for better control */
+        padding: 0; 
+    }
+
+    /* REVISED: Adjust child padding and gaps for perfect alignment */
+    .navbar.navbar--anchored .nav-left {
+        padding-left: 5%;
+    }
+    .navbar.navbar--anchored .nav-right {
+        padding-right: 5%;
+    }
+    .navbar.navbar--anchored .main-nav {
+        gap: 25px; /* Reduced gap for a tighter look */
+    }
+
+    /* Adjust logo size in the anchored state */
+    .navbar.navbar--anchored .logo img {
+        height: 12vh;
+        max-height: 85px;
+    }
+
+    /* Adjust nav link padding in the anchored state */
+    .navbar.navbar--anchored .main-nav a {
+        padding: 1.5rem;
+        font-size: 1em;
     }
 }
