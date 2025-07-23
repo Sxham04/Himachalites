@@ -221,21 +221,27 @@
                 <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
             </div>
         </div>
-        <nav class="navbar">
-            <ul class="main-nav nav-left">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-            <div class="logo">
-                <img src="img/Frame 9.png" alt="Himachalites Logo">
-            </div>
-            <ul class="main-nav nav-right">
-                <li><a href="#">News</a></li>
-                <li><a href="#">Packages</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-        </nav>
+<nav class="navbar">
+    <ul class="main-nav nav-left">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+
+    <div class="logo">
+        <img src="img/Frame 9.png" alt="Himachalites Logo">
+    </div>
+
+    <ul class="main-nav nav-right">
+        <li><a href="#">News</a></li>
+        <li><a href="#">Packages</a></li>
+        <li><a href="#">Contact Us</a></li>
+    </ul>
+
+    <button class="mobile-menu-button" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
     </header>
 
     <main class="content-area">
@@ -253,35 +259,49 @@
 </a>
 
 <script>
+    // --- Define Elements ---
     const navbar = document.querySelector('.navbar');
     const landingPage = document.getElementById('landing-page-container');
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
     const maskRect = document.getElementById("mask-rect");
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     let lastScrollTop;
 
+    // --- Mobile Menu Functionality ---
+    mobileMenuToggle.addEventListener('click', () => {
+        navbar.classList.toggle('nav-open'); // Toggle class on the parent navbar
+        const isExpanded = navbar.classList.contains('nav-open');
+        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+        
+        const icon = mobileMenuToggle.querySelector('i');
+        if (isExpanded) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // --- SVG Line Animation ---
     function animateDashedLine() {
         if (window.innerWidth <= 1023 || !maskRect) {
             return;
         }
-
         const easingFactor = 0.34;
         const svgHeight = 8888;
-        
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollPercentage = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-
         const linearPercentage = 1 - scrollPercentage;
-
         const easedPercentage = linearPercentage * linearPercentage;
         const finalPercentage = linearPercentage * (1 - easingFactor) + easedPercentage * easingFactor;
-        
         const yPosition = svgHeight * (1 - finalPercentage);
-        
         maskRect.style.transform = `translateY(${yPosition}px)`;
         maskRect.setAttribute('height', svgHeight);
     }
 
+    // --- Page Setup and Event Listeners ---
     window.onload = () => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
         document.body.style.opacity = '1';
@@ -298,26 +318,24 @@
 
     window.addEventListener('scroll', function() {
         animateDashedLine();
-        
-        if (window.innerWidth <= 1023) {
-            navbar.classList.remove('navbar--anchored');
-            return;
+
+        if (window.innerWidth > 1023) {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const triggerPoint = document.body.scrollHeight - landingPage.offsetHeight;
+
+            if (scrollTop < lastScrollTop && scrollTop < triggerPoint) {
+                navbar.classList.add('navbar--anchored');
+                scrollToTopBtn.classList.add('raised');
+            } else {
+                navbar.classList.remove('navbar--anchored');
+                scrollToTopBtn.classList.remove('raised');
+            }
         }
         
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const triggerPoint = document.body.scrollHeight - landingPage.offsetHeight;
-
-        if (scrollTop < lastScrollTop && scrollTop < triggerPoint) {
-            navbar.classList.add('navbar--anchored');
-        } else {
-            navbar.classList.remove('navbar--anchored');
-        }
-
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        lastScrollTop = (window.pageYOffset || document.documentElement.scrollTop) <= 0 ? 0 : (window.pageYOffset || document.documentElement.scrollTop);
     }, false);
 
     history.scrollRestoration = 'manual';
 </script>
-
 </body>
 </html>

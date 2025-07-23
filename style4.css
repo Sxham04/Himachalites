@@ -12,11 +12,6 @@ body {
 /* ==========================================================================
    2. Landing Page
    ========================================================================== */
-
-/* #mask-rect {
-    transform: translateY(8888px);
-} */
-
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -26,7 +21,6 @@ body {
 /* --- Landing Page: Header --- */
 header {
     width: 100%;
-    height: 25vh;
     display: flex;
     flex-direction: column;
 }
@@ -83,15 +77,16 @@ header {
 
 .logo img {
     height: 140px;
+    padding: 0 20px; /* Add some padding around the logo */
 }
 
 .main-nav {
     list-style: none;
     display: flex;
     margin: 0;
-    padding: 0;
-    gap: 40px;
-    flex: 1;
+    padding: 20px;
+    gap: 100px;
+    flex: 1; /* This is the key to centering the logo */
 }
 
 .nav-left {
@@ -107,7 +102,7 @@ header {
     color: black;
     font-weight: 150;
     font-size: 1.1em;
-    padding: 60px;
+    padding: 20px;
     font-family: Helvetica, Arial, sans-serif;
     transition: color 0.3s ease;
 }
@@ -119,6 +114,18 @@ header {
 .main-nav a.active {
   color: #7d7d7d;
 }
+
+.mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #333;
+    padding: 10px;
+    z-index: 1100;
+}
+
 /* --- Landing Page: Main Content & Bottom Image --- */
 .content-area {
     flex-grow: 1;
@@ -145,7 +152,6 @@ header {
    3. States Section
    ========================================================================== */
 
-/* --- States Section: Main Wrapper & Dashed Line --- */
 #states-wrapper {
     position: relative;
     z-index: 0;
@@ -177,7 +183,6 @@ header {
     width: 86vw;
 }
 
-/* --- States Section: General Container Layout --- */
 .state-container {
     max-height: 80vh;
     display: flex;
@@ -193,7 +198,6 @@ header {
     flex-direction: row-reverse;
 }
 
-/* --- States Section: Column Layout --- */
 .info-column {
     flex: 1 1 55%;
     min-width: 0;
@@ -216,7 +220,6 @@ header {
     border-radius: 8px;
 }
 
-/* --- States Section: Info Content Styling --- */
 .info-column h2 {
     font-size: 4rem;
     display: inline-block;
@@ -263,7 +266,7 @@ header {
 }
 
 .info-button:hover {
-    background-color: #0EA63C; /* Updated hover color */
+    background-color: #0EA63C;
 }
 
 /* ==========================================================================
@@ -332,7 +335,7 @@ header {
     cursor: pointer;
     z-index: 1000;
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #scrollToBottomBtn:hover {
@@ -340,22 +343,22 @@ header {
     transform: scale(1.1);
 }
 
+#scrollToBottomBtn.raised {
+    bottom: calc(10vh + 25px); /* Adjust based on navbar height */
+}
+
+
 /* ==========================================================================
    6. Responsive Layout Rules
    ========================================================================== */
 
-/* --- Rule for showing the dashed line on wide, landscape screens ONLY --- */
 @media screen and (min-width: 1024px) and (orientation: landscape) {
     .dashed-line-center {
         display: block;
     }
 }
 
-
-/* --- Rules for all smaller devices (Tablets in Portrait, All Phones) --- */
 @media (max-width: 1023px) {
-    
-    /* Resets the main wrapper for mobile layout */
     #states-wrapper {
         margin-top: 0;
         height: auto;
@@ -370,13 +373,64 @@ header {
         max-height: none;
     }
 
-    header { height: auto; }
+    header { height: auto; padding-bottom: 1rem; }
     .top-bar { flex-direction: column; padding: 1rem; gap: 10px; text-align: center; }
     .top-bar::after { left: 5%; right: 5%; }
-    .navbar { flex-direction: column; padding: 1rem; gap: 1rem; }
-    .logo img { height: 100px; }
-    .main-nav { gap: 15px; flex-wrap: wrap; justify-content: center; flex: 1 1 100%; }
-    .main-nav a { padding: 10px; font-size: 1em; }
+    
+    .navbar {
+        flex-wrap: wrap;
+        padding: 0 1.5rem;
+    }
+    
+    .logo {
+        order: -1; /* Ensure logo is first on mobile */
+    }
+
+    .logo img { height: 80px; padding: 0; }
+
+    .mobile-menu-button {
+        display: block;
+    }
+    
+    .main-nav {
+        display: none; /* Hide nav lists by default */
+        flex-direction: column;
+        width: 100%;
+        order: 3; /* Position below logo and button */
+        gap: 0;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Target the parent when the menu is open */
+    .navbar.nav-open .main-nav {
+        display: flex; /* Show nav lists */
+        margin-top: 1rem;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .main-nav a {
+        padding: 1rem;
+        display: block;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-left {
+        width: 100%;
+    }
+    .nav-right {
+        width: 100%;
+    }
+    
+    .main-nav li:last-child a {
+        border-bottom: none;
+    }
+
     .bottom-image { height: 60vh; }
 
     .state-container--split,
@@ -442,12 +496,10 @@ header {
    7. Anchored Navbar Effect (Desktop Only)
    ========================================================================== */
 @media (min-width: 1024px) {
-    /* Base transition for the navbar element for a smoother effect */
     .navbar {
         transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* Styles for the anchored state */
     .navbar.navbar--anchored {
         position: fixed;
         bottom: 0;
@@ -460,28 +512,19 @@ header {
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
         z-index: 1001;
         align-items: center;
-        /* REVISED: Remove parent padding for better control */
-        padding: 0; 
+        padding: 0 0% 0 0%;
     }
 
-    /* REVISED: Adjust child padding and gaps for perfect alignment */
-    .navbar.navbar--anchored .nav-left {
-        padding-left: 5%;
-    }
-    .navbar.navbar--anchored .nav-right {
-        padding-right: 5%;
-    }
     .navbar.navbar--anchored .main-nav {
-        gap: 25px; /* Reduced gap for a tighter look */
+        gap: 25px;
+        flex: 1; 
     }
 
-    /* Adjust logo size in the anchored state */
     .navbar.navbar--anchored .logo img {
-        height: 12vh;
-        max-height: 85px;
+        height: 8vh;
+        max-height: 65px;
     }
 
-    /* Adjust nav link padding in the anchored state */
     .navbar.navbar--anchored .main-nav a {
         padding: 1.5rem;
         font-size: 1em;
