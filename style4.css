@@ -1,21 +1,84 @@
 /* ==========================================================================
-   1. Core Layout & Fonts
-   ========================================================================== */
+    1. Core Layout & Fonts
+    ========================================================================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #333;
     display: flex;
     flex-direction: column;
+    position: relative; /* Allows absolute positioning of children relative to body */
+    min-height: 100vh; /* Ensures body takes at least full viewport height */
 }
 
+/* Main wrapper for all content above the landing page */
+.top-content-wrapper {
+    position: relative; /* THIS IS THE POSITIONING CONTEXT FOR THE DASHED LINE */
+    display: flex;
+    flex-direction: column; /* Stacks .state-content-sections and .content-section-spacer */
+    width: 100%;
+    min-height: auto; /* Allow content to define its height, crucial for responsiveness */
+}
+
+
+
+/* New wrapper for all state sections */
+.state-content-sections {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the individual state containers horizontally */
+    padding-top: 50px; /* Space at the very top of your state content */
+    flex-grow: 1; /* Allows this section to expand and contain its children */
+    z-index: 1; /* Ensure state content is above the dashed line */
+    background-color: transparent; /* Ensure no background hides the line */
+}
+
+/* Spacer to create the desired margin above the landing page */
+.content-section-spacer {
+    height: 10vh; /* Control this value (e.g., 50px, 0, 20vh) for the gap above landing page */
+    width: 100%;
+    z-index: 1; /* Ensure spacer is above the dashed line */
+    background-color: transparent; /* Ensure no background hides the line */
+}
+
+/* Dashed Line Specific Styling */
+.dashed-line {
+    position: absolute;
+    /* top and height will be set by JavaScript */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 100%;
+    max-width: 1654px; /* Limits the max width to its intrinsic SVG width */
+    height: auto; /* Allow height to scale proportionally with width initially, will be overridden by JS */
+    z-index: -1;
+}
+
+.dashed-line-center {
+    width: 100%; /* Make SVG fill its parent `.dashed-line` */
+    height: 100%; /* This will now scale based on its parent's `height: auto` */
+    display: block;
+    /* `preserveAspectRatio="xMidYMin slice"` is set directly in your HTML for the SVG element */
+}
+
+
 /* ==========================================================================
-   2. Landing Page
-   ========================================================================== */
+    2. Landing Page - NO CHANGES HERE AS PER INSTRUCTION
+    ========================================================================== */
 #landing-page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    flex-shrink: 0; /* Prevents it from shrinking */
+    width: 100%; /* Ensure it takes full width */
+    position: relative; /* Keep it relative if you have inner absolute elements */
+    z-index: 2; /* Ensure landing page is above everything else */
 }
 
 /* --- Landing Page: Header --- */
@@ -77,7 +140,7 @@ header {
 
 .logo img {
     height: 140px;
-    padding: 0 20px; /* Add some padding around the logo */
+    padding: 0 20px;
 }
 
 .main-nav {
@@ -86,7 +149,7 @@ header {
     margin: 0;
     padding: 20px;
     gap: 100px;
-    flex: 1; /* This is the key to centering the logo */
+    flex: 1;
 }
 
 .nav-left {
@@ -112,7 +175,7 @@ header {
 }
 
 .main-nav a.active {
-  color: #7d7d7d;
+    color: #7d7d7d;
 }
 
 .mobile-menu-button {
@@ -136,6 +199,7 @@ header {
     width: 100%;
     height: 75vh;
     align-self: flex-end;
+    margin-top: auto;
 }
 
 .bottom-image img {
@@ -149,49 +213,17 @@ header {
 }
 
 /* ==========================================================================
-   3. States Section
-   ========================================================================== */
-
-#states-wrapper {
-    position: relative;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    padding-top: 0;
-    margin-top: -290vh;
-    padding-bottom: 20vh;
-    overflow: hidden; 
-}
-
-.dashed-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-}
-
-
-.dashed-line-center {
-    position: absolute;
-    top: 300vh;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    width: 86vw;
-}
-
+    3. States Section
+    ========================================================================== */
 .state-container {
-    max-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     padding: 2rem 0;
-    position: relative;
-    margin-bottom: 30vh;
+    position: relative; /* Keep relative if you have absolute children inside */
+    margin-bottom: 60px; /* Adjust this value as needed for space between state sections */
+    margin-top: 0; /* Ensure no inherited top margin */
 }
 
 .state-container--split.reverse {
@@ -260,7 +292,7 @@ header {
     color: white;
     padding: 12px 24px;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 50px; /* Adjusted from 5px for a rounder look, can revert */
     transition: background-color 0.3s ease;
     margin-left: 2rem;
 }
@@ -270,54 +302,32 @@ header {
 }
 
 /* ==========================================================================
-   4. Specific Container Tweaks & Overrides
-   ========================================================================== */
-
-.state-container-1 { top: 290vh; }
-.state-container-1 .info-column {margin-left: -20vh;}
-
-.state-container-2 { top: 270vh; }
-.state-container-2 .image-column {margin-left: -15vh;}
-.state-container-2 .info-column {margin-left: -5vh;}
-
-.state-container-3 { top: 255vh; }
-.state-container-3 .info-column {margin-left: -15vh;}
-
-.state-container-4 { top: 225vh; }
-.state-container-4 .image-column{margin-right: 20vh;}
-
-.state-container-5 { top: 200vh; }
-.state-container-5 .info-column{margin-left: -25vh;}
-
-.state-container-6 { top: 170vh; }
-.state-container-6 .image-column {margin-left: -20vh; margin-right: 15vh;}
-
-.state-container-7 { top: 135vh; }
-.state-container-7 .info-column {margin-left: -25vh;}
-.state-container .image-column {padding-top: 6vh;}
-
-.state-container-8 { top: 115vh; }
-.state-container-8 .image-column {margin-left: -20vh; margin-right: 10vh;}
-
-.state-container-9 { top: 90vh; }
-.state-container-9 .info-column {margin-left: -20vh;}
-
-.state-container-10 { top: 70vh; }
-
-.state-container-11 { top: 45vh; }
-.state-container-11 .info-column{ margin-left: -20vh; }
-
-.state-container-12 {
-    top: 12vh;
-    margin-bottom: 0;
+    4. Specific Container Tweaks & Overrides - REMOVED / RESET
+/* These rules were for absolute positioning and are no longer necessary or correct.
+   Ensure no fixed 'top' or conflicting 'margin' rules remain for individual state containers. */
+.state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5,
+.state-container-6, .state-container-7, .state-container-8, .state-container-9,
+.state-container-10, .state-container-11, .state-container-12 {
+    top: auto !important; /* Override any lingering fixed positioning */
+    margin-left: 0 !important; /* Remove specific horizontal offsets */
+    margin-right: 0 !important;
+    padding-top: 0 !important; /* Reset specific padding */
+    /* Remove any other `position`, `top`, `left`, `margin` properties here */
 }
 
-.state-container-12 .info-column { margin-left: 6vh; }
-.state-container-3 .image-column { margin-top: 4rem; }
+/* Ensure no column-specific overrides are left that break the flex layout */
+.state-container .info-column,
+.state-container .image-column {
+    margin-left: auto; /* Reset margins */
+    margin-right: auto; /* Reset margins */
+    padding-top: auto; /* Reset padding */
+    margin-top: auto; /* Reset margins */
+}
+
 
 /* ==========================================================================
-   5. UI Elements
-   ========================================================================== */
+    5. UI Elements
+    ========================================================================== */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -344,31 +354,56 @@ header {
 }
 
 #scrollToBottomBtn.raised {
-    bottom: calc(10vh + 25px); /* Adjust based on navbar height */
+    bottom: calc(10vh + 25px);
 }
-
 
 /* ==========================================================================
-   6. Responsive Layout Rules
-   ========================================================================== */
+    6. Responsive Layout Rules
+    ========================================================================== */
+.mobile-only { display: block; }
+.desktop-only { display: none; }
 
-@media screen and (min-width: 1024px) and (orientation: landscape) {
-    .dashed-line-center {
-        display: block;
-    }
+@media (min-width: 1025px) { /* Changed to 1025px to avoid overlap with max-width: 1024px */
+    .mobile-only { display: none; }
+    .desktop-only { display: block; }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) { /* Changed to 1024px for clearer breakpoint */
+    /* Adjustments for the top-content-wrapper for mobile */
+    .top-content-wrapper {
+        position: static; /* On mobile, let it flow naturally */
+        min-height: auto;
+        padding-top: 20px;
+    }
+
+    /* Dashed line on mobile should flow with content */
+    .dashed-line {
+        position: relative; 
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 90%; /* Adjust width for mobile */
+        height: auto; /* Height scales proportionally */
+        margin: 0 auto 50px auto; /* Center and add bottom margin */
+    }
+
+    .dashed-line-center {
+        width: 100%;
+        height: auto;
+    }
+    
+    /* Ensure old #states-wrapper styles are cleared if still present */
     #states-wrapper {
         margin-top: 0;
         height: auto;
         padding-top: 4rem;
         padding-bottom: 4rem;
+        overflow: visible;
     }
 
     .state-container {
-        position: static; 
-        margin-bottom: 5rem;
+        position: static;
+        margin-bottom: 5rem; /* Adjusted mobile spacing between states */
         padding: 0 1rem;
         max-height: none;
     }
@@ -383,7 +418,7 @@ header {
     }
     
     .logo {
-        order: -1; /* Ensure logo is first on mobile */
+        order: -1;
     }
 
     .logo img { height: 80px; padding: 0; }
@@ -393,17 +428,16 @@ header {
     }
     
     .main-nav {
-        display: none; /* Hide nav lists by default */
+        display: none;
         flex-direction: column;
         width: 100%;
-        order: 3; /* Position below logo and button */
+        order: 3;
         gap: 0;
         animation: fadeIn 0.3s ease-in-out;
     }
 
-    /* Target the parent when the menu is open */
     .navbar.nav-open .main-nav {
-        display: flex; /* Show nav lists */
+        display: flex;
         margin-top: 1rem;
     }
 
@@ -420,9 +454,7 @@ header {
         border-bottom: 1px solid #eee;
     }
 
-    .nav-left {
-        width: 100%;
-    }
+    .nav-left,
     .nav-right {
         width: 100%;
     }
@@ -467,8 +499,9 @@ header {
     .info-column p { padding-left: 0; max-width: 90%; }
     .info-button { margin-left: 0; }
 
+    /* Ensure these are reset for mobile to prevent conflicting behavior */
     .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5, .state-container-6, .state-container-7, .state-container-8, .state-container-9, .state-container-10, .state-container-11, .state-container-12 {
-        margin-bottom: 5rem !important;
+        margin-bottom: 5rem !important; /* Consistent mobile spacing */
         top: auto !important;
     }
     
@@ -493,31 +526,20 @@ header {
 }
 
 /* ==========================================================================
-   7. Anchored Navbar Effect (Desktop Only)
-   ========================================================================== */
-/* Add this to the end of your stylesheet */
-#scrollToBottomBtn {
-    /* Add opacity and transform to the existing transition for a smooth effect */
-    transition: background-color 0.3s ease, transform 0.4s ease, bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-}
-
-#scrollToBottomBtn.is-hidden {
-    opacity: 0;
-    transform: scale(0.5);
-    pointer-events: none;
-}
+    7. Anchored Navbar Effect (Desktop Only)
+    ========================================================================== */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px); /* Start 20px below final position */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) { /* Changed to 1025px */
     .navbar {
         transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
@@ -534,8 +556,8 @@ header {
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
         z-index: 1001;
         align-items: center;
-        padding: 0 0% 0 0%;
-        animation: fadeInUp 0.5s
+        padding: 0;
+        animation: fadeInUp 0.5s;
     }
 
     .navbar.navbar--anchored .main-nav {

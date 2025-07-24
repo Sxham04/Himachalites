@@ -12,363 +12,407 @@
             opacity: 0;
             transition: opacity 0.4s ease-in;
         }
+        /* Hide the decorative dashed line on mobile/tablet devices */
+        @media (max-width: 1024px) {
+            .dashed-line {
+                display: none;
+            }
+        }
+        #scrollToBottomBtn.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(0.5);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        
     </style>
 </head>
 <body>
+    <div class="top-content-wrapper">
+        <div class="dashed-line">
+            <svg
+                class="dashed-line-center"
+                viewBox="0 0 1654 8888"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-labelledby="line-title"
+                preserveAspectRatio="xMidYMin slice">
+                <title id="line-title">Decorative dashed line</title>
+                <defs>
+                    <mask id="line-mask">
+                        <rect id="mask-rect" x="0" y="0" width="1654" height="8888" fill="white" />
+                    </mask>
+                </defs>
+                <path
+                    id="Line"
+                    mask="url(#line-mask)"
+                    d="M906.969 1C927.969 251.167 882.369 739.8 531.969 693C181.569 646.2 38.9691 881.5 11.4691 1005C-23.8642 1195.83 11.6691 1569.7 436.469 1538.5C861.269 1507.3 951.802 1844.83 943.969 2017.5C943.969 2128 986.469 2351.2 1156.47 2360C1368.97 2371 1505.47 2483.5 1511.97 2748C1518.47 3012.5 1123.97 3114.5 943.969 3184C763.969 3253.5 893.969 3782.5 556.005 3806.05C218.041 3829.6 43.9691 3927.5 43.9691 4276.5C43.9691 4555.7 283.969 4572.17 403.969 4545.5C562.969 4521.67 879.669 4559 874.469 4899C869.269 5239 972.969 5359.5 1114.47 5359.5C1249.64 5368.17 1638.87 5455.2 1652.47 5712C1666.07 5968.8 1326.8 6044.33 1240.97 6056.5C1125.3 6087.67 927.469 6224.5 902.818 6488.23C871.331 6825.11 748.969 6939 425.969 6937C102.969 6935 26.9691 7073.5 28.9691 7429C30.9691 7784.5 526.995 7702.6 719.969 7739.5C879.469 7770 919.469 8027 909.469 8129.5C907.302 8249.5 840.043 8483.87 588.34 8461.35C336.638 8438.83 162.55 8558.9 116.469 8619.5C96.6358 8647.83 79.3691 8737.5 92.9691 8887.5"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-dasharray="7 7" />
+            </svg>
+        </div>
 
-<main id="states-wrapper">
-    <div class="dashed-line">
-<svg
-    class="dashed-line-center"
-    viewBox="0 0 1654 8888"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    aria-labelledby="line-title">
+        <div class="state-content-sections">
+            <section class="state-container state-container--split reverse state-container-1">
+                <div class="info-column">
+                    <h2 class="header-1">Lahaul & Spiti</h2>
+                    <p>Lahaul & Spiti is a high-altitude district in the trans-Himalayan region of Himachal Pradesh, known for its stark landscapes and ancient monasteries. Formed by merging two valleys—Lahaul and Spiti—the district offers unique cultural and ecological experiences. Places like Key Monastery, Chandratal Lake, and Tabo Monastery draw adventurers and spiritual seekers.
+                    <br><b>Quick Facts:</b>
+                    <br>• Tabo Monastery, founded in 996 AD, is one of the oldest functioning Buddhist monasteries in India.
+                    <br>• One of the driest and coldest inhabited regions in the country.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/lh.png" alt="Scenic view of Lahaul & Spiti">
+                </div>
+            </section>
+            
+            <section class="state-container state-container--split state-container-2">
+                <div class="info-column">
+                    <h2 class="header-2">Kinnaur</h2>
+                    <p>Kinnaur, located in the northeastern corner of Himachal Pradesh, is known for its rugged mountains, apple orchards, and tribal culture. Bordering Tibet, it blends Buddhist and Hindu traditions, evident in monasteries and temples like Kinnaur Kailash and Mathi Devi. Its dramatic terrain attracts trekkers, pilgrims, and culture seekers alike.
+                    <br><b>Quick Facts:</b>
+                    <br>• Kinnaur Kailash is considered sacred by both Hindus and Buddhists.
+                    <br>• One of the least populated yet highest literacy districts in the state.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Kin.png" alt="Scenic view of Kinnaur">
+                </div>
+            </section>
 
-    <title id="line-title">Decorative dashed line</title>
-    
-    <defs>
-        <mask id="line-mask">
-            <rect id="mask-rect" x="0" y="0" width="1654" height="8888" fill="white" />
-        </mask>
-    </defs>
-    
-    <path
-        id="Line"
-        mask="url(#line-mask)"
-        d="M906.969 1C927.969 251.167 882.369 739.8 531.969 693C181.569 646.2 38.9691 881.5 11.4691 1005C-23.8642 1195.83 11.6691 1569.7 436.469 1538.5C861.269 1507.3 951.802 1844.83 943.969 2017.5C943.969 2128 986.469 2351.2 1156.47 2360C1368.97 2371 1505.47 2483.5 1511.97 2748C1518.47 3012.5 1123.97 3114.5 943.969 3184C763.969 3253.5 893.969 3782.5 556.005 3806.05C218.041 3829.6 43.9691 3927.5 43.9691 4276.5C43.9691 4555.7 283.969 4572.17 403.969 4545.5C562.969 4521.67 879.669 4559 874.469 4899C869.269 5239 972.969 5359.5 1114.47 5359.5C1249.64 5368.17 1638.87 5455.2 1652.47 5712C1666.07 5968.8 1326.8 6044.33 1240.97 6056.5C1125.3 6087.67 927.469 6224.5 902.818 6488.23C871.331 6825.11 748.969 6939 425.969 6937C102.969 6935 26.9691 7073.5 28.9691 7429C30.9691 7784.5 526.995 7702.6 719.969 7739.5C879.469 7770 919.469 8027 909.469 8129.5C907.302 8249.5 840.043 8483.87 588.34 8461.35C336.638 8438.83 162.55 8558.9 116.469 8619.5C96.6358 8647.83 79.3691 8737.5 92.9691 8887.5"
-        stroke="black"
-        stroke-width="2"
-        stroke-dasharray="7 7" />
-</svg>
-    </div>
+            <section class="state-container state-container--split reverse state-container-3">
+                <div class="info-column">
+                    <h2 class="header-3">Chamba</h2>
+                    <p>Chamba lies in the northwestern part of Himachal Pradesh and is known for its untouched natural beauty and ancient temples. Flanked by the Ravi River, Chamba boasts a unique blend of Himalayan culture, crafts, and folklore. The district is also famous for its miniature paintings and hand-embroidered Chamba rumals.
+                    <br><b>Quick Facts:</b>
+                    <br>• Hosts the centuries-old Minjar Mela festival.
+                    <br>• Bhuri Singh Museum preserves royal art and artifacts of Chamba.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/cha.png" alt="Scenic view of Chamba">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split reverse state-container-1">
-        <div class="info-column">
-            <h2 class="header-1">Lahaul & Spiti</h2>
-            <p>Lahaul & Spiti is a high-altitude district in the trans-Himalayan region of Himachal Pradesh, known for its stark landscapes and ancient monasteries. Formed by merging two valleys—Lahaul and Spiti—the district offers unique cultural and ecological experiences. Places like Key Monastery, Chandratal Lake, and Tabo Monastery draw adventurers and spiritual seekers.
-            <br><b>Quick Facts:</b>
-            <br>• Tabo Monastery, founded in 996 AD, is one of the oldest functioning Buddhist monasteries in India.
-            <br>• One of the driest and coldest inhabited regions in the country.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/lh.png" alt="Scenic view of Lahaul & Spiti">
-        </div>
-    </section>
+            <section class="state-container state-container--split state-container-4">
+                <div class="info-column">
+                    <h2 class="header-4">Kullu</h2>
+                    <p>Kullu district, nestled in the middle Himalayas, is known for its breathtaking valleys, apple orchards, and vibrant festivals. Located along the Beas River, it serves as the gateway to the higher Himalayan regions, including Manali and the Great Himalayan National Park. Kullu is also renowned for its woolen shawls and Dussehra celebrations.
+                    <br><b>Quick Facts:</b>
+                    <br>• Hosts the internationally famed Kullu Dussehra festival.
+                    <br>• Great Himalayan National Park is a UNESCO World Heritage Site.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Kul.png" alt="Scenic view of Kullu">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split state-container-2">
-        <div class="info-column">
-            <h2 class="header-2">Kinnaur</h2>
-            <p>Kinnaur, located in the northeastern corner of Himachal Pradesh, is known for its rugged mountains, apple orchards, and tribal culture. Bordering Tibet, it blends Buddhist and Hindu traditions, evident in monasteries and temples like Kinnaur Kailash and Mathi Devi. Its dramatic terrain attracts trekkers, pilgrims, and culture seekers alike.
-            <br><b>Quick Facts:</b>
-            <br>• Kinnaur Kailash is considered sacred by both Hindus and Buddhists.
-            <br>• One of the least populated yet highest literacy districts in the state.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Kin.png" alt="Scenic view of Kinnaur">
-        </div>
-    </section>
+            <section class="state-container state-container--split reverse state-container-5">
+                <div class="info-column">
+                    <h2 class="header-5">Shimla</h2>
+                    <p>Shimla, the capital district of Himachal Pradesh, is a blend of colonial heritage and scenic beauty. Once the summer capital of British India, Shimla now serves as an administrative, educational, and tourism hub. With pine forests, heritage buildings, and bustling bazaars, it attracts visitors year-round. The Kalka–Shimla railway is a UNESCO World Heritage site.
+                    <br><b>Quick Facts:</b>
+                    <br>• Shimla is one of India’s most popular hill stations.
+                    <br>• Home to the historic Viceregal Lodge and Asia’s only natural ice skating rink.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Shm.png" alt="Scenic view of Shimla">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split reverse state-container-3">
-        <div class="info-column">
-            <h2 class="header-3">Chamba</h2>
-            <p>Chamba lies in the northwestern part of Himachal Pradesh and is known for its untouched natural beauty and ancient temples. Flanked by the Ravi River, Chamba boasts a unique blend of Himalayan culture, crafts, and folklore. The district is also famous for its miniature paintings and hand-embroidered Chamba rumals.
-            <br><b>Quick Facts:</b>
-            <br>• Hosts the centuries-old Minjar Mela festival.
-            <br>• Bhuri Singh Museum preserves royal art and artifacts of Chamba.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/cha.png" alt="Scenic view of Chamba">
-        </div>
-    </section>
+            <section class="state-container state-container--split state-container-6">
+                <div class="info-column">
+                    <h2 class="header-6">Kangra</h2>
+                    <p>Kangra is the largest district of Himachal Pradesh, located in the western part of the state. Rich in history and art, it is home to the ancient Kangra Fort and world-renowned miniature paintings. The district spans from the plains near Gaggal to the Dhauladhar ranges near Dharamshala, which also serves as the winter capital of Himachal Pradesh.
+                    <br><b>Quick Facts:</b>
+                    <br>• Home to McLeodganj, the seat of the Tibetan government-in-exile.
+                    <br>• Known for Kangra tea, with GI tag recognition.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Kang.png" alt="Scenic view of Kangra">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split state-container-4">
-        <div class="info-column">
-            <h2 class="header-4">Kullu</h2>
-            <p>Kullu district, nestled in the middle Himalayas, is known for its breathtaking valleys, apple orchards, and vibrant festivals. Located along the Beas River, it serves as the gateway to the higher Himalayan regions, including Manali and the Great Himalayan National Park. Kullu is also renowned for its woolen shawls and Dussehra celebrations.
-            <br><b>Quick Facts:</b>
-            <br>• Hosts the internationally famed Kullu Dussehra festival.
-            <br>• Great Himalayan National Park is a UNESCO World Heritage Site.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Kul.png" alt="Scenic view of Kullu">
-        </div>
-    </section>
+            <section class="state-container state-container--split reverse state-container-7">
+                <div class="info-column">
+                    <h2 class="header-7">Sirmaur</h2>
+                    <p>Sirmaur is located in the southeastern part of Himachal Pradesh, bordering Uttarakhand. Known for its peach orchards, scenic valleys, and spiritual sites like Renuka Lake and Shivalik Fossil Park, the district has both agricultural and ecological richness. Nahan, the district headquarters, offers a blend of colonial charm and natural beauty.
+                    <br><b>Quick Facts:</b>
+                    <br>• Leading producer of peaches in Himachal Pradesh.
+                    <br>• Renuka Lake is the largest natural lake in the state.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/SIr.png" alt="Scenic view of Sirmaur">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split reverse state-container-5">
-        <div class="info-column">
-            <h2 class="header-5">Shimla</h2>
-            <p>Shimla, the capital district of Himachal Pradesh, is a blend of colonial heritage and scenic beauty. Once the summer capital of British India, Shimla now serves as an administrative, educational, and tourism hub. With pine forests, heritage buildings, and bustling bazaars, it attracts visitors year-round. The Kalka–Shimla railway is a UNESCO World Heritage site.
-            <br><b>Quick Facts:</b>
-            <br>• Shimla is one of India’s most popular hill stations.
-            <br>• Home to the historic Viceregal Lodge and Asia’s only natural ice skating rink.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Shm.png" alt="Scenic view of Shimla">
-        </div>
-    </section>
+            <section class="state-container state-container--split state-container-8">
+                <div class="info-column">
+                    <h2 class="header-8">Mandi</h2>
+                    <p>Mandi lies in the heart of Himachal Pradesh and is often referred to as the "Chhoti Kashi" for its numerous ancient temples. The district is a cultural and logistical link between Kullu and Kangra valleys. Mandi is also an emerging education center with institutions like IIT Mandi. With the Beas River flowing through, it boasts lush valleys, historical architecture, and religious significance.
+                    <br><b>Quick Facts:</b>
+                    <br>• Home to over 80 old stone temples with intricate carvings.
+                    <br>• Hosts the week-long International Shivratri Fair every spring.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Man.png" alt="Scenic view of Mandi">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split state-container-6">
-        <div class="info-column">
-            <h2 class="header-6">Kangra</h2>
-            <p>Kangra is the largest district of Himachal Pradesh, located in the western part of the state. Rich in history and art, it is home to the ancient Kangra Fort and world-renowned miniature paintings. The district spans from the plains near Gaggal to the Dhauladhar ranges near Dharamshala, which also serves as the winter capital of Himachal Pradesh.
-            <br><b>Quick Facts:</b>
-            <br>• Home to McLeodganj, the seat of the Tibetan government-in-exile.
-            <br>• Known for Kangra tea, with GI tag recognition.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Kang.png" alt="Scenic view of Kangra">
-        </div>
-    </section>
+            <section class="state-container state-container--split reverse state-container-9">
+                <div class="info-column">
+                    <h2 class="header-9">Solan</h2>
+                    <p>Solan is a district in the south-central region of Himachal Pradesh, often called the "Mushroom City of India" due to its high mushroom production. Located along the Chandigarh–Shimla highway, Solan is an important industrial and educational hub. It houses institutions like Dr. Y.S. Parmar University and attracts tourists with sites like Shoolini Mata Temple and Kasauli. With its mix of plains and hills, Solan plays a key role in connecting the hills with nearby metropolitan areas.
+                    <br><b>Quick Facts:</b> <br>• Known for the oldest brewery in India, established in Kasauli in 1855. <br>• Hosts Shoolini fair, one of the most vibrant local festivals.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Sol.png" alt="Scenic view of Solan">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split reverse state-container-7">
-        <div class="info-column">
-            <h2 class="header-7">Sirmaur</h2>
-            <p>Sirmaur is located in the southeastern part of Himachal Pradesh, bordering Uttarakhand. Known for its peach orchards, scenic valleys, and spiritual sites like Renuka Lake and Shivalik Fossil Park, the district has both agricultural and ecological richness. Nahan, the district headquarters, offers a blend of colonial charm and natural beauty.
-            <br><b>Quick Facts:</b>
-            <br>• Leading producer of peaches in Himachal Pradesh.
-            <br>• Renuka Lake is the largest natural lake in the state.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/SIr.png" alt="Scenic view of Sirmaur">
-        </div>
-    </section>
+            <section class="state-container state-container--split state-container-10">
+                <div class="info-column">
+                    <h2 class="header-10">Bilaspur</h2>
+                    <p>Bilaspur is a district in the southwestern part of Himachal Pradesh, situated along the banks of the Sutlej River. Known as the first planned hill town of independent India, Bilaspur was re-established in 1954 after the original town was submerged during the construction of the Bhakra Dam. The district has a rich cultural heritage and is famous for the Naina Devi Temple, one of the most revered Shakti Peeths. With its mix of historical significance, pilgrimage sites, and proximity to major highways, Bilaspur serves as a vital link between Himachal and the neighboring plains of Punjab.
+                    <br><b>Quick Facts:</b>
+                    <br>• Home to the Bhakra Dam, one of India’s highest gravity dams.
+                    <br>• Hosts the annual Nalwari fair, celebrating cattle trade and local culture.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Bil.png" alt="Scenic view of Bilaspur">
+                </div>
+            </section>
 
-    <section class="state-container state-container-8 state-container--split">
-        <div class="info-column">
-            <h2 class="header-8">Mandi</h2>
-            <p>Mandi lies in the heart of Himachal Pradesh and is often referred to as the "Chhoti Kashi" for its numerous ancient temples. The district is a cultural and logistical link between Kullu and Kangra valleys. Mandi is also an emerging education center with institutions like IIT Mandi. With the Beas River flowing through, it boasts lush valleys, historical architecture, and religious significance.
-            <br><b>Quick Facts:</b>
-            <br>• Home to over 80 old stone temples with intricate carvings.
-            <br>• Hosts the week-long International Shivratri Fair every spring.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Man.png" alt="Scenic view of Mandi">
-        </div>
-    </section>
+            <section class="state-container state-container--split reverse state-container-11">
+                <div class="info-column">
+                    <h2 class="header-11">Hamirpur</h2>
+                    <p>Hamirpur is a district in the western part of Himachal Pradesh, known for its hilly terrain and high literacy rate. Bordered by Kangra, Mandi, and Bilaspur, it is the smallest district in the state by area. Hamirpur was carved out of Kangra district in 1972 and has a strong tradition of military service, with a large number of its residents serving in the Indian armed forces. The district is culturally rooted, with temples like Deotsidh (Baba Balak Nath) attracting thousands of pilgrims. With well-developed road networks and educational institutions, Hamirpur is emerging as a knowledge and service hub in Himachal.
+                    <br><b>Quick Facts:</b>
+                    <br>• Hamirpur has one of the highest literacy rates in Himachal Pradesh.
+                    <br>• Known as the “Veer Bhoomi” for its large number of army personnel.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column">
+                    <img src="img/Hamir.png" alt="Scenic view of Hamirpur">
+                </div>
+            </section>
 
-    <section class="state-container state-container--split reverse state-container-9">
-        <div class="info-column">
-            <h2 class="header-9">Solan</h2>
-            <p>Solan is a district in the south-central region of Himachal Pradesh, often called the "Mushroom City of India" due to its high mushroom production. Located along the Chandigarh–Shimla highway, Solan is an important industrial and educational hub. It houses institutions like Dr. Y.S. Parmar University and attracts tourists with sites like Shoolini Mata Temple and Kasauli. With its mix of plains and hills, Solan plays a key role in connecting the hills with nearby metropolitan areas.
-            <br><b>Quick Facts:</b> <br>• Known for the oldest brewery in India, established in Kasauli in 1855. <br>• Hosts Shoolini fair, one of the most vibrant local festivals.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Sol.png" alt="Scenic view of Solan">
-        </div>
-    </section>
-
-    <section class="state-container state-container--split state-container-10">
-        <div class="info-column">
-            <h2 class="header-10">Bilaspur</h2>
-            <p>Bilaspur is a district in the southwestern part of Himachal Pradesh, situated along the banks of the Sutlej River. Known as the first planned hill town of independent India, Bilaspur was re-established in 1954 after the original town was submerged during the construction of the Bhakra Dam. The district has a rich cultural heritage and is famous for the Naina Devi Temple, one of the most revered Shakti Peeths. With its mix of historical significance, pilgrimage sites, and proximity to major highways, Bilaspur serves as a vital link between Himachal and the neighboring plains of Punjab.
-            <br><b>Quick Facts:</b>
-            <br>• Home to the Bhakra Dam, one of India’s highest gravity dams.
-            <br>• Hosts the annual Nalwari fair, celebrating cattle trade and local culture.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Bil.png" alt="Scenic view of Bilaspur">
-        </div>
-    </section>
-
-    <section class="state-container state-container--split reverse state-container-11">
-        <div class="info-column">
-            <h2 class="header-11">Hamirpur</h2>
-            <p>Hamirpur is a district in the western part of Himachal Pradesh, known for its hilly terrain and high literacy rate. Bordered by Kangra, Mandi, and Bilaspur, it is the smallest district in the state by area. Hamirpur was carved out of Kangra district in 1972 and has a strong tradition of military service, with a large number of its residents serving in the Indian armed forces. The district is culturally rooted, with temples like Deotsidh (Baba Balak Nath) attracting thousands of pilgrims. With well-developed road networks and educational institutions, Hamirpur is emerging as a knowledge and service hub in Himachal.
-            <br><b>Quick Facts:</b>
-            <br>• Hamirpur has one of the highest literacy rates in Himachal Pradesh.
-            <br>• Known as the “Veer Bhoomi” for its large number of army personnel.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column">
-            <img src="img/Hamir.png" alt="Scenic view of Hamirpur">
-        </div>
-    </section>
-
-    <section class="state-container state-container--split state-container-12">
-        <div class="info-column">
-            <h2 class="header-12">Una</h2>
-            <p>Una is a district in the southwestern part of Himachal Pradesh, bordering Punjab. Known for its mix of plains and low hills, Una serves as a gateway to the state. It was carved out of Kangra district in 1972 and has a strong agricultural base, with growing industrial activity. The district is culturally rich, home to important religious sites like the Chintpurni Temple. With good road and rail connectivity, Una plays a key role in linking Himachal to the plains of northern India.
-            <br><b>Quick Facts:</b>
-            <br>• Chintpurni Temple is one of the prominent Shakti Peeths in North India.
-            <br>• Una is one of the few districts in Himachal with a broad-gauge railway line.</p>
-            <a href="#" class="info-button">Explore</a>
-        </div>
-        <div class="image-column image-12">
-            <img src="img/image 2.png" alt="Scenic view of Una">
-        </div>
-    </section>
-</main>
-
-<div id="landing-page-container">
-    <header>
-        <div class="top-bar">
-            <p>Keep Himalayas Clean & Plastic Free</p>
-            <div class="social-links">
-                <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <section class="state-container state-container--split state-container-12">
+                <div class="info-column">
+                    <h2 class="header-12">Una</h2>
+                    <p>Una is a district in the southwestern part of Himachal Pradesh, bordering Punjab. Known for its mix of plains and low hills, Una serves as a gateway to the state. It was carved out of Kangra district in 1972 and has a strong agricultural base, with growing industrial activity. The district is culturally rich, home to important religious sites like the Chintpurni Temple. With good road and rail connectivity, Una plays a key role in linking Himachal to the plains of northern India.
+                    <br><b>Quick Facts:</b>
+                    <br>• Chintpurni Temple is one of the prominent Shakti Peeths in North India.
+                    <br>• Una is one of the few districts in Himachal with a broad-gauge railway line.</p>
+                    <a href="#" class="info-button">Explore</a>
+                </div>
+                <div class="image-column image-12">
+                    <img src="img/image 2.png" alt="Scenic view of Una">
+                </div>
+            </section>
+        </div> 
+        <div class="content-section-spacer"></div> 
+    </div> 
+    <div id="landing-page-container">
+        <header>
+            <div class="top-bar">
+                <p>Keep Himalayas Clean & Plastic Free</p>
+                <div class="social-links">
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                </div>
             </div>
+            <nav class="navbar">
+                <ul class="main-nav nav-left">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div class="logo">
+                    <img src="img/Frame 9.png" alt="Himachalites Logo">
+                </div>
+                <ul class="main-nav nav-right">
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Packages</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+                <button class="mobile-menu-button" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </header>
+
+        <main class="content-area">
+        </main>
+
+        <div class="bottom-image">
+            <img src="img/Frame 15.png" alt="Scenic background image">
         </div>
-<nav class="navbar">
-    <ul class="main-nav nav-left">
-        <li><a href="#" class="active">Home</a></li>
-        <li><a href="#">Gallery</a></li>
-        <li><a href="#">About</a></li>
-    </ul>
-
-    <div class="logo">
-        <img src="img/Frame 9.png" alt="Himachalites Logo">
     </div>
 
-    <ul class="main-nav nav-right">
-        <li><a href="#">News</a></li>
-        <li><a href="#">Packages</a></li>
-        <li><a href="#">Contact Us</a></li>
-    </ul>
+    <a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
+        <i class="fas fa-arrow-down"></i>
+    </a>
 
-    <button class="mobile-menu-button" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
-        <i class="fas fa-bars"></i>
-    </button>
-</nav>
-    </header>
+    <script>
+        const navbar = document.querySelector('.navbar');
+        const landingPage = document.getElementById('landing-page-container');
+        const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+        const maskRect = document.getElementById("mask-rect");
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const svgLine = document.querySelector(".dashed-line-center");
+        const topContentWrapper = document.querySelector('.top-content-wrapper');
+        const dashedLineContainer = document.querySelector('.dashed-line');
+        let lastScrollTop = 0;
 
-    <main class="content-area">
-        <h1></h1>
-        <p></p>
-    </main>
 
-    <div class="bottom-image">
-        <img src="img/Frame 15.png" alt="Scenic background image">
-    </div>
-</div>
-
-<a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
-    <i class="fas fa-arrow-down"></i></a>
-
-<script>
-    // --- Define Elements ---
-    const navbar = document.querySelector('.navbar');
-    const landingPage = document.getElementById('landing-page-container');
-    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-    const maskRect = document.getElementById("mask-rect");
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const svgLine = document.querySelector(".dashed-line-center");
-    let lastScrollTop;
-    let svgDynamicHeight = 0;
-
-    // --- Mobile Menu Functionality ---
-    mobileMenuToggle.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open');
-        const isExpanded = navbar.classList.contains('nav-open');
-        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-        
-        const icon = mobileMenuToggle.querySelector('i');
-        if (isExpanded) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
-
-    // --- Function to measure and update SVG height ---
-    function updateSvgHeight() {
-        if (svgLine) {
-            svgDynamicHeight = svgLine.getBoundingClientRect().height;
-        }
-    }
-
-    // --- SVG Line Animation ---
-    function animateDashedLine() {
-        if (window.innerWidth <= 1023 || !maskRect || svgDynamicHeight === 0) {
-            return;
-        }
-        const easingFactor = 0.34;
-        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollPercentage = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-        const linearPercentage = 1 - scrollPercentage;
-        const easedPercentage = linearPercentage * linearPercentage;
-        const finalPercentage = linearPercentage * (1 - easingFactor) + easedPercentage * easingFactor;
-        
-        const yPosition = svgDynamicHeight * (1 - finalPercentage);
-        
-        maskRect.style.transform = `translateY(${yPosition}px)`;
-        maskRect.setAttribute('height', svgDynamicHeight);
-    }
-
-    // --- Page Setup and Event Listeners ---
-    window.onload = () => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
-        document.body.style.opacity = '1';
-        lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // Hide the button initially
-        scrollToTopBtn.classList.add('is-hidden');
-
-        updateSvgHeight();
-        animateDashedLine();
-    };
-
-    window.addEventListener('resize', updateSvgHeight);
-
-    scrollToTopBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (landingPage) {
-            landingPage.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-
-    window.addEventListener('scroll', function() {
-        animateDashedLine();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        // --- Logic for Navbar Anchoring ---
-        if (window.innerWidth > 1023 && landingPage) {
-            const anchorThreshold = 0.90; 
-            const bottomOfViewport = scrollTop + window.innerHeight;
-            const topOfLandingPage = landingPage.offsetTop
-            const heightOfLandingPage = landingPage.offsetHeight;
-            const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-
-            if (scrollTop < lastScrollTop && bottomOfViewport < triggerPoint) {
-                navbar.classList.add('navbar--anchored');
-                scrollToTopBtn.classList.add('raised');
+        mobileMenuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('nav-open');
+            const isExpanded = navbar.classList.contains('nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileMenuToggle.querySelector('i');
+            if (isExpanded) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
             } else {
-                navbar.classList.remove('navbar--anchored');
-                scrollToTopBtn.classList.remove('raised');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
-        }
-        
-        // --- NEW: Logic for Button Visibility ---
-        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollFraction = scrollTop / scrollableHeight;
+        });
 
-        // Since scrolling is from bottom-to-top, a scrollFraction less than 0.4 means
-        // the user has scrolled past 60% of the page from the bottom.
-        if (scrollFraction < 0.4) {
-            scrollToTopBtn.classList.remove('is-hidden');
-        } else {
+        function updateSvgHeight() {
+            if (svgLine) {
+                return svgLine.getBoundingClientRect().height;
+            }
+            return 0;
+        }
+
+        function positionDashedLine() {
+            if (window.innerWidth <= 1024) {
+                return; // Line is hidden via CSS, so no calculations are needed.
+            }
+
+            const stateContainer1 = document.querySelector('.state-container-1');
+            const stateContainer12 = document.querySelector('.state-container-12');
+
+            if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) {
+                console.warn("Could not find all necessary elements for dashed line positioning.");
+                return;
+            }
+
+            const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
+            const state1Rect = stateContainer1.getBoundingClientRect();
+            const state12Rect = stateContainer12.getBoundingClientRect();
+
+            const actualDashedLineTop = state1Rect.top - topContentWrapperRect.top;
+
+            const state12MiddleY = (state12Rect.top + state12Rect.bottom) / 2;
+            const actualDashedLineHeight = state12MiddleY - state1Rect.top;
+
+            dashedLineContainer.style.top = `${actualDashedLineTop}px`;
+            dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
+        }
+
+        function animateDashedLine() {
+            if (window.innerWidth <= 1024 || !maskRect || !svgLine) {
+                if (maskRect && svgLine.viewBox?.baseVal) {
+                    maskRect.style.transform = `translateY(0px)`;
+                    maskRect.setAttribute('height', svgLine.viewBox.baseVal.height);
+                    maskRect.setAttribute('y', 0);
+                }
+                return;
+            }
+
+            const svgDynamicHeight = updateSvgHeight();
+            if (svgDynamicHeight === 0) return;
+
+            const dashedLineRect = dashedLineContainer.getBoundingClientRect();
+            const revealViewportY = window.innerHeight * 0.20;
+            let pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
+
+            const viewBoxHeight = svgLine.viewBox.baseVal.height;
+            const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
+            const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
+
+            maskRect.setAttribute('y', maskYInSvgUnits);
+            maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
+            maskRect.setAttribute('width', svgLine.viewBox.baseVal.width);
+        }
+
+        window.onload = () => {
+            const landingPage = document.getElementById('landing-page-container');
+            if (landingPage) {
+                landingPage.scrollIntoView({ behavior: 'instant' });
+            }
+
+            document.body.style.opacity = '1';
+            lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
             scrollToTopBtn.classList.add('is-hidden');
-        }
 
-        lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
-    }, false);
+            positionDashedLine();
+            animateDashedLine();
+        };
 
-    history.scrollRestoration = 'manual';
-</script>
+        window.addEventListener('resize', () => {
+            positionDashedLine();
+            animateDashedLine();
+        });
+
+        scrollToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (landingPage) {
+                landingPage.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            animateDashedLine();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (window.innerWidth > 1024 && landingPage) { 
+                const anchorThreshold = 0.90; 
+                const bottomOfViewport = scrollTop + window.innerHeight;
+                const topOfLandingPage = landingPage.offsetTop
+                const heightOfLandingPage = landingPage.offsetHeight;
+                const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
+
+                if (scrollTop < lastScrollTop && bottomOfViewport < triggerPoint) {
+                    navbar.classList.add('navbar--anchored');
+                    scrollToTopBtn.classList.add('raised');
+                } else {
+                    navbar.classList.remove('navbar--anchored');
+                    scrollToTopBtn.classList.remove('raised');
+                }
+            }
+            
+            const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
+
+            // Show the button only when the user has scrolled more than halfway UP the page
+            if (scrollFraction < 0.5) {
+                scrollToTopBtn.classList.remove('is-hidden');
+            } else {
+                scrollToTopBtn.classList.add('is-hidden');
+            }
+
+            lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
+        }, { passive: true });
+
+        history.scrollRestoration = 'manual';
+    </script>
 </body>
 </html>
