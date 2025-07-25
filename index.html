@@ -315,7 +315,6 @@
     </a>
 
 <script>
-    // --- Element & State Variables ---
     const navbar = document.querySelector('.navbar');
     const landingPage = document.getElementById('landing-page-container');
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
@@ -325,34 +324,48 @@
     const topContentWrapper = document.querySelector('.top-content-wrapper');
     const dashedLineContainer = document.querySelector('.dashed-line');
     const stateContainers = document.querySelectorAll('.state-container');
+    const contentToBounce = document.querySelector('.top-content-wrapper');
     let lastScrollTop = 0;
     let isSlowing = false;
     let lastTouchY = 0;
     const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
 
-    // --- Function Definitions ---
+    function updateNavLayout() {
+        const isMobile = window.innerWidth <= 1024;
+        const navLeft = document.querySelector('.nav-left');
+        const navRight = document.querySelector('.nav-right');
+
+        if (isMobile) {
+            if (navRight && navRight.children.length > 0) {
+                while (navRight.firstElementChild) {
+                    navLeft.appendChild(navRight.firstElementChild);
+                }
+            }
+            if (navRight) navRight.style.display = 'none';
+        } else {
+            // This part is for restoring desktop view, but we keep it simple
+            // and assume a page refresh for drastic resize changes.
+            // For now, just ensure the right nav is visible on desktop.
+            if (navRight) navRight.style.display = 'flex';
+        }
+    }
 
     function updateSvgHeight() {
-        if (svgLine) {
-            return svgLine.getBoundingClientRect().height;
-        }
+        if (svgLine) return svgLine.getBoundingClientRect().height;
         return 0;
     }
 
     function positionDashedLine() {
         if (window.innerWidth <= 1024) return;
-
         const stateContainer1 = document.querySelector('.state-container-1');
         const stateContainer12 = document.querySelector('.state-container-12');
         if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) return;
-
         const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
         const state1Rect = stateContainer1.getBoundingClientRect();
         const state12Rect = stateContainer12.getBoundingClientRect();
         const actualDashedLineTop = state1Rect.top - topContentWrapperRect.top;
         const state12MiddleY = (state12Rect.top + state12Rect.bottom) / 2;
         const actualDashedLineHeight = state12MiddleY - state1Rect.top;
-
         dashedLineContainer.style.top = `${actualDashedLineTop}px`;
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
@@ -366,111 +379,80 @@
             }
             return;
         }
-
         const svgDynamicHeight = updateSvgHeight();
         if (svgDynamicHeight === 0) return;
-
         const dashedLineRect = dashedLineContainer.getBoundingClientRect();
         const revealViewportY = window.innerHeight * 0.20;
         let pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
         const viewBoxHeight = svgLine.viewBox.baseVal.height;
         const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
         const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
-
         maskRect.setAttribute('y', maskYInSvgUnits);
         maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
         maskRect.setAttribute('width', svgLine.viewBox.baseVal.width);
     }
 
-function checkAndAnimatePopups() {
-    // Define the trigger line: 20% from the top of the viewport.
-    const triggerThreshold = window.innerHeight * 0.20;
+    function checkAndAnimatePopups() {
+        const triggerThreshold = window.innerHeight * 0.20;
+        document.querySelectorAll('.h2-popup').forEach(popup => {
+            if (popup.classList.contains('visible')) return;
+            const h2 = popup.nextElementSibling;
+            if (!h2) return;
+            const h2Rect = h2.getBoundingClientRect();
+            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return;
+            const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
+            if (h2TriggerPoint > triggerThreshold) popup.classList.add('visible');
+        });
+    }
 
-    document.querySelectorAll('.h2-popup').forEach(popup => {
-        // If it's already visible, do nothing.
-        if (popup.classList.contains('visible')) {
-            return;
+    function handleOverscroll(event) {
+        if (document.body.classList.contains('noscroll')) return;
+        const atTop = window.pageYOffset === 0;
+        if (atTop) {
+            let isScrollingUp = false;
+            if (event.type === 'wheel' && event.deltaY < 0) isScrollingUp = true;
+            else if (event.type === 'touchmove' && event.touches[0].clientY > lastTouchY) isScrollingUp = true;
+            if (isScrollingUp && contentToBounce && !contentToBounce.classList.contains('bounce-up-animation')) {
+                event.preventDefault();
+                contentToBounce.classList.add('bounce-up-animation');
+                setTimeout(() => contentToBounce.classList.remove('bounce-up-animation'), 500);
+            }
         }
+        if (event.type === 'touchstart' || event.type === 'touchmove') lastTouchY = event.touches[0].clientY;
+    }
 
-        // Get the associated h2 element to check its position.
-        const h2 = popup.nextElementSibling;
-        if (!h2) return;
-
-        const h2Rect = h2.getBoundingClientRect();
-
-        // Ignore elements that are completely off-screen (above or below).
-        if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) {
-            return;
-        }
-
-        // Use a trigger point inside the element to account for padding.
-        const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
-
-        // *** THIS IS THE ONLY CHANGE ***
-        // For a bottom-to-top scroll, we trigger the animation when the
-        // element's trigger point moves PAST (is greater than) the threshold.
-        if (h2TriggerPoint > triggerThreshold) {
-            popup.classList.add('visible');
-        }
-    });
-}
-    
-    function handleTouchStart(e) { lastTouchY = e.touches[0].clientY; }
-    function preventKeyboardJump(e) { if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault(); }
-    
-    // --- Event Listeners ---
+    function preventKeyboardJump(e) {
+        if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
+    }
 
     window.onload = () => {
         if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
         document.body.style.opacity = '1';
         lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
         scrollToTopBtn.classList.add('is-hidden');
-        
         positionDashedLine();
         animateDashedLine();
-        checkAndAnimatePopups(); // Call on load
+        checkAndAnimatePopups();
+        updateNavLayout();
     };
 
     window.addEventListener('resize', () => {
         positionDashedLine();
         animateDashedLine();
-        checkAndAnimatePopups(); // Call on resize
+        checkAndAnimatePopups();
+        updateNavLayout();
     });
 
     window.addEventListener('scroll', () => {
         animateDashedLine();
-        checkAndAnimatePopups(); // Call on scroll
-
+        checkAndAnimatePopups();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const direction = scrollTop > lastScrollTop ? 'down' : 'up';
-
-        if (!isSlowing && direction === 'up') {
-            for (const container of stateContainers) {
-                const rect = container.getBoundingClientRect();
-                const viewportBottom = window.innerHeight;
-                const triggerZone = 50;
-                if (rect.top > (viewportBottom - triggerZone) && rect.top < viewportBottom && !container.dataset.slowed) {
-                    isSlowing = true;
-                    container.dataset.slowed = 'true';
-                    setTimeout(() => { isSlowing = false; }, 2000);
-                    break;
-                }
-            }
-        }
-        
-        for (const container of stateContainers) {
-            if (container.getBoundingClientRect().bottom < 0) {
-                delete container.dataset.slowed;
-            }
-        }
-
-        if (window.innerWidth > 1024 && landingPage) {
+        if (landingPage) {
             const anchorThreshold = 0.90;
             const bottomOfViewport = scrollTop + window.innerHeight;
             const topOfLandingPage = landingPage.offsetTop;
             const heightOfLandingPage = landingPage.offsetHeight;
             const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-
             if (scrollTop < lastScrollTop && bottomOfViewport < triggerPoint) {
                 navbar.classList.add('navbar--anchored');
                 scrollToTopBtn.classList.add('raised');
@@ -479,7 +461,6 @@ function checkAndAnimatePopups() {
                 scrollToTopBtn.classList.remove('raised');
             }
         }
-        
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
         if (scrollFraction < 0.5) {
@@ -496,17 +477,30 @@ function checkAndAnimatePopups() {
     });
 
     mobileMenuToggle.addEventListener('click', () => {
+        const isOnLandingPage = !navbar.classList.contains('navbar--anchored');
         navbar.classList.toggle('nav-open');
+        if (navbar.classList.contains('nav-open') && isOnLandingPage) {
+            navbar.classList.add('nav-open--partial');
+        } else {
+            navbar.classList.remove('nav-open--partial');
+        }
+        document.body.classList.toggle('noscroll');
+        
+        // NEW: Add/remove a class to hide the scroll button when the nav is open
+        scrollToTopBtn.classList.toggle('is-hidden-by-nav');
+
         const isExpanded = navbar.classList.contains('nav-open');
         mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
         const icon = mobileMenuToggle.querySelector('i');
         icon.classList.toggle('fa-bars', !isExpanded);
         icon.classList.toggle('fa-times', isExpanded);
     });
-    
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('keydown', preventKeyboardJump, { passive: false });
 
+    window.addEventListener('wheel', handleOverscroll, { passive: false });
+    window.addEventListener('touchstart', handleOverscroll, { passive: false });
+    window.addEventListener('touchmove', handleOverscroll, { passive: false });
+    window.addEventListener('keydown', preventKeyboardJump, { passive: false });
+    
     history.scrollRestoration = 'manual';
 </script>
 </body>

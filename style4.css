@@ -1,6 +1,6 @@
 /* ==========================================================================
-    1. Core Layout & Fonts
-    ========================================================================== */
+   1. Core Layout & Fonts
+   ========================================================================== */
 html, body {
     margin: 0;
     padding: 0;
@@ -13,75 +13,70 @@ body {
     color: #333;
     display: flex;
     flex-direction: column;
-    position: relative; /* Allows absolute positioning of children relative to body */
-    min-height: 100vh; /* Ensures body takes at least full viewport height */
+    position: relative;
+    min-height: 100vh;
 }
 
-/* Main wrapper for all content above the landing page */
+/* This class locks the body scroll and is the key to making the background inaccessible */
+body.noscroll {
+    overflow: hidden;
+}
+
 .top-content-wrapper {
-    position: relative; /* THIS IS THE POSITIONING CONTEXT FOR THE DASHED LINE */
+    position: relative; 
     display: flex;
-    flex-direction: column; /* Stacks .state-content-sections and .content-section-spacer */
+    flex-direction: column; 
     width: 100%;
-    min-height: auto; /* Allow content to define its height, crucial for responsiveness */
+    min-height: auto; 
 }
 
-
-
-/* New wrapper for all state sections */
 .state-content-sections {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the individual state containers horizontally */
-    padding-top: 50px; /* Space at the very top of your state content */
-    flex-grow: 1; /* Allows this section to expand and contain its children */
-    z-index: 1; /* Ensure state content is above the dashed line */
-    background-color: transparent; /* Ensure no background hides the line */
+    align-items: center; 
+    padding-top: 50px; 
+    flex-grow: 1; 
+    z-index: 1; 
+    background-color: transparent; 
 }
 
-/* Spacer to create the desired margin above the landing page */
 .content-section-spacer {
-    height: 10vh; /* Control this value (e.g., 50px, 0, 20vh) for the gap above landing page */
+    height: 10vh; 
     width: 100%;
-    z-index: 1; /* Ensure spacer is above the dashed line */
-    background-color: transparent; /* Ensure no background hides the line */
+    z-index: 1; 
+    background-color: transparent; 
 }
 
-/* Dashed Line Specific Styling */
 .dashed-line {
     position: absolute;
-    /* top and height will be set by JavaScript */
     left: 50%;
     transform: translateX(-50%);
-    
     width: 100%;
-    max-width: 1654px; /* Limits the max width to its intrinsic SVG width */
-    height: auto; /* Allow height to scale proportionally with width initially, will be overridden by JS */
+    max-width: 1654px;
+    height: auto; 
     z-index: -1;
 }
 
 .dashed-line-center {
-    width: 100%; /* Make SVG fill its parent `.dashed-line` */
-    height: 100%; /* This will now scale based on its parent's `height: auto` */
+    width: 100%; 
+    height: 100%; 
     display: block;
-    /* `preserveAspectRatio="xMidYMin slice"` is set directly in your HTML for the SVG element */
 }
 
 
 /* ==========================================================================
-    2. Landing Page - NO CHANGES HERE AS PER INSTRUCTION
-    ========================================================================== */
+   2. Landing Page
+   ========================================================================== */
 #landing-page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    flex-shrink: 0; /* Prevents it from shrinking */
-    width: 100%; /* Ensure it takes full width */
-    position: relative; /* Keep it relative if you have inner absolute elements */
-    z-index: 2; /* Ensure landing page is above everything else */
+    flex-shrink: 0;
+    width: 100%; 
+    position: relative; 
+    z-index: 2; 
 }
 
-/* --- Landing Page: Header --- */
 header {
     width: 100%;
     display: flex;
@@ -189,7 +184,6 @@ header {
     z-index: 1100;
 }
 
-/* --- Landing Page: Main Content & Bottom Image --- */
 .content-area {
     flex-grow: 1;
     text-align: center;
@@ -213,17 +207,17 @@ header {
 }
 
 /* ==========================================================================
-    3. States Section
-    ========================================================================== */
+   3. States Section
+   ========================================================================== */
 .state-container {
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     padding: 2rem 0;
-    position: relative; /* Keep relative if you have absolute children inside */
-    margin-bottom: 60px; /* Adjust this value as needed for space between state sections */
-    margin-top: 0; /* Ensure no inherited top margin */
+    position: relative; 
+    margin-bottom: 60px; 
+    margin-top: 0; 
 }
 
 .state-container--split.reverse {
@@ -237,14 +231,13 @@ header {
     flex-direction: column;
     align-items: flex-start;
     padding: 2rem 2rem 3rem 12vw;
-    position: relative; /* MODIFIED: Added for positioning context */
+    position: relative; 
 }
 
-/* NEW: Styles for the popup element */
 .h2-popup {
     position: absolute;
-    top: 3.6rem; /* Positions it within the h2's top padding */
-    left: 13.8vw; /* Aligns with h2 text */
+    top: 3.6rem; 
+    left: 13.8vw; 
     display: flex;
     align-items: center;
     gap: 10px;
@@ -253,8 +246,6 @@ header {
     font-family: Helvetica, Arial, sans-serif;
     color: #333;
     z-index: 5;
-
-    /* Initial state for animation */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -266,21 +257,17 @@ header {
 }
 
 .h2-popup span {
-    font-weight: bold; /* or use a numeric value like 700 */
+    font-weight: bold; 
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    position: relative; /* Allows you to shift the element */
+    position: relative; 
     top: 8px;
 }
 
 .h2-popup img {
-    height: 50px;   /* Or any size you prefer, e.g., 1.5rem */
-    width: auto;    /* Keeps the image proportions correct */
-    filter: grayscale(100%); /* Make it grayscale first */
-    filter: brightness(factor); /* Adjust brightness if needed */
-    filter: hue-rotate(degrees);
+    height: 50px;
+    width: auto;
     filter: brightness(0.3);
 }
-
 
 .image-column {
     flex: 0 0 45%;
@@ -335,7 +322,7 @@ header {
     color: white;
     padding: 12px 24px;
     text-decoration: none;
-    border-radius: 50px; /* Adjusted from 5px for a rounder look, can revert */
+    border-radius: 50px; 
     transition: background-color 0.3s ease;
     margin-left: 2rem;
 }
@@ -345,32 +332,29 @@ header {
 }
 
 /* ==========================================================================
-    4. Specific Container Tweaks & Overrides - REMOVED / RESET
-/* These rules were for absolute positioning and are no longer necessary or correct.
-    Ensure no fixed 'top' or conflicting 'margin' rules remain for individual state containers. */
+   4. Specific Container Tweaks
+   ========================================================================== */
 .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5,
 .state-container-6, .state-container-7, .state-container-8, .state-container-9,
 .state-container-10, .state-container-11, .state-container-12 {
-    top: auto !important; /* Override any lingering fixed positioning */
-    margin-left: 0 !important; /* Remove specific horizontal offsets */
+    top: auto !important; 
+    margin-left: 0 !important; 
     margin-right: 0 !important;
-    padding-top: 0 !important; /* Reset specific padding */
-    /* Remove any other `position`, `top`, `left`, `margin` properties here */
+    padding-top: 0 !important; 
 }
 
-/* Ensure no column-specific overrides are left that break the flex layout */
 .state-container .info-column,
 .state-container .image-column {
-    margin-left: auto; /* Reset margins */
-    margin-right: auto; /* Reset margins */
-    padding-top: auto; /* Reset padding */
-    margin-top: auto; /* Reset margins */
+    margin-left: auto;
+    margin-right: auto; 
+    padding-top: auto; 
+    margin-top: auto; 
 }
 
 
 /* ==========================================================================
-    5. UI Elements
-    ========================================================================== */
+   5. UI Elements
+   ========================================================================== */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -388,7 +372,7 @@ header {
     cursor: pointer;
     z-index: 1000;
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease, bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: background-color 0.3s ease, transform 0.3s ease, bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, visibility 0.3s ease;
 }
 
 #scrollToBottomBtn:hover {
@@ -400,34 +384,40 @@ header {
     bottom: calc(10vh + 25px);
 }
 
+/* NEW: This rule hides the button when the nav is open */
+#scrollToBottomBtn.is-hidden-by-nav {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+
 /* ==========================================================================
-    6. Responsive Layout Rules
-    ========================================================================== */
+   6. Responsive Layout Rules
+   ========================================================================== */
 .mobile-only { display: block; }
 .desktop-only { display: none; }
 
-@media (min-width: 1025px) { /* Changed to 1025px to avoid overlap with max-width: 1024px */
+@media (min-width: 1025px) {
     .mobile-only { display: none; }
     .desktop-only { display: block; }
 }
 
-@media (max-width: 1024px) { /* Changed to 1024px for clearer breakpoint */
-    /* Adjustments for the top-content-wrapper for mobile */
+@media (max-width: 1024px) {
     .top-content-wrapper {
-        position: static; /* On mobile, let it flow naturally */
+        position: static; 
         min-height: auto;
         padding-top: 20px;
     }
 
-    /* Dashed line on mobile should flow with content */
     .dashed-line {
         position: relative; 
         top: auto;
         left: auto;
         transform: none;
-        width: 90%; /* Adjust width for mobile */
-        height: auto; /* Height scales proportionally */
-        margin: 0 auto 50px auto; /* Center and add bottom margin */
+        width: 90%; 
+        height: auto; 
+        margin: 0 auto 50px auto; 
     }
 
     .dashed-line-center {
@@ -435,7 +425,6 @@ header {
         height: auto;
     }
     
-    /* Ensure old #states-wrapper styles are cleared if still present */
     #states-wrapper {
         margin-top: 0;
         height: auto;
@@ -446,18 +435,29 @@ header {
 
     .state-container {
         position: static;
-        margin-bottom: 5rem; /* Adjusted mobile spacing between states */
+        margin-bottom: 5rem; 
         padding: 0 1rem;
         max-height: none;
     }
 
     header { height: auto; padding-bottom: 1rem; }
-    .top-bar { flex-direction: column; padding: 1rem; gap: 10px; text-align: center; }
+    
+    .top-bar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 10px;
+        text-align: center;
+        min-height: 10vh;
+        box-sizing: border-box;
+    }
     .top-bar::after { left: 5%; right: 5%; }
     
     .navbar {
         flex-wrap: wrap;
         padding: 0 1.5rem;
+        min-height: 12vh;
+        box-sizing: border-box;
+        background: white; 
     }
     
     .logo {
@@ -476,17 +476,56 @@ header {
         width: 100%;
         order: 3;
         gap: 0;
-        animation: fadeIn 0.3s ease-in-out;
+        flex: none;
+        padding: 0;
+    }
+    
+    .navbar.nav-open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1099;
+        flex-wrap: nowrap;
+        transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .navbar.nav-open.nav-open--partial {
+        height: 70vh;
     }
 
     .navbar.nav-open .main-nav {
         display: flex;
-        margin-top: 1rem;
+    }
+    
+    .navbar.nav-open .main-nav li {
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: dropDownItem 0.5s ease-out forwards;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .navbar.nav-open .main-nav li:nth-child(1) { animation-delay: 0.1s; }
+    .navbar.nav-open .main-nav li:nth-child(2) { animation-delay: 0.2s; }
+    .navbar.nav-open .main-nav li:nth-child(3) { animation-delay: 0.3s; }
+    .navbar.nav-open .main-nav li:nth-child(4) { animation-delay: 0.4s; }
+    .navbar.nav-open .main-nav li:nth-child(5) { animation-delay: 0.5s; }
+    .navbar.nav-open .main-nav li:nth-child(6) { animation-delay: 0.6s; }
+
+    .navbar.nav-open .mobile-menu-button {
+        position: absolute;
+        top: 2rem;
+        right: 1.5rem;
+    }
+    
+    .navbar.nav-open .logo {
+        display: none;
     }
 
     .main-nav a {
@@ -520,56 +559,111 @@ header {
         padding: 0;
     }
     
-    /* NEW: Styles for the popup on mobile */
     .h2-popup {
-        position: static; /* Revert to normal document flow */
-        transform: none;  /* Reset transform */
-        opacity: 1;       /* Always visible, no animation needed on mobile */
+        position: static; 
+        transform: none;
+        opacity: 1;
         justify-content: center;
         width: 100%;
-        margin: 0 0 0.5rem 0; /* Center and add a small bottom margin */
+        margin: 0 0 0.5rem 0;
     }
 
     .image-column {
-        margin-bottom: 1.5rem;
+        height: 35vh;
+    }
+    
+    .image-column img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .info-column { 
-        padding: 0 1rem;
+        min-height: 35vh;
+        padding: 1rem;
         align-items: center;
         text-align: center;
-        position: static; /* MODIFIED: Reset positioning context */
+        position: static;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .info-column h2 {
-        font-size: 2.5rem;
-        padding: 0.5rem 1rem !important; /* Modified to ensure it overrides desktop */
-        background-image: none !important; /* Modified to ensure it overrides desktop */
+        font-size: 3rem; 
         text-align: center;
-        border: 2px solid #eee;
         margin-bottom: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 0;
+        background-size: cover;
+        background-position: center center;
+        padding: 2.5rem 1rem; 
     }
 
     .info-column p { padding-left: 0; max-width: 90%; }
     .info-button { margin-left: 0; }
+    
+    .navbar.navbar--anchored {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 12vh;
+        min-height: 0;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+        z-index: 1050; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.5rem;
+        animation: popUpFromBottom 0.5s ease-out;
+        flex-wrap: nowrap;
+    }
 
-    /* Ensure these are reset for mobile to prevent conflicting behavior */
-    .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5, .state-container-6, .state-container-7, .state-container-8, .state-container-9, .state-container-10, .state-container-11, .state-container-12 {
-        margin-bottom: 5rem !important; /* Consistent mobile spacing */
-        top: auto !important;
+    .navbar.navbar--anchored .main-nav {
+        display: none; 
+    }
+
+    .navbar.navbar--anchored .logo,
+    .navbar.navbar--anchored .mobile-menu-button {
+        display: block; 
+    }
+
+    .navbar.navbar--anchored .logo img {
+        height: 10vh;
+        max-height: 60px;
+        padding: 0; 
     }
     
-    .state-container:last-of-type {
-        margin-bottom: 0 !important;
+    .navbar.navbar--anchored.nav-open {
+        height: 100vh;
+        top: 0;
+        bottom: auto; 
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .navbar.navbar--anchored.nav-open .logo {
+        display: none;
     }
 
-    .state-container .image-column,
-    .state-container .info-column {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        max-width: 100% !important;
+    .navbar.navbar--anchored.nav-open .mobile-menu-button {
+        position: absolute;
+        top: 2rem;
+        right: 1.5rem;
     }
 
+    .navbar.navbar--anchored.nav-open .main-nav {
+        display: flex;
+        width: 100%;
+        margin: auto 0; 
+    }
+    
     #scrollToBottomBtn {
         width: 45px;
         height: 45px;
@@ -580,24 +674,45 @@ header {
 }
 
 /* ==========================================================================
-   7. Anchored Navbar Effect (Desktop Only)
+   7. Animations
    ========================================================================== */
-@keyframes popUpFromBottom {
+
+@keyframes dropDownItem {
     from {
         opacity: 0;
-        transform: translateY(100%); /* Start fully below the viewport */
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
-        transform: translateY(0); /* End at its final position */
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.bounce-up-animation {
+  animation: bounceUp 0.5s ease-out;
+}
+
+@keyframes popUpFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%); 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
     }
 }
 
 @media (min-width: 1025px) {
-    .navbar {
-        /* This transition was causing the unwanted horizontal animation. It has been removed. */
-    }
-
     .navbar.navbar--anchored {
         position: fixed;
         bottom: 0;
