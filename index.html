@@ -24,11 +24,35 @@
             transform: scale(0.5);
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
         }
+        .altitude-unit {
+            font-weight: 500;
+            margin-left: 0.2em;
+        }
+        
+        /* --- ADDED CSS FOR THE NEW COUNTER (ISOLATED RULE) --- */
+        #svg-tip-counter {
+            position: absolute;
+            top: 0; /* Updated by JS */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            z-index: 10;
+            white-space: nowrap;
+            opacity: 0;
+            transition: top 0.05s linear, opacity 0.3s ease;
+        }
     </style>
 </head>
 <body>
     <div class="top-content-wrapper">
         <div class="dashed-line">
+            <div id="svg-tip-counter">0 ft</div>
             <svg
                 class="dashed-line-center"
                 viewBox="0 0 1654 8888"
@@ -58,7 +82,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/ls-icon.png" alt="District Icon">
-                        <span>25,069 ft</span>
+                        <span class="altitude-value" data-final-value="25069">24,569</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-1">Lahaul & Spiti</h2>
                     <p>Lahaul & Spiti is a high-altitude district in the trans-Himalayan region of Himachal Pradesh, known for its stark landscapes and ancient monasteries. Formed by merging two valleys—Lahaul and Spiti—the district offers unique cultural and ecological experiences. Places like Key Monastery, Chandratal Lake, and Tabo Monastery draw adventurers and spiritual seekers.
@@ -76,7 +100,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/kinaur-icon.png" alt="District Icon">
-                        <span>22,362 ft</span>
+                        <span class="altitude-value" data-final-value="22362">21,862</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-2">Kinnaur</h2>
                     <p>Kinnaur, located in the northeastern corner of Himachal Pradesh, is known for its rugged mountains, apple orchards, and tribal culture. Bordering Tibet, it blends Buddhist and Hindu traditions, evident in monasteries and temples like Kinnaur Kailash and Mathi Devi. Its dramatic terrain attracts trekkers, pilgrims, and culture seekers alike.
@@ -91,10 +115,10 @@
             </section>
 
             <section class="state-container state-container--split reverse state-container-3">
-                <div class="info-column">
+                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/chamba-icon.png" alt="District Icon">
-                        <span>21,759 ft</span>
+                        <span class="altitude-value" data-final-value="21759">21,259</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-3">Chamba</h2>
                     <p>Chamba district, located in the northwestern part of Himachal Pradesh, is known for its scenic beauty, ancient temples, and rich cultural heritage. Nestled amidst the Himalayas, it lies on the banks of the Ravi River. Chamba is famous for its traditional miniature paintings, fairs like Minjar, and architectural marvels such as the Lakshmi Narayan temples. The district also offers access to serene valleys like Bharmour and Pangi, making it a peaceful and culturally vibrant destination.
@@ -112,7 +136,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/kullu-icon.png" alt="District Icon">
-                        <span>21,138 ft</span>
+                        <span class="altitude-value" data-final-value="21138">20,638</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-4">Kullu</h2>
                     <p>Kullu district, nestled in the middle Himalayas, is known for its breathtaking valleys, apple orchards, and vibrant festivals. Located along the Beas River, it serves as the gateway to the higher Himalayan regions, including Manali and the Great Himalayan National Park. Kullu is also renowned for its woolen shawls and Dussehra celebrations.
@@ -130,7 +154,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/shimla-icon.png" alt="District Icon">
-                        <span>18,069 ft</span>
+                        <span class="altitude-value" data-final-value="18069">17,569</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-5">Shimla</h2>
                     <p>Shimla, the capital district of Himachal Pradesh, is a blend of colonial heritage and scenic beauty. Once the summer capital of British India, Shimla now serves as an administrative, educational, and tourism hub. With pine forests, heritage buildings, and bustling bazaars, it attracts visitors year-round. The Kalka–Shimla railway is a UNESCO World Heritage site.
@@ -148,7 +172,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/kangra-icon.png" alt="District Icon">
-                        <span>16,341 ft</span>
+                        <span class="altitude-value" data-final-value="16341">15,841</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-6">Kangra</h2>
                     <p>Kangra is the largest district of Himachal Pradesh, located in the western part of the state. Rich in history and art, it is home to the ancient Kangra Fort and world-renowned miniature paintings. The district spans from the plains near Gaggal to the Dhauladhar ranges near Dharamshala, which also serves as the winter capital of Himachal Pradesh.
@@ -166,7 +190,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/sirmaur-icon.png" alt="District Icon">
-                        <span>11,965 ft</span>
+                        <span class="altitude-value" data-final-value="11965">11,465</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-7">Sirmaur</h2>
                     <p>Sirmaur district, located in the southeastern part of Himachal Pradesh, is known for its lush green landscapes, fertile valleys, and cultural richness. With its headquarters in Nahan, the district is home to historic towns, ancient temples, and peaceful hill stations. It is famous for Renuka Lake, the largest natural lake in the state, and the annual Renuka Fair. Sirmaur also produces high-quality fruits like apples and peaches, and has growing industrial hubs like Paonta Sahib, a major religious and economic center.
@@ -184,7 +208,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/mandi-icon.png" alt="District Icon">
-                        <span>11,123 ft</span>
+                        <span class="altitude-value" data-final-value="11123">10,623</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-8">Mandi</h2>
                     <p>Mandi lies in the heart of Himachal Pradesh and is often referred to as the "Chhoti Kashi" for its numerous ancient temples. The district is a cultural and logistical link between Kullu and Kangra valleys. Mandi is also an emerging education center with institutions like IIT Mandi. With the Beas River flowing through, it boasts lush valleys, historical architecture, and religious significance.
@@ -202,7 +226,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/solan-icon.png" alt="District Icon">
-                        <span>8,018 ft</span>
+                        <span class="altitude-value" data-final-value="8018">7,518</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-9">Solan</h2>
                     <p>Solan is a district in the south-central region of Himachal Pradesh, often called the "Mushroom City of India" due to its high mushroom production. Located along the Chandigarh–Shimla highway, Solan is an important industrial and educational hub. It houses institutions like Dr. Y.S. Parmar University and attracts tourists with sites like Shoolini Mata Temple and Kasauli. With its mix of plains and hills, Solan plays a key role in connecting the hills with nearby metropolitan areas.
@@ -218,7 +242,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/bilaspur-icon(1).png" alt="District Icon">
-                        <span>6,496 ft</span>
+                        <span class="altitude-value" data-final-value="6496">5,996</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-10">Bilaspur</h2>
                     <p>Bilaspur is a district in the southwestern part of Himachal Pradesh, situated along the banks of the Sutlej River. Known as the first planned hill town of independent India, Bilaspur was re-established in 1954 after the original town was submerged during the construction of the Bhakra Dam. The district has a rich cultural heritage and is famous for the Naina Devi Temple, one of the most revered Shakti Peeths. With its mix of historical significance, pilgrimage sites, and proximity to major highways, Bilaspur serves as a vital link between Himachal and the neighboring plains of Punjab.
@@ -236,7 +260,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/hamirpur-icon.png" alt="District Icon">
-                        <span>4,101 ft</span>
+                        <span class="altitude-value" data-final-value="4101">3,601</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-11">Hamirpur</h2>
                     <p>Hamirpur is a district in the western part of Himachal Pradesh, known for its hilly terrain and high literacy rate. Bordered by Kangra, Mandi, and Bilaspur, it is the smallest district in the state by area. Hamirpur was carved out of Kangra district in 1972 and has a strong tradition of military service, with a large number of its residents serving in the Indian armed forces. The district is culturally rooted, with temples like Deotsidh (Baba Balak Nath) attracting thousands of pilgrims. With well-developed road networks and educational institutions, Hamirpur is emerging as a knowledge and service hub in Himachal.
@@ -254,7 +278,7 @@
                 <div class="info-column">
                     <div class="h2-popup">
                         <img src="icons/una-icon.png" alt="District Icon">
-                        <span>3,937 ft</span>
+                        <span class="altitude-value" data-final-value="3937">3,437</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-12">Una</h2>
                     <p>Una is a district in the southwestern part of Himachal Pradesh, bordering Punjab. Known for its mix of plains and low hills, Una serves as a gateway to the state. It was carved out of Kangra district in 1972 and has a strong agricultural base, with growing industrial activity. The district is culturally rich, home to important religious sites like the Chintpurni Temple. With good road and rail connectivity, Una plays a key role in linking Himachal to the plains of northern India.
@@ -329,11 +353,67 @@
     let isBouncingTop = false;
     let isBouncingBottom = false;
 
+    const svgTipCounter = document.getElementById('svg-tip-counter');
+    const pathElement = document.getElementById('Line');
+    let pathTotalLength = 0;
+    let checkpointsData = [];
+    let currentCounterY = 0;
+
+    function updateMainCounter() {
+        if (!checkpointsData.length || !svgTipCounter) return;
+        
+        let prevCheckpoint = checkpointsData[0];
+        let nextCheckpoint = checkpointsData[0];
+        for (let i = 0; i < checkpointsData.length; i++) {
+            if (checkpointsData[i].y <= currentCounterY) {
+                prevCheckpoint = checkpointsData[i];
+            } else {
+                nextCheckpoint = checkpointsData[i];
+                break;
+            }
+        }
+        if (prevCheckpoint === nextCheckpoint) {
+             nextCheckpoint = checkpointsData[checkpointsData.length - 1];
+        }
+        const distanceBetweenPoints = nextCheckpoint.y - prevCheckpoint.y;
+        const valueRange = nextCheckpoint.value - prevCheckpoint.value;
+        let progress = 0;
+        if (distanceBetweenPoints > 0) {
+            progress = (currentCounterY - prevCheckpoint.y) / distanceBetweenPoints;
+        }
+        if (currentCounterY >= checkpointsData[checkpointsData.length - 1].y) {
+            progress = 1;
+        }
+        const currentValue = prevCheckpoint.value + (progress * valueRange);
+        
+        svgTipCounter.textContent = `${Math.round(currentValue).toLocaleString('en-US')} ft`;
+    }
+
+    function animateAltitude(element) {
+        const finalValue = parseInt(element.dataset.finalValue, 10);
+        if (isNaN(finalValue) || element.dataset.animated) return;
+        element.dataset.animated = 'true';
+        const startValue = parseInt(element.textContent.replace(/,/g, ''), 10);
+        const duration = 1500;
+        let startTime = null;
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
+            element.textContent = currentValue.toLocaleString('en-US');
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.textContent = finalValue.toLocaleString('en-US');
+            }
+        }
+        requestAnimationFrame(step);
+    }
     function updateNavLayout() {
         const isMobile = window.innerWidth <= 1024;
         const navLeft = document.querySelector('.nav-left');
         const navRight = document.querySelector('.nav-right');
-
         if (isMobile) {
             if (navRight && navRight.children.length > 0) {
                 while (navRight.firstElementChild) {
@@ -345,12 +425,10 @@
             if (navRight) navRight.style.display = 'flex';
         }
     }
-
     function updateSvgHeight() {
         if (svgLine) return svgLine.getBoundingClientRect().height;
         return 0;
     }
-
     function positionDashedLine() {
         if (window.innerWidth <= 1024) return;
         const stateContainer1 = document.querySelector('.state-container-1');
@@ -365,27 +443,67 @@
         dashedLineContainer.style.top = `${actualDashedLineTop}px`;
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
-
+    
     function animateDashedLine() {
-        if (window.innerWidth <= 1024 || !maskRect || !svgLine) {
-            if (maskRect && svgLine.viewBox?.baseVal) {
-                maskRect.style.transform = `translateY(0px)`;
-                maskRect.setAttribute('height', svgLine.viewBox.baseVal.height);
-                maskRect.setAttribute('y', 0);
-            }
+        if (window.innerWidth <= 1024 || !maskRect || !svgLine || !dashedLineContainer || !pathElement || pathTotalLength === 0) {
+            if (svgTipCounter) svgTipCounter.style.opacity = '0';
             return;
         }
+
         const svgDynamicHeight = updateSvgHeight();
         if (svgDynamicHeight === 0) return;
+        
         const dashedLineRect = dashedLineContainer.getBoundingClientRect();
         const revealViewportY = window.innerHeight * 0.20;
-        let pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
         const viewBoxHeight = svgLine.viewBox.baseVal.height;
-        const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
-        const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
-        maskRect.setAttribute('y', maskYInSvgUnits);
-        maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
-        maskRect.setAttribute('width', svgLine.viewBox.baseVal.width);
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let pixelsAboveReveal;
+
+        // --- THIS IS THE FIX ---
+        // When at the absolute top, force the reveal to start from 0.
+        // Otherwise, use the standard viewport calculation.
+        if (scrollTop < 1) {
+            pixelsAboveReveal = revealViewportY - dashedLineRect.top;
+        } else {
+            pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
+        }
+        // --- END OF FIX ---
+
+        // Deactivate the mask when at the top to prevent clipping
+        if (scrollTop < 1) {
+             maskRect.setAttribute('y', 0);
+             maskRect.setAttribute('height', viewBoxHeight);
+        } else {
+            const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
+            const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
+            maskRect.setAttribute('y', maskYInSvgUnits);
+            maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
+        }
+
+        if (svgTipCounter) {
+            const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
+            const maskYForPosition = pixelsAboveReveal * svgUnitsPerPixel;
+            const verticalProgress = maskYForPosition / viewBoxHeight;
+            const distanceAlongPath = verticalProgress * pathTotalLength;
+            
+            const pointOnPath = pathElement.getPointAtLength(distanceAlongPath);
+            
+            const svgContainerRect = dashedLineContainer.getBoundingClientRect();
+            const viewBoxWidth = svgLine.viewBox.baseVal.width;
+            const svgXUnitsPerPixel = viewBoxWidth / svgContainerRect.width;
+            
+            const counterLeftPx = pointOnPath.x / svgXUnitsPerPixel;
+            const counterTopPx = pointOnPath.y / svgUnitsPerPixel;
+
+            // No offset is needed with the mask fix
+            svgTipCounter.style.left = `${counterLeftPx}px`;
+            svgTipCounter.style.top = `${counterTopPx}px`;
+            
+            currentCounterY = dashedLineContainer.offsetTop + counterTopPx;
+            
+            const isLineOnScreen = dashedLineRect.bottom > -100 && dashedLineRect.top < window.innerHeight;
+            svgTipCounter.style.opacity = isLineOnScreen ? '1' : '0';
+        }
     }
 
     function checkAndAnimatePopups() {
@@ -397,19 +515,22 @@
             const h2Rect = h2.getBoundingClientRect();
             if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return;
             const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
-            if (h2TriggerPoint > triggerThreshold) popup.classList.add('visible');
+            if (h2TriggerPoint > triggerThreshold) {
+                popup.classList.add('visible');
+                const altitudeValueElement = popup.querySelector('.altitude-value');
+                if (altitudeValueElement) {
+                    animateAltitude(altitudeValueElement);
+                }
+            }
         });
     }
-
     function handleOverscroll(event) {
         if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) {
             return;
         }
-
         const touchY = event.touches[0].clientY;
         const isScrollingDown = touchY < lastTouchY;
         const isScrollingUp = touchY > lastTouchY;
-
         const atTop = window.pageYOffset === 0;
         if (atTop && isScrollingUp && topContentWrapper) {
             event.preventDefault();
@@ -420,7 +541,6 @@
                 isBouncingTop = false;
             }, 600);
         }
-
         const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
         if (atBottom && isScrollingDown && landingPage) {
             event.preventDefault();
@@ -431,16 +551,29 @@
                 isBouncingBottom = false;
             }, 600);
         }
-
         lastTouchY = touchY;
     }
-
     function preventKeyboardJump(e) {
         if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
     }
-
+    
     window.onload = () => {
         if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
+
+        if (pathElement) {
+            pathTotalLength = pathElement.getTotalLength();
+        }
+
+        checkpointsData.push({ y: 0, value: 0 });
+        document.querySelectorAll('.state-container').forEach(container => {
+            const valueElement = container.querySelector('.altitude-value');
+            if(valueElement && valueElement.dataset.finalValue) {
+                const value = parseInt(valueElement.dataset.finalValue, 10);
+                checkpointsData.push({ y: container.offsetTop, value: value });
+            }
+        });
+        checkpointsData.sort((a, b) => a.y - b.y);
+        
         document.body.style.opacity = '1';
         lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
         scrollToTopBtn.classList.add('is-hidden');
@@ -448,6 +581,7 @@
         animateDashedLine();
         checkAndAnimatePopups();
         updateNavLayout();
+        updateMainCounter();
     };
 
     window.addEventListener('resize', () => {
@@ -460,6 +594,8 @@
     window.addEventListener('scroll', () => {
         animateDashedLine();
         checkAndAnimatePopups();
+        updateMainCounter();
+        
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (landingPage) {
             const anchorThreshold = 0.90;
@@ -484,34 +620,28 @@
         }
         lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
     }, { passive: true });
-
+    
     scrollToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
     });
-
     mobileMenuToggle.addEventListener('click', () => {
         navbar.classList.toggle('nav-open');
         document.body.classList.toggle('noscroll');
         scrollToTopBtn.classList.toggle('is-hidden-by-nav');
-
         const isExpanded = navbar.classList.contains('nav-open');
         mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
         const icon = mobileMenuToggle.querySelector('i');
         icon.classList.toggle('fa-bars', !isExpanded);
         icon.classList.toggle('fa-times', isExpanded);
     });
-
     window.addEventListener('touchstart', (e) => {
         if (window.innerWidth <= 1024) {
             lastTouchY = e.touches[0].clientY;
         }
     }, { passive: true });
-
     window.addEventListener('touchmove', handleOverscroll, { passive: false });
-    
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
-    
     history.scrollRestoration = 'manual';
 </script>
 </body>

@@ -1,6 +1,4 @@
-/* ==========================================================================
-   1. Core Layout & Fonts
-   ========================================================================== */
+/* 1. Core Layout & Fonts */
 html, body {
     margin: 0;
     padding: 0;
@@ -62,10 +60,7 @@ body.noscroll {
     display: block;
 }
 
-
-/* ==========================================================================
-   2. Landing Page
-   ========================================================================== */
+/* 2. Landing Page */
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -205,9 +200,7 @@ header {
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
 }
 
-/* ==========================================================================
-   3. States Section
-   ========================================================================== */
+/* 3. States Section */
 .state-container {
     display: flex;
     align-items: center;
@@ -330,9 +323,7 @@ header {
     background-color: #0EA63C;
 }
 
-/* ==========================================================================
-   4. Specific Container Tweaks
-   ========================================================================== */
+/* 4. Specific Container Tweaks */
 .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5,
 .state-container-6, .state-container-7, .state-container-8, .state-container-9,
 .state-container-10, .state-container-11, .state-container-12 {
@@ -351,9 +342,7 @@ header {
 }
 
 
-/* ==========================================================================
-   5. UI Elements
-   ========================================================================== */
+/* 5. UI Elements */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -390,9 +379,7 @@ header {
 }
 
 
-/* ==========================================================================
-   6. Responsive Layout Rules
-   ========================================================================== */
+/* 6. Responsive Layout Rules */
 .mobile-only { display: block; }
 .desktop-only { display: none; }
 
@@ -681,31 +668,27 @@ header {
 }
 
 @media (max-width: 450px) {
-    /* Horizontally center the nav items when the menu is open */
     .navbar.nav-open .main-nav {
-        /* Add this line to remove default browser padding */
         padding: 0;
-        
-        /* These properties will now work as expected */
         justify-content: center;
         align-items: center;
+        padding-right: 5vw;
     }
 
-    /* Contain the zoomed image within its column */
     .image-column {
         overflow: hidden;
     }
     
-    /* Zoom in on the image by 15% */
     .image-column img {
         transform: scale(1.30);
         transition: transform 0.3s ease-out;
     }
+    .info-column p {
+        font-size: 0.8rem;
+    }
 }
 
-/* ==========================================================================
-   7. Animations
-   ========================================================================== */
+/* 7. Animations */
 
 @keyframes dropDownItem {
     from {
@@ -718,15 +701,14 @@ header {
     }
 }
 
-/* Animation for pull-down bounce at the top of the page */
 @keyframes pull-down-bounce {
     0% {
         transform: translateY(0);
         animation-timing-function: ease-out;
     }
     50% {
-        transform: translateY(35px); /* The "pull-down" amount */
-        animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1.2); /* Bouncy return */
+        transform: translateY(35px);
+        animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1.2);
     }
     100% {
         transform: translateY(0);
@@ -737,14 +719,13 @@ header {
     animation: pull-down-bounce 0.6s forwards;
 }
 
-/* Animation for push-up bounce at the bottom of the page */
 @keyframes push-up-bounce {
     0% {
         transform: translateY(0);
         animation-timing-function: ease-out;
     }
     50% {
-        transform: translateY(-35px); /* The "push-up" amount */
+        transform: translateY(-35px);
         animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1.2);
     }
     100% {
