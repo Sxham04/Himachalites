@@ -236,8 +236,51 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem 2rem 2rem 12vw;
+    padding: 2rem 2rem 3rem 12vw;
+    position: relative; /* MODIFIED: Added for positioning context */
 }
+
+/* NEW: Styles for the popup element */
+.h2-popup {
+    position: absolute;
+    top: 3.6rem; /* Positions it within the h2's top padding */
+    left: 13.8vw; /* Aligns with h2 text */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333;
+    z-index: 5;
+
+    /* Initial state for animation */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.h2-popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.h2-popup span {
+    font-weight: bold; /* or use a numeric value like 700 */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    position: relative; /* Allows you to shift the element */
+    top: 8px;
+}
+
+.h2-popup img {
+    height: 50px;   /* Or any size you prefer, e.g., 1.5rem */
+    width: auto;    /* Keeps the image proportions correct */
+    filter: grayscale(100%); /* Make it grayscale first */
+    filter: brightness(factor); /* Adjust brightness if needed */
+    filter: hue-rotate(degrees);
+    filter: brightness(0.3);
+}
+
 
 .image-column {
     flex: 0 0 45%;
@@ -304,7 +347,7 @@ header {
 /* ==========================================================================
     4. Specific Container Tweaks & Overrides - REMOVED / RESET
 /* These rules were for absolute positioning and are no longer necessary or correct.
-   Ensure no fixed 'top' or conflicting 'margin' rules remain for individual state containers. */
+    Ensure no fixed 'top' or conflicting 'margin' rules remain for individual state containers. */
 .state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5,
 .state-container-6, .state-container-7, .state-container-8, .state-container-9,
 .state-container-10, .state-container-11, .state-container-12 {
@@ -476,6 +519,16 @@ header {
         flex-basis: auto;
         padding: 0;
     }
+    
+    /* NEW: Styles for the popup on mobile */
+    .h2-popup {
+        position: static; /* Revert to normal document flow */
+        transform: none;  /* Reset transform */
+        opacity: 1;       /* Always visible, no animation needed on mobile */
+        justify-content: center;
+        width: 100%;
+        margin: 0 0 0.5rem 0; /* Center and add a small bottom margin */
+    }
 
     .image-column {
         margin-bottom: 1.5rem;
@@ -485,12 +538,13 @@ header {
         padding: 0 1rem;
         align-items: center;
         text-align: center;
+        position: static; /* MODIFIED: Reset positioning context */
     }
 
     .info-column h2 {
         font-size: 2.5rem;
-        padding: 0.5rem 1rem;
-        background-image: none;
+        padding: 0.5rem 1rem !important; /* Modified to ensure it overrides desktop */
+        background-image: none !important; /* Modified to ensure it overrides desktop */
         text-align: center;
         border: 2px solid #eee;
         margin-bottom: 1rem;
@@ -526,22 +580,22 @@ header {
 }
 
 /* ==========================================================================
-    7. Anchored Navbar Effect (Desktop Only)
-    ========================================================================== */
-@keyframes fadeInUp {
+   7. Anchored Navbar Effect (Desktop Only)
+   ========================================================================== */
+@keyframes popUpFromBottom {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(100%); /* Start fully below the viewport */
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0); /* End at its final position */
     }
 }
 
-@media (min-width: 1025px) { /* Changed to 1025px */
+@media (min-width: 1025px) {
     .navbar {
-        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        /* This transition was causing the unwanted horizontal animation. It has been removed. */
     }
 
     .navbar.navbar--anchored {
@@ -557,7 +611,7 @@ header {
         z-index: 1001;
         align-items: center;
         padding: 0;
-        animation: fadeInUp 0.5s;
+        animation: popUpFromBottom 0.5s ease-out;
     }
 
     .navbar.navbar--anchored .main-nav {
