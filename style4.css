@@ -17,7 +17,6 @@ body {
     min-height: 100vh;
 }
 
-/* This class locks the body scroll and is the key to making the background inaccessible */
 body.noscroll {
     overflow: hidden;
 }
@@ -384,7 +383,6 @@ header {
     bottom: calc(10vh + 25px);
 }
 
-/* NEW: This rule hides the button when the nav is open */
 #scrollToBottomBtn.is-hidden-by-nav {
     opacity: 0 !important;
     visibility: hidden !important;
@@ -404,6 +402,10 @@ header {
 }
 
 @media (max-width: 1024px) {
+    #landing-page-container {
+        min-height: 90vh;
+    }
+
     .top-content-wrapper {
         position: static; 
         min-height: auto;
@@ -497,18 +499,17 @@ header {
         transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .navbar.nav-open.nav-open--partial {
-        height: 70vh;
-    }
-
     .navbar.nav-open .main-nav {
         display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .navbar.nav-open .main-nav li {
         opacity: 0;
         transform: translateY(-20px);
         animation: dropDownItem 0.5s ease-out forwards;
+        width: 100%;
     }
 
     .navbar.nav-open .main-nav li:nth-child(1) { animation-delay: 0.1s; }
@@ -534,6 +535,8 @@ header {
         width: 100%;
         text-align: center;
         border-bottom: 1px solid #eee;
+        font-weight: bold;
+        font-size: 1.2rem;
     }
 
     .nav-left,
@@ -671,6 +674,33 @@ header {
         bottom: 15px;
         right: 15px;
     }
+    .image-column img {
+        transform: scale(1.30);
+        transition: transform 0.3s ease-out;
+    }
+}
+
+@media (max-width: 450px) {
+    /* Horizontally center the nav items when the menu is open */
+    .navbar.nav-open .main-nav {
+        /* Add this line to remove default browser padding */
+        padding: 0;
+        
+        /* These properties will now work as expected */
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Contain the zoomed image within its column */
+    .image-column {
+        overflow: hidden;
+    }
+    
+    /* Zoom in on the image by 15% */
+    .image-column img {
+        transform: scale(1.30);
+        transition: transform 0.3s ease-out;
+    }
 }
 
 /* ==========================================================================
@@ -688,18 +718,44 @@ header {
     }
 }
 
-@keyframes bounceUp {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-30px);
-  }
+/* Animation for pull-down bounce at the top of the page */
+@keyframes pull-down-bounce {
+    0% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translateY(35px); /* The "pull-down" amount */
+        animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1.2); /* Bouncy return */
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
-.bounce-up-animation {
-  animation: bounceUp 0.5s ease-out;
+.pull-down-bounce-animation {
+    animation: pull-down-bounce 0.6s forwards;
 }
+
+/* Animation for push-up bounce at the bottom of the page */
+@keyframes push-up-bounce {
+    0% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translateY(-35px); /* The "push-up" amount */
+        animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1.2);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.push-up-bounce-animation {
+    animation: push-up-bounce 0.6s forwards;
+}
+
 
 @keyframes popUpFromBottom {
     from {

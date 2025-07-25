@@ -12,7 +12,6 @@
             opacity: 0;
             transition: opacity 0.4s ease-in;
         }
-        /* Hide the decorative dashed line on mobile/tablet devices */
         @media (max-width: 1024px) {
             .dashed-line {
                 display: none;
@@ -25,7 +24,6 @@
             transform: scale(0.5);
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
         }
-        
     </style>
 </head>
 <body>
@@ -324,11 +322,12 @@
     const topContentWrapper = document.querySelector('.top-content-wrapper');
     const dashedLineContainer = document.querySelector('.dashed-line');
     const stateContainers = document.querySelectorAll('.state-container');
-    const contentToBounce = document.querySelector('.top-content-wrapper');
     let lastScrollTop = 0;
     let isSlowing = false;
     let lastTouchY = 0;
     const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
+    let isBouncingTop = false;
+    let isBouncingBottom = false;
 
     function updateNavLayout() {
         const isMobile = window.innerWidth <= 1024;
@@ -343,9 +342,6 @@
             }
             if (navRight) navRight.style.display = 'none';
         } else {
-            // This part is for restoring desktop view, but we keep it simple
-            // and assume a page refresh for drastic resize changes.
-            // For now, just ensure the right nav is visible on desktop.
             if (navRight) navRight.style.display = 'flex';
         }
     }
@@ -406,19 +402,37 @@
     }
 
     function handleOverscroll(event) {
-        if (document.body.classList.contains('noscroll')) return;
-        const atTop = window.pageYOffset === 0;
-        if (atTop) {
-            let isScrollingUp = false;
-            if (event.type === 'wheel' && event.deltaY < 0) isScrollingUp = true;
-            else if (event.type === 'touchmove' && event.touches[0].clientY > lastTouchY) isScrollingUp = true;
-            if (isScrollingUp && contentToBounce && !contentToBounce.classList.contains('bounce-up-animation')) {
-                event.preventDefault();
-                contentToBounce.classList.add('bounce-up-animation');
-                setTimeout(() => contentToBounce.classList.remove('bounce-up-animation'), 500);
-            }
+        if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) {
+            return;
         }
-        if (event.type === 'touchstart' || event.type === 'touchmove') lastTouchY = event.touches[0].clientY;
+
+        const touchY = event.touches[0].clientY;
+        const isScrollingDown = touchY < lastTouchY;
+        const isScrollingUp = touchY > lastTouchY;
+
+        const atTop = window.pageYOffset === 0;
+        if (atTop && isScrollingUp && topContentWrapper) {
+            event.preventDefault();
+            isBouncingTop = true;
+            topContentWrapper.classList.add('pull-down-bounce-animation');
+            setTimeout(() => {
+                topContentWrapper.classList.remove('pull-down-bounce-animation');
+                isBouncingTop = false;
+            }, 600);
+        }
+
+        const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
+        if (atBottom && isScrollingDown && landingPage) {
+            event.preventDefault();
+            isBouncingBottom = true;
+            landingPage.classList.add('push-up-bounce-animation');
+            setTimeout(() => {
+                landingPage.classList.remove('push-up-bounce-animation');
+                isBouncingBottom = false;
+            }, 600);
+        }
+
+        lastTouchY = touchY;
     }
 
     function preventKeyboardJump(e) {
@@ -477,16 +491,8 @@
     });
 
     mobileMenuToggle.addEventListener('click', () => {
-        const isOnLandingPage = !navbar.classList.contains('navbar--anchored');
         navbar.classList.toggle('nav-open');
-        if (navbar.classList.contains('nav-open') && isOnLandingPage) {
-            navbar.classList.add('nav-open--partial');
-        } else {
-            navbar.classList.remove('nav-open--partial');
-        }
         document.body.classList.toggle('noscroll');
-        
-        // NEW: Add/remove a class to hide the scroll button when the nav is open
         scrollToTopBtn.classList.toggle('is-hidden-by-nav');
 
         const isExpanded = navbar.classList.contains('nav-open');
@@ -496,9 +502,14 @@
         icon.classList.toggle('fa-times', isExpanded);
     });
 
-    window.addEventListener('wheel', handleOverscroll, { passive: false });
-    window.addEventListener('touchstart', handleOverscroll, { passive: false });
+    window.addEventListener('touchstart', (e) => {
+        if (window.innerWidth <= 1024) {
+            lastTouchY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
     window.addEventListener('touchmove', handleOverscroll, { passive: false });
+    
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
     
     history.scrollRestoration = 'manual';
