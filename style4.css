@@ -19,6 +19,18 @@ body.noscroll {
     overflow: hidden;
 }
 
+.top-scroll-spacer {
+    height: 0;
+    width: 100%;
+}
+
+@media (min-width: 1200px){
+    .top-scroll-spacer {
+    height: 10vh;
+    }
+}
+
+
 .top-content-wrapper {
     position: relative; 
     display: flex;
@@ -208,7 +220,7 @@ header {
     box-sizing: border-box;
     position: relative; 
     width: 100%;
-    max-width: 1654px;
+    max-width: 1600px;
     margin: 0 auto 60px;
     padding: 2rem 5%;
 }
