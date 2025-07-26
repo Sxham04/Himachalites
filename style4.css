@@ -289,10 +289,11 @@ header {
 
 .info-column h2 {
     font-size: 4rem;
+    font-family: "kalam";
     display: inline-block;
     color: black;
     border-radius: 8px;
-    margin: 0 0 0.5rem 0;
+    margin: -1rem 0 0 0;
     padding: 6rem 13rem 1rem 1.5rem;
     background-size: contain;
     background-repeat: no-repeat;
@@ -361,6 +362,12 @@ header {
     .state-container-9.state-container--split.reverse .info-column {
         margin-left: 18rem !important; 
     }
+    .state-container-1 .image-column img {
+    /* Adjust the -50px value to move the image up or down */
+    transform: scale(1.1) translateY(-50px);}
+    .state-container-2 {
+    /* Adjust this value to move the container up or down */
+    margin-top: -60px;}
 }
 
 .state-container-10 {
