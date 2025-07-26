@@ -51,7 +51,7 @@ body.noscroll {
     width: 100%;
     max-width: 1654px;
     height: auto; 
-    z-index: -1;
+    z-index: 0;
 }
 
 .dashed-line-center {
@@ -204,32 +204,37 @@ header {
 .state-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; 
     box-sizing: border-box;
-    padding: 2rem 0;
     position: relative; 
-    margin-bottom: 60px; 
-    margin-top: 0; 
+    width: 100%;
+    max-width: 1624px;
+    margin: 0 auto 60px;
+    padding: 2rem 5%;
 }
 
 .state-container--split.reverse {
     flex-direction: row-reverse;
 }
+@media (min-width: 1025px) {
+    .state-container--split.reverse .info-column {
+        margin-left: 13rem; }
+    }
 
 .info-column {
-    flex: 1 1 55%;
+    flex: 0 1 50%;
     min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem 2rem 3rem 12vw;
+    padding: 2rem 0 3rem 0;
     position: relative; 
 }
 
 .h2-popup {
     position: absolute;
     top: 3.6rem; 
-    left: 13.8vw; 
+    left: 8vw; 
     display: flex;
     align-items: center;
     gap: 10px;
@@ -264,7 +269,9 @@ header {
 .image-column {
     flex: 0 0 45%;
     max-width: 45%;
-    padding: 0 5vw;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 .image-column img {
@@ -272,6 +279,12 @@ header {
     height: auto;
     display: block;
     border-radius: 8px;
+    transform: scale(1.1);
+    transition: transform 0.4s ease-out;
+}
+
+.image-column:hover img {
+    transform: scale(1.1);
 }
 
 .info-column h2 {
@@ -310,17 +323,19 @@ header {
 }
 
 .info-button {
-    background-color: #333;
-    color: white;
+    background-color: transparent;
+    color: #0EA63C;
     padding: 12px 24px;
     text-decoration: none;
-    border-radius: 50px; 
-    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, color 0.3s ease;
     margin-left: 2rem;
+    border: 2px solid #0EA63C; 
 }
 
 .info-button:hover {
     background-color: #0EA63C;
+    color: white;
 }
 
 /* 4. Specific Container Tweaks */
@@ -330,7 +345,6 @@ header {
     top: auto !important; 
     margin-left: 0 !important; 
     margin-right: 0 !important;
-    padding-top: 0 !important; 
 }
 
 .state-container .info-column,
@@ -339,6 +353,18 @@ header {
     margin-right: auto; 
     padding-top: auto; 
     margin-top: auto; 
+}
+
+/* --- Use this corrected block to fix the mobile layout --- */
+
+@media (min-width: 1025px) {
+    .state-container-9.state-container--split.reverse .info-column {
+        margin-left: 18rem !important; 
+    }
+}
+
+.state-container-10 {
+    top: 90px !important; 
 }
 
 
@@ -689,7 +715,6 @@ header {
 }
 
 /* 7. Animations */
-
 @keyframes dropDownItem {
     from {
         opacity: 0;

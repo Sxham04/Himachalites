@@ -29,7 +29,6 @@
             margin-left: 0.2em;
         }
         
-        /* --- ADDED CSS FOR THE NEW COUNTER (ISOLATED RULE) --- */
         #svg-tip-counter {
             position: absolute;
             top: 0; /* Updated by JS */
@@ -437,9 +436,10 @@
         const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
         const state1Rect = stateContainer1.getBoundingClientRect();
         const state12Rect = stateContainer12.getBoundingClientRect();
-        const actualDashedLineTop = state1Rect.top - topContentWrapperRect.top;
+        const offset = 0;
+        const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
         const state12MiddleY = (state12Rect.top + state12Rect.bottom) / 2;
-        const actualDashedLineHeight = state12MiddleY - state1Rect.top;
+        const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
         dashedLineContainer.style.top = `${actualDashedLineTop}px`;
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
@@ -459,29 +459,18 @@
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         let pixelsAboveReveal;
 
-        // --- THIS IS THE FIX ---
-        // When at the absolute top, force the reveal to start from 0.
-        // Otherwise, use the standard viewport calculation.
         if (scrollTop < 1) {
             pixelsAboveReveal = revealViewportY - dashedLineRect.top;
         } else {
             pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
         }
-        // --- END OF FIX ---
 
-        // Deactivate the mask when at the top to prevent clipping
-        if (scrollTop < 1) {
-             maskRect.setAttribute('y', 0);
-             maskRect.setAttribute('height', viewBoxHeight);
-        } else {
-            const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
-            const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
-            maskRect.setAttribute('y', maskYInSvgUnits);
-            maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
-        }
+        const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
+        const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
+        maskRect.setAttribute('y', maskYInSvgUnits);
+        maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
 
         if (svgTipCounter) {
-            const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
             const maskYForPosition = pixelsAboveReveal * svgUnitsPerPixel;
             const verticalProgress = maskYForPosition / viewBoxHeight;
             const distanceAlongPath = verticalProgress * pathTotalLength;
@@ -495,14 +484,32 @@
             const counterLeftPx = pointOnPath.x / svgXUnitsPerPixel;
             const counterTopPx = pointOnPath.y / svgUnitsPerPixel;
 
-            // No offset is needed with the mask fix
             svgTipCounter.style.left = `${counterLeftPx}px`;
             svgTipCounter.style.top = `${counterTopPx}px`;
             
             currentCounterY = dashedLineContainer.offsetTop + counterTopPx;
             
+            const stateContainer1 = document.querySelector('.state-container-1');
+            let fadeInTriggerY = -Infinity;
+            if (stateContainer1) {
+                const state1Rect = stateContainer1.getBoundingClientRect();
+                fadeInTriggerY = state1Rect.top + (state1Rect.height / 2);
+            }
+            const counterY = dashedLineRect.top + counterTopPx;
+            const isBelowStartTrigger = counterY > fadeInTriggerY;
+            
+            const stateContainer12 = document.querySelector('.state-container-12');
+            let fadeOutTriggerY = Infinity;
+            if (stateContainer12) {
+                const state12Rect = stateContainer12.getBoundingClientRect();
+                fadeOutTriggerY = state12Rect.top;
+            }
+            const isAboveEndTrigger = counterY < fadeOutTriggerY;
+
             const isLineOnScreen = dashedLineRect.bottom > -100 && dashedLineRect.top < window.innerHeight;
-            svgTipCounter.style.opacity = isLineOnScreen ? '1' : '0';
+            
+            const shouldBeVisible = isLineOnScreen && isBelowStartTrigger && isAboveEndTrigger;
+            svgTipCounter.style.opacity = shouldBeVisible ? '1' : '0';
         }
     }
 
