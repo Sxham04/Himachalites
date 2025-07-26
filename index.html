@@ -59,7 +59,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 role="img"
                 aria-labelledby="line-title"
-                preserveAspectRatio="xMidYMin slice">
+                preserveAspectRatio="xMidYMin meet">
                 <title id="line-title">Decorative dashed line</title>
                 <defs>
                     <mask id="line-mask">
@@ -479,7 +479,7 @@
             
             const svgContainerRect = dashedLineContainer.getBoundingClientRect();
             const viewBoxWidth = svgLine.viewBox.baseVal.width;
-            const svgXUnitsPerPixel = viewBoxWidth / svgContainerRect.width;
+            const svgXUnitsPerPixel = viewBoxWidth / svgLine.width.baseVal.value;
             
             const counterLeftPx = pointOnPath.x / svgXUnitsPerPixel;
             const counterTopPx = pointOnPath.y / svgUnitsPerPixel;
@@ -493,7 +493,7 @@
             let fadeInTriggerY = -Infinity;
             if (stateContainer1) {
                 const state1Rect = stateContainer1.getBoundingClientRect();
-                fadeInTriggerY = state1Rect.top + (state1Rect.height / 2);
+                fadeInTriggerY = state1Rect.top + (state1Rect.height / 1.3);
             }
             const counterY = dashedLineRect.top + counterTopPx;
             const isBelowStartTrigger = counterY > fadeInTriggerY;
