@@ -20,16 +20,30 @@ body.noscroll {
 }
 
 .top-scroll-spacer {
-    height: 0;
+    display: none;
     width: 100%;
 }
 
-@media (min-width: 1200px){
+@media (min-height: 1200px){
     .top-scroll-spacer {
-    height: 10vh;
+        display: block;
+        height: 5vh;
     }
 }
 
+@media (min-height: 1600px){
+    .top-scroll-spacer {
+        display: block;
+        height: 10vh;
+    }
+}
+
+@media (min-height: 2500px){
+    .top-scroll-spacer {
+        display: block;
+        height: 15vh;
+    }
+}
 
 .top-content-wrapper {
     position: relative; 
@@ -220,7 +234,7 @@ header {
     box-sizing: border-box;
     position: relative; 
     width: 100%;
-    max-width: 1600px;
+    max-width: 1590px;
     margin: 0 auto 60px;
     padding: 2rem 5%;
 }
@@ -375,10 +389,8 @@ header {
         margin-left: 18rem !important; 
     }
     .state-container-1 .image-column img {
-    /* Adjust the -50px value to move the image up or down */
     transform: scale(1.1) translateY(-50px);}
     .state-container-2 {
-    /* Adjust this value to move the container up or down */
     margin-top: -60px;}
 }
 
