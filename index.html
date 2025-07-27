@@ -614,7 +614,7 @@
             const topOfLandingPage = landingPage.offsetTop;
             const heightOfLandingPage = landingPage.offsetHeight;
             const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-            if (scrollTop < lastScrollTop && bottomOfViewport < triggerPoint) {
+            if (bottomOfViewport < triggerPoint) {
                 navbar.classList.add('navbar--anchored');
                 scrollToTopBtn.classList.add('raised');
             } else {
