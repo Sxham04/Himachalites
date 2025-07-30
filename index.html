@@ -49,34 +49,169 @@
             opacity: 0;
             transition: top 0.05s linear, opacity 0.3s ease;
         }
+
+        /* --- ADDED FOR SCROLL-TRIGGERED ANIMATIONS --- */
+
+        /* Initial state: elements are invisible and shifted */
+        .state-container .info-column > h2,
+        .state-container .info-column > p,
+        .state-container .info-column > .info-button {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* For standard containers (state-container), start from the right */
+        .state-container:not(.reverse) .info-column > h2,
+        .state-container:not(.reverse) .info-column > p,
+        .state-container:not(.reverse) .info-column > .info-button {
+            transform: translateX(50px);
+        }
+
+        /* For 'reverse' containers (state-container-split-reverse), start from the left */
+        .state-container.reverse .info-column > h2,
+        .state-container.reverse .info-column > p,
+        .state-container.reverse .info-column > .info-button {
+            transform: translateX(-50px);
+        }
+
+        /* Add delays to create a staggered effect. h2 has no delay. */
+        .state-container .info-column > p {
+            transition-delay: 0.2s;
+        }
+        .state-container .info-column > .info-button {
+            transition-delay: 0.3s;
+        }
+
+        /* Final state: triggered by JS adding the 'is-visible' class */
+        .state-container.is-visible .info-column > h2,
+        .state-container.is-visible .info-column > p,
+        .state-container.is-visible .info-column > .info-button {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* --- END OF ADDED CSS --- */
     </style>
 </head>
 <body>
+    <div class="footer">
+        <div class="footer-main-content">
+            <div class="footer-column">
+                <h4>About US</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><a href="#">Blogs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Social Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Youtube</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="parallax-backgrounds">
+            <div class="parallax-layer layer-1">
+                <img srcset="f/720px/Back Mountains.png 720w,
+                    f/1080px/Back Mountains.png 1080w,
+                    f/1440px/Back Mountains.png 1440w,
+                    f/2160px/Back Mountains.png 2000w"
+                    sizes="100vw"
+                    src="f/1080px/Back Mountains.png" 
+                    alt="Distant back mountains">
+            </div>
+
+            <div class="parallax-layer layer-2">
+                <img srcset="f/720px/Front Mountains.png 720w,
+                    f/1080px/Front Mountains.png 1080w,
+                    f/1440px/Front Mountains.png 1440w,
+                    f/2160px/Front Mountains.png 2000w"
+                    sizes="100vw"
+                    src="f/1080px/Front Mountains.png" 
+                    alt="Closer front mountains">
+            </div>
+
+            <div class="parallax-layer layer-3">
+                <img srcset="f/720px/Footer forest.png 720w,
+                    f/1080px/Footer forest.png 1080w,
+                    f/1440px/Footer forest.png 1440w,
+                    f/2160px/Footer forest.png 2000w"
+                    sizes="100vw"
+                    src="f/1080px/Footer forest.png" 
+                    alt="A dense forest line">
+            </div>
+
+            <div class="parallax-layer layer-4">
+                <img class="figure-left"
+                    srcset="f/1440px/Women.png 720w,
+                    f/1440px/Women.png 1080w,
+                    f/1440px/Women.png 1440w,
+                    f/2160px/Women.png 2000w"
+                    src="f/1080px/Women.png"
+                    sizes="35vw" 
+                    alt="Illustration of a woman">
+                <img class="figure-right" 
+                    srcset="f/1440px/Men.png 720w,
+                    f/1440px/Men.png 1080w,
+                    f/1440px/Men.png 1440w,
+                    f/2160px/Men.png 2000w"
+                    src="f/1080px/Men.png" 
+                    sizes="35vw"
+                    alt="Illustration of a man">
+            </div>
+
+            <div class="parallax-layer layer-5">
+                <img srcset="f/720px/Bottom Clouds.png 720w,
+                    f/1080px/Bottom Clouds.png 1080w,
+                    f/1440px/Bottom Clouds.png 1440w,
+                    f/2160px/Bottom Clouds.png 2000w"
+                    src="f/1080px/Bottom Clouds.png" 
+                    sizes="100vw"
+                    alt="Layer of fog or clouds">
+            </div>
+        </div>
+    </div>
     <div class="top-scroll-spacer"></div>
     <div class="top-content-wrapper">
         <div class="dashed-line">
             <div id="svg-tip-counter">0 ft</div>
-            <svg
-                class="dashed-line-center"
-                viewBox="0 0 1691 9131"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-labelledby="line-title"
-                preserveAspectRatio="xMidYMin meet">
-                <title id="line-title">Decorative dashed line</title>
-                <defs>
-                    <mask id="line-mask">
-                        <rect id="mask-rect" x="0" y="0" width="1691" height="9131" fill="white" />
-                    </mask>
-                </defs>
-                <path
-                    id="Line"
-                    mask="url(#line-mask)"
-                    d="M911 9133C911 9083.5 937.499 8875.8 872 8851C806.501 8826.2 808.924 8794.33 839 8724.5C847.076 8698.33 840.063 8620.8 749.5 8600C658.937 8579.2 587.063 8575.5 562 8563C509.367 8539.67 448.375 8528 601.095 8520C753.815 8512 785.474 8542.67 806.5 8540C821.104 8544.16 907.587 8566.39 997 8475C1059.47 8424.76 1154.32 8367.5 1356.5 8407C1405.79 8415.5 1417.13 8395.5 1466 8343C1486.72 8329.8 1568.5 8345 1613 8299.5C1643.5 8268.31 1585.6 8251.3 1613 8218.5C1647.25 8177.5 1720.95 8071 1679 7935C1655.61 7894 1643.12 7849.5 1595.5 7856C1552.73 7845.6 1556.72 7764 1535 7733.5C1522.33 7712.5 1402.59 7654.3 1303 7679.5C1178.52 7711 1073.62 7727.5 926.163 7632.5C803.353 7544 738.16 7598.5 477.5 7632.5C377.664 7640.5 56.3293 7698.5 25 7536.5C-0.0634441 7406.9 10.7721 7056 13 7001.5C27.4811 6936.67 123.632 6930.5 235.248 6934.5C335.084 6938 438.262 6913.5 505.516 6877.5C572.769 6841.5 613.706 6837 782.884 6877.5C952.063 6918 1077.38 6946 1436.62 6867.5C1465.03 6857.1 1504.99 6830.5 1521.42 6818.5C1527.41 6809.17 1548.91 6785.3 1587 6764.5C1634.62 6738.5 1682.24 6450.5 1664.7 6346C1647.16 6241.5 1635.04 6073 1469.62 6119C1349.32 6161.5 1277.89 6181.5 1085.73 6135.5C1026.92 6122.3 964.873 6108 941.202 6102.5C910.708 6079.83 836.353 6035.1 782.884 6037.5C716.048 6040.5 675.529 5978.5 735.264 5934.5C794.998 5890.5 874.784 5832 822.568 5763C770.353 5694 767.429 5661 805.859 5591C844.29 5521 822.986 5462 720.226 5493C619.137 5501.5 638.352 5452 710.618 5388.5C782.884 5334.5 920.315 5250 1298.77 5297.5C1358.93 5302.5 1681.6 5314.5 1663.5 5046C1648.51 4823.63 1654.39 4792.5 1631 4750C1607.61 4707.5 1537.5 4708.5 1401 4685.5C1315.98 4663.5 1332.89 4620.83 1298.77 4586.5C1273.15 4559.83 1168.1 4505 1063.5 4569C961.158 4606.5 903.189 4640.5 640.44 4613.5C522.141 4591.9 391 4546 303 4560C215 4574 106.671 4607.5 57.5 4538.5C8.3286 4469.5 63.5 4443.5 57.5 4406.5C51.6205 4370.24 3.99997 4386.5 3.99997 4317.5C3.99997 4257.5 63.728 4248.5 25 4198C4.09119 4170.74 -4 4040 82.1952 3985C114.778 3956 136.499 3926.5 137.752 3900.5C139.006 3874.5 168.246 3866 202.5 3861.5C229.902 3857.9 396.907 3896.67 490.478 3861.5C509.832 3856.17 544.42 3823.2 642 3836C737.575 3825.6 793.884 3789.83 819.644 3767C825.91 3756.33 916.723 3757.7 1039.37 3796.5C1200.61 3814.5 1584.23 3749 1659 3624C1699.45 3556.38 1638.32 3511.81 1634 3418.5C1630.33 3339.33 1677.39 3251.83 1659 3213C1618.03 3126.5 1504 3122.5 1405.5 3122.5C1258.13 3122.5 1272 3053.5 1111 3110C1075.91 3115 1022.86 3160.5 971.48 3042C930.376 2947.2 866 3024.5 792.492 2969C754 2908 741.446 2897.7 819.644 2814.5C917.391 2710.5 909.455 2670.5 844.29 2568C779.125 2465.5 493.884 2203.5 803 2148.5C981.117 2120.1 1163.5 2265.68 1464 2199C1563.14 2177 1754.26 2035.1 1651 1841.5C1616.25 1776.3 1590 1781 1541 1735.5C1501 1688 1569.58 1665.15 1584 1624.5C1600.5 1578 1548.5 1529.5 1452 1555C1384.5 1572.84 1341.56 1593.6 1316.5 1578C1291.44 1562.4 1243.5 1520 1175 1530.5C1065.5 1547.28 1055 1613.45 965.5 1518.5C891.98 1440.5 864.747 1450.5 767 1449C669.252 1447.5 715.107 1374.5 527.966 1373C340.826 1371.5 220.886 1430.5 167 1427C113.113 1423.5 -3.51266 1370 23.6394 1269.5C50.7915 1169 61.2346 1110.5 15.2849 1070C-21.4748 1037.6 22.5255 981.833 49.1206 958C66.8042 931 88.0525 879.9 31.5762 891.5C-17.214 883.5 11.2469 849.167 31.5762 833C60.1206 814.667 173.261 773 267.5 795C328.488 800 380.616 819 414.452 757C448.287 695 499.455 574.017 644.72 619.008C712.707 651.5 780.378 697 906.531 533C926.999 489 945.8 467.895 906.531 322C874.5 203 843 71.5 1139 1.5"                    stroke="black"
-                    stroke-width="2"
-                    stroke-dasharray="7 7" />
-            </svg>
+                <svg
+                    class="dashed-line-center"
+                    viewBox="0 0 1691 9131"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    aria-labelledby="line-title"
+                    preserveAspectRatio="xMidYMin meet">
+                    <title id="line-title">Decorative dashed line</title>
+
+                    <defs>
+                        <mask id="line-drawing-mask">
+                            <path
+                                id="mask-path"
+                                d="M911 9133C911 9083.5 937.499 8875.8 872 8851C806.501 8826.2 808.924 8794.33 839 8724.5C847.076 8698.33 840.063 8620.8 749.5 8600C658.937 8579.2 587.063 8575.5 562 8563C509.367 8539.67 448.375 8528 601.095 8520C753.815 8512 785.474 8542.67 806.5 8540C821.104 8544.16 907.587 8566.39 997 8475C1059.47 8424.76 1154.32 8367.5 1356.5 8407C1405.79 8415.5 1417.13 8395.5 1466 8343C1486.72 8329.8 1568.5 8345 1613 8299.5C1643.5 8268.31 1585.6 8251.3 1613 8218.5C1647.25 8177.5 1720.95 8071 1679 7935C1655.61 7894 1643.12 7849.5 1595.5 7856C1552.73 7845.6 1556.72 7764 1535 7733.5C1522.33 7712.5 1402.59 7654.3 1303 7679.5C1178.52 7711 1073.62 7727.5 926.163 7632.5C803.353 7544 738.16 7598.5 477.5 7632.5C377.664 7640.5 56.3293 7698.5 25 7536.5C-0.0634441 7406.9 10.7721 7056 13 7001.5C27.4811 6936.67 123.632 6930.5 235.248 6934.5C335.084 6938 438.262 6913.5 505.516 6877.5C572.769 6841.5 613.706 6837 782.884 6877.5C952.063 6918 1077.38 6946 1436.62 6867.5C1465.03 6857.1 1504.99 6830.5 1521.42 6818.5C1527.41 6809.17 1548.91 6785.3 1587 6764.5C1634.62 6738.5 1682.24 6450.5 1664.7 6346C1647.16 6241.5 1635.04 6073 1469.62 6119C1349.32 6161.5 1277.89 6181.5 1085.73 6135.5C1026.92 6122.3 964.873 6108 941.202 6102.5C910.708 6079.83 836.353 6035.1 782.884 6037.5C716.048 6040.5 675.529 5978.5 735.264 5934.5C794.998 5890.5 874.784 5832 822.568 5763C770.353 5694 767.429 5661 805.859 5591C844.29 5521 822.986 5462 720.226 5493C619.137 5501.5 638.352 5452 710.618 5388.5C782.884 5334.5 920.315 5250 1298.77 5297.5C1358.93 5302.5 1681.6 5314.5 1663.5 5046C1648.51 4823.63 1654.39 4792.5 1631 4750C1607.61 4707.5 1537.5 4708.5 1401 4685.5C1315.98 4663.5 1332.89 4620.83 1298.77 4586.5C1273.15 4559.83 1168.1 4505 1063.5 4569C961.158 4606.5 903.189 4640.5 640.44 4613.5C522.141 4591.9 391 4546 303 4560C215 4574 106.671 4607.5 57.5 4538.5C8.3286 4469.5 63.5 4443.5 57.5 4406.5C51.6205 4370.24 3.99997 4386.5 3.99997 4317.5C3.99997 4257.5 63.728 4248.5 25 4198C4.09119 4170.74 -4 4040 82.1952 3985C114.778 3956 136.499 3926.5 137.752 3900.5C139.006 3874.5 168.246 3866 202.5 3861.5C229.902 3857.9 396.907 3896.67 490.478 3861.5C509.832 3856.17 544.42 3823.2 642 3836C737.575 3825.6 793.884 3789.83 819.644 3767C825.91 3756.33 916.723 3757.7 1039.37 3796.5C1200.61 3814.5 1584.23 3749 1659 3624C1699.45 3556.38 1638.32 3511.81 1634 3418.5C1630.33 3339.33 1677.39 3251.83 1659 3213C1618.03 3126.5 1504 3122.5 1405.5 3122.5C1258.13 3122.5 1272 3053.5 1111 3110C1075.91 3115 1022.86 3160.5 971.48 3042C930.376 2947.2 866 3024.5 792.492 2969C754 2908 741.446 2897.7 819.644 2814.5C917.391 2710.5 909.455 2670.5 844.29 2568C779.125 2465.5 493.884 2203.5 803 2148.5C981.117 2120.1 1163.5 2265.68 1464 2199C1563.14 2177 1754.26 2035.1 1651 1841.5C1616.25 1776.3 1590 1781 1541 1735.5C1501 1688 1569.58 1665.15 1584 1624.5C1600.5 1578 1548.5 1529.5 1452 1555C1384.5 1572.84 1341.56 1593.6 1316.5 1578C1291.44 1562.4 1243.5 1520 1175 1530.5C1065.5 1547.28 1055 1613.45 965.5 1518.5C891.98 1440.5 864.747 1450.5 767 1449C669.252 1447.5 715.107 1374.5 527.966 1373C340.826 1371.5 220.886 1430.5 167 1427C113.113 1423.5 -3.51266 1370 23.6394 1269.5C50.7915 1169 61.2346 1110.5 15.2849 1070C-21.4748 1037.6 22.5255 981.833 49.1206 958C66.8042 931 88.0525 879.9 31.5762 891.5C-17.214 883.5 11.2469 849.167 31.5762 833C60.1206 814.667 173.261 773 267.5 795C328.488 800 380.616 819 414.452 757C448.287 695 499.455 574.017 644.72 619.008C712.707 651.5 780.378 697 906.531 533C926.999 489 945.8 467.895 906.531 322C874.5 203 843 71.5 1139 1.5"
+                                stroke="white"
+                                stroke-width="5" />
+                        </mask>
+                    </defs>
+                    
+                    <path
+                        id="Line"
+                        mask="url(#line-drawing-mask)"
+                        d="M911 9133C911 9083.5 937.499 8875.8 872 8851C806.501 8826.2 808.924 8794.33 839 8724.5C847.076 8698.33 840.063 8620.8 749.5 8600C658.937 8579.2 587.063 8575.5 562 8563C509.367 8539.67 448.375 8528 601.095 8520C753.815 8512 785.474 8542.67 806.5 8540C821.104 8544.16 907.587 8566.39 997 8475C1059.47 8424.76 1154.32 8367.5 1356.5 8407C1405.79 8415.5 1417.13 8395.5 1466 8343C1486.72 8329.8 1568.5 8345 1613 8299.5C1643.5 8268.31 1585.6 8251.3 1613 8218.5C1647.25 8177.5 1720.95 8071 1679 7935C1655.61 7894 1643.12 7849.5 1595.5 7856C1552.73 7845.6 1556.72 7764 1535 7733.5C1522.33 7712.5 1402.59 7654.3 1303 7679.5C1178.52 7711 1073.62 7727.5 926.163 7632.5C803.353 7544 738.16 7598.5 477.5 7632.5C377.664 7640.5 56.3293 7698.5 25 7536.5C-0.0634441 7406.9 10.7721 7056 13 7001.5C27.4811 6936.67 123.632 6930.5 235.248 6934.5C335.084 6938 438.262 6913.5 505.516 6877.5C572.769 6841.5 613.706 6837 782.884 6877.5C952.063 6918 1077.38 6946 1436.62 6867.5C1465.03 6857.1 1504.99 6830.5 1521.42 6818.5C1527.41 6809.17 1548.91 6785.3 1587 6764.5C1634.62 6738.5 1682.24 6450.5 1664.7 6346C1647.16 6241.5 1635.04 6073 1469.62 6119C1349.32 6161.5 1277.89 6181.5 1085.73 6135.5C1026.92 6122.3 964.873 6108 941.202 6102.5C910.708 6079.83 836.353 6035.1 782.884 6037.5C716.048 6040.5 675.529 5978.5 735.264 5934.5C794.998 5890.5 874.784 5832 822.568 5763C770.353 5694 767.429 5661 805.859 5591C844.29 5521 822.986 5462 720.226 5493C619.137 5501.5 638.352 5452 710.618 5388.5C782.884 5334.5 920.315 5250 1298.77 5297.5C1358.93 5302.5 1681.6 5314.5 1663.5 5046C1648.51 4823.63 1654.39 4792.5 1631 4750C1607.61 4707.5 1537.5 4708.5 1401 4685.5C1315.98 4663.5 1332.89 4620.83 1298.77 4586.5C1273.15 4559.83 1168.1 4505 1063.5 4569C961.158 4606.5 903.189 4640.5 640.44 4613.5C522.141 4591.9 391 4546 303 4560C215 4574 106.671 4607.5 57.5 4538.5C8.3286 4469.5 63.5 4443.5 57.5 4406.5C51.6205 4370.24 3.99997 4386.5 3.99997 4317.5C3.99997 4257.5 63.728 4248.5 25 4198C4.09119 4170.74 -4 4040 82.1952 3985C114.778 3956 136.499 3926.5 137.752 3900.5C139.006 3874.5 168.246 3866 202.5 3861.5C229.902 3857.9 396.907 3896.67 490.478 3861.5C509.832 3856.17 544.42 3823.2 642 3836C737.575 3825.6 793.884 3789.83 819.644 3767C825.91 3756.33 916.723 3757.7 1039.37 3796.5C1200.61 3814.5 1584.23 3749 1659 3624C1699.45 3556.38 1638.32 3511.81 1634 3418.5C1630.33 3339.33 1677.39 3251.83 1659 3213C1618.03 3126.5 1504 3122.5 1405.5 3122.5C1258.13 3122.5 1272 3053.5 1111 3110C1075.91 3115 1022.86 3160.5 971.48 3042C930.376 2947.2 866 3024.5 792.492 2969C754 2908 741.446 2897.7 819.644 2814.5C917.391 2710.5 909.455 2670.5 844.29 2568C779.125 2465.5 493.884 2203.5 803 2148.5C981.117 2120.1 1163.5 2265.68 1464 2199C1563.14 2177 1754.26 2035.1 1651 1841.5C1616.25 1776.3 1590 1781 1541 1735.5C1501 1688 1569.58 1665.15 1584 1624.5C1600.5 1578 1548.5 1529.5 1452 1555C1384.5 1572.84 1341.56 1593.6 1316.5 1578C1291.44 1562.4 1243.5 1520 1175 1530.5C1065.5 1547.28 1055 1613.45 965.5 1518.5C891.98 1440.5 864.747 1450.5 767 1449C669.252 1447.5 715.107 1374.5 527.966 1373C340.826 1371.5 220.886 1430.5 167 1427C113.113 1423.5 -3.51266 1370 23.6394 1269.5C50.7915 1169 61.2346 1110.5 15.2849 1070C-21.4748 1037.6 22.5255 981.833 49.1206 958C66.8042 931 88.0525 879.9 31.5762 891.5C-17.214 883.5 11.2469 849.167 31.5762 833C60.1206 814.667 173.261 773 267.5 795C328.488 800 380.616 819 414.452 757C448.287 695 499.455 574.017 644.72 619.008C712.707 651.5 780.378 697 906.531 533C926.999 489 945.8 467.895 906.531 322C874.5 203 843 71.5 1139 1.5"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-dasharray="7 7" />
+                </svg>
         </div>
 
         <div class="state-content-sections">
@@ -125,7 +260,7 @@
                         <span class="altitude-value" data-final-value="21759">21,259</span><span class="altitude-unit"> ft</span>
                     </div>
                     <h2 class="header-3">Chamba</h2>
-                    <p>Chamba is where Himachal’s traditions wear embroidery. Literally. The famous Chamba Rumal (hand-embroidered cloth) and luanchari (women’s full-length dress) are still part of weddings and melas. The town sits by the Ravi River, surrounded by old temples and older legends. Come Minjar Mela, the valley blooms with parades, folk songs, and yellow threads tied for a good harvest. Locals serve Chambyali Dham with rajma madra, sour mahni, and sweet saffron rice. Chukh, a fiery chilli chutney, lives in every kitchen. And if you head to Bharmour or Pangi, you’ll enter a tribal Himachal most people don’t even know exists.
+                    <p>Chamba is where Himachal’s traditions wear embroidery. Literally. The famous Chamba Rumal (hand-embroidered cloth) and luanchari (women’s full-length dress) are still part of weddings and melas. The town sits by the Ravi River, surrounded by old temples and older legends. Come Minjar Mela, the valley blooms with parades, folk songs, and yellow threads tied for a good harvest. Chukh, a fiery chilli chutney, lives in every kitchen. And if you head to Bharmour or Pangi, you’ll enter a tribal Himachal most people don’t even know exists.
                     <br><b>Quick Facts:</b>
                     <br>• Minjar Mela celebrates harvest and rivers.
                     <br>• Famous for Chamba Rumal, luanchari, and Chukh chutney.
@@ -308,9 +443,9 @@
                 </div>
             </section>
         </div> 
-        <div class="content-section-spacer"></div> 
-    </div> 
-    <div id="landing-page-container">
+        </div> 
+    <div class="top-scroll-spacer"></div>
+<div id="landing-page-container">
         <header>
             <div class="top-bar">
                 <p>Keep Himalayas Clean & Plastic Free</p>
@@ -341,39 +476,37 @@
         </header>
 
         <main class="content-area">
+            <div class="overlay-content">
+                <img src="img/Group 6.png" class="overlay-image" alt="Descriptive text">
+                <button class="overlay-button">Scroll up to feel the cold</button>
+            </div>
         </main>
-
-        <div class="bottom-image">
-            <img src="img/Frame 15 (1).png" alt="Scenic background image">
-        </div>
     </div>
 
     <a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
         <i class="fas fa-arrow-down"></i>
     </a>
-
 <script>
     // --- VARIABLE DECLARATIONS ---
-    const navbar = document.querySelector('.navbar'); // Selects the main navigation bar element.
-    const landingPage = document.getElementById('landing-page-container'); // Selects the main landing page container.
-    const scrollToTopBtn = document.getElementById('scrollToBottomBtn'); // Selects the scroll-to-landing-page button.
-    const maskRect = document.getElementById("mask-rect"); // Selects the rectangle element used for the SVG mask animation.
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle'); // Selects the mobile menu toggle button.
-    const svgLine = document.querySelector(".dashed-line-center"); // Selects the SVG path element.
-    const topContentWrapper = document.querySelector('.top-content-wrapper'); // Selects the wrapper for the scrollable content sections.
-    const dashedLineContainer = document.querySelector('.dashed-line'); // Selects the container for the SVG dashed line.
-    const stateContainers = document.querySelectorAll('.state-container'); // Selects all district information sections.
-    let lastScrollTop = 0; // Stores the last scroll position to determine scroll direction.
-    let isSlowing = false; // A flag for managing scroll-slowing behavior (not fully implemented here).
-    let lastTouchY = 0; // Stores the last Y position of a touch event for mobile overscroll.
-    const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown']; // Keys to block during certain animations.
-    let isBouncingTop = false; // Flag to prevent multiple top bounce animations at once.
-    let isBouncingBottom = false; // Flag to prevent multiple bottom bounce animations at once.
-    const svgTipCounter = document.getElementById('svg-tip-counter'); // Selects the altitude tooltip element.
-    const pathElement = document.getElementById('Line'); // Selects the SVG path itself.
-    let pathTotalLength = 0; // Stores the total length of the SVG path for calculations.
-    let checkpointsData = []; // Array to store altitude data points for interpolation.
-    let currentCounterY = 0; // Stores the current vertical position of the tooltip.
+    const navbar = document.querySelector('.navbar');
+    const landingPage = document.getElementById('landing-page-container');
+    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const svgLine = document.querySelector(".dashed-line-center");
+    const topContentWrapper = document.querySelector('.top-content-wrapper');
+    const dashedLineContainer = document.querySelector('.dashed-line');
+    const stateContainers = document.querySelectorAll('.state-container');
+    let lastScrollTop = 0;
+    let isSlowing = false;
+    let lastTouchY = 0;
+    const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
+    let isBouncingTop = false;
+    let isBouncingBottom = false;
+    const svgTipCounter = document.getElementById('svg-tip-counter');
+    const pathElement = document.getElementById('Line'); // This now targets the solid, animated path
+    let pathTotalLength = 0;
+    let checkpointsData = [];
+    let currentCounterY = 0;
 
     // --- FUNCTION DEFINITIONS ---
     /** Updates the main altitude counter by interpolating values between checkpoints based on scroll position. */
@@ -444,7 +577,6 @@
             if (navRight) navRight.style.display = 'none';
         } else {
             if (navRight) navRight.style.display = 'flex';
-            // Logic to move items back to nav-right on desktop is omitted, assuming it's handled by CSS or page reload.
         }
     }
 
@@ -465,81 +597,60 @@
         const state12Rect = stateContainer12.getBoundingClientRect();
         const offset = 0;
         const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
-        const state12MiddleY =state12Rect.bottom;
+        const state12MiddleY =(state12Rect.bottom);
         const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
         dashedLineContainer.style.top = `${actualDashedLineTop}px`;
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
     
-    /** Animates the SVG dashed line and its tooltip based on the user's scroll position. */
+    /** * REVISED & FIXED FUNCTION
+     * Animates the SVG line by drawing it based on scroll position *within the content wrapper*.
+     */
     function animateDashedLine() {
-        if (window.innerWidth <= 1024 || !maskRect || !svgLine || !dashedLineContainer || !pathElement || pathTotalLength === 0) {
+        if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) {
             if (svgTipCounter) svgTipCounter.style.opacity = '0';
             return;
         }
 
-        const svgDynamicHeight = updateSvgHeight();
-        if (svgDynamicHeight === 0) return;
-        
-        const dashedLineRect = dashedLineContainer.getBoundingClientRect();
-        const revealViewportY = window.innerHeight * 0.20;
-        const viewBoxHeight = svgLine.viewBox.baseVal.height;
+        const animationStartScrollY = topContentWrapper.offsetTop;
+        const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        let pixelsAboveReveal;
+        const scrollAmountInAnimation = scrollTop - animationStartScrollY;
+        let linearProgress = 1 - (scrollAmountInAnimation / animationScrollHeight);
+        linearProgress = Math.max(0, Math.min(1, linearProgress));
+        const modifiedProgress = Math.pow(linearProgress, 0.95);
 
-        if (scrollTop < 1) {
-            pixelsAboveReveal = revealViewportY - dashedLineRect.top;
-        } else {
-            pixelsAboveReveal = Math.max(0, revealViewportY - dashedLineRect.top);
-        }
+        // Update the MASK's dash offset to create the drawing effect
+        const drawLength = pathTotalLength * modifiedProgress;
+        maskPath.style.strokeDashoffset = pathTotalLength - drawLength;
 
-        const svgUnitsPerPixel = viewBoxHeight / svgDynamicHeight;
-        const maskYInSvgUnits = pixelsAboveReveal * svgUnitsPerPixel;
-        maskRect.setAttribute('y', maskYInSvgUnits);
-        maskRect.setAttribute('height', viewBoxHeight - maskYInSvgUnits);
-
+        // Update the tooltip position (calculated on the visible path)
         if (svgTipCounter) {
-            const maskYForPosition = pixelsAboveReveal * svgUnitsPerPixel;
-            const verticalProgress = maskYForPosition / viewBoxHeight;
-            const distanceAlongPath = verticalProgress * pathTotalLength;
-            
-            const pointOnPath = pathElement.getPointAtLength(distanceAlongPath);
-            
-            const svgContainerRect = dashedLineContainer.getBoundingClientRect();
-            const viewBoxWidth = svgLine.viewBox.baseVal.width;
-            const svgXUnitsPerPixel = viewBoxWidth / svgLine.width.baseVal.value;
-            
-            const counterLeftPx = pointOnPath.x / svgXUnitsPerPixel;
-            const counterTopPx = pointOnPath.y / svgUnitsPerPixel;
-
-            svgTipCounter.style.left = `${counterLeftPx}px`;
-            svgTipCounter.style.top = `${counterTopPx}px`;
-            
-            currentCounterY = dashedLineContainer.offsetTop + counterTopPx;
-            
-            const stateContainer1 = document.querySelector('.state-container-1');
-            let fadeInTriggerY = -Infinity;
-            if (stateContainer1) {
-                const state1Rect = stateContainer1.getBoundingClientRect();
-                fadeInTriggerY = state1Rect.top + (state1Rect.height / 1.3);
-            }
-            const counterY = dashedLineRect.top + counterTopPx;
-            const isBelowStartTrigger = counterY > fadeInTriggerY;
-            
-            const stateContainer12 = document.querySelector('.state-container-12');
-            let fadeOutTriggerY = Infinity;
-            if (stateContainer12) {
-                const state12Rect = stateContainer12.getBoundingClientRect();
-                fadeOutTriggerY = state12Rect.top;
-            }
-            const isAboveEndTrigger = counterY < fadeOutTriggerY;
-
-            const isLineOnScreen = dashedLineRect.bottom > -100 && dashedLineRect.top < window.innerHeight;
-            
-            const shouldBeVisible = isLineOnScreen && isBelowStartTrigger && isAboveEndTrigger;
+            const shouldBeVisible = modifiedProgress > 0.01 && modifiedProgress < 0.99;
             svgTipCounter.style.opacity = shouldBeVisible ? '1' : '0';
+
+            const clampedDrawLength = Math.max(0.1, Math.min(drawLength, pathTotalLength - 0.1));
+            const pointOnPath = pathElement.getPointAtLength(clampedDrawLength);
+
+            const svgLineRect = svgLine.getBoundingClientRect();
+            if (svgLineRect.width > 0 && svgLineRect.height > 0) {
+                const viewBoxHeight = svgLine.viewBox.baseVal.height;
+                const viewBoxWidth = svgLine.viewBox.baseVal.width;
+                
+                const pixelsPerSvgY = svgLineRect.height / viewBoxHeight;
+                const pixelsPerSvgX = svgLineRect.width / viewBoxWidth;
+
+                const counterLeftPx = pointOnPath.x * pixelsPerSvgX;
+                const counterTopPx = pointOnPath.y * pixelsPerSvgY;
+
+                svgTipCounter.style.left = `${counterLeftPx}px`;
+                svgTipCounter.style.top = `${counterTopPx}px`;
+                
+                currentCounterY = dashedLineContainer.offsetTop + counterTopPx;
+            }
         }
     }
+
 
     /** Checks if popups are in view and triggers their animations. */
     function checkAndAnimatePopups() {
@@ -561,7 +672,7 @@
         });
     }
 
-    /** Handles overscrolling on mobile devices by adding a bounce animation. */
+    // --- OTHER HELPER FUNCTIONS (UNCHANGED) ---
     function handleOverscroll(event) {
         if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) {
             return;
@@ -591,50 +702,84 @@
         }
         lastTouchY = touchY;
     }
-
-    /** Prevents default keyboard scrolling behavior (e.g., arrow keys, spacebar). */
     function preventKeyboardJump(e) {
         if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
     }
     
     // --- EVENT LISTENERS ---
-    /** Fires when the page has finished loading to initialize animations and layouts. */
-    window.onload = () => {
-        // Scrolls the view to the landing page instantly on load.
-        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
+    let maskPath = null; 
 
-        // Calculates the total length of the SVG path.
-        if (pathElement) {
-            pathTotalLength = pathElement.getTotalLength();
+    window.onload = () => {
+        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
+        
+        // The main visible path for calculating tooltip position
+        const visiblePath = document.getElementById('Line');
+        // The path inside the mask that we will animate
+        maskPath = document.getElementById('mask-path');
+
+        if (visiblePath && maskPath) {
+            pathTotalLength = visiblePath.getTotalLength();
+            // Initialize the MASK's path for the drawing animation
+            maskPath.style.strokeDasharray = pathTotalLength;
+            maskPath.style.strokeDashoffset = pathTotalLength;
         }
 
-        // Populates checkpoint data from the altitude values in the HTML.
-        checkpointsData.push({ y: 0, value: 0 }); // Start at 0
-        document.querySelectorAll('.state-container').forEach(container => {
+        // --- CHECKPOINT LOGIC (from previous step, remains the same) ---
+        const allStateContainers = document.querySelectorAll('.state-container');
+        if (allStateContainers.length > 0) {
+            const lastContainer = allStateContainers[allStateContainers.length - 1];
+            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
+        }
+        allStateContainers.forEach(container => {
             const valueElement = container.querySelector('.altitude-value');
             if(valueElement && valueElement.dataset.finalValue) {
                 const value = parseInt(valueElement.dataset.finalValue, 10);
                 checkpointsData.push({ y: container.offsetTop, value: value });
             }
         });
-        // Sorts checkpoints by their vertical position.
         checkpointsData.sort((a, b) => a.y - b.y);
         
-        // Fades in the page body.
+        // --- Rest of the onload function ---
         document.body.style.opacity = '1';
-        // Initializes the scroll position.
         lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        // Hides the scroll-to-top button initially.
         scrollToTopBtn.classList.add('is-hidden');
-        // Calls initial setup functions.
+        
         positionDashedLine();
         animateDashedLine();
         checkAndAnimatePopups();
         updateNavLayout();
         updateMainCounter();
+
+        // --- ADDED FOR SCROLL-TRIGGERED ANIMATIONS ---
+        const observerOptions = {
+            root: null, // Use the viewport as the root
+            rootMargin: '0px 0px -20% 0px', // Trigger a little after the element enters the viewport
+            threshold: 0.25 // Trigger as soon as a single pixel is visible within the rootMargin
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                // When the element is intersecting the viewport
+                if (entry.isIntersecting) {
+                    // Add the class to trigger the CSS transition
+                    entry.target.classList.add('is-visible');
+                    // Stop observing the element so the animation doesn't re-trigger
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        // Create the Intersection Observer
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe all the state containers
+        const containersToAnimate = document.querySelectorAll('.state-container');
+        containersToAnimate.forEach(container => {
+            scrollObserver.observe(container);
+        });
+        // --- END OF ADDED CODE ---
     };
 
-    /** Listens for window resize events to recalculate layouts and animations. */
     window.addEventListener('resize', () => {
         positionDashedLine();
         animateDashedLine();
@@ -642,9 +787,8 @@
         updateNavLayout();
     });
 
-    /** Listens for scroll events to trigger animations and UI changes. */
     window.addEventListener('scroll', () => {
-        animateDashedLine();
+        animateDashedLine(); // This now controls the new drawing animation
         checkAndAnimatePopups();
         updateMainCounter();
         
@@ -655,7 +799,7 @@
             const topOfLandingPage = landingPage.offsetTop;
             const heightOfLandingPage = landingPage.offsetHeight;
             const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-            // Anchors the navbar and raises the scroll button when scrolled past a certain point.
+
             if (bottomOfViewport < triggerPoint) {
                 navbar.classList.add('navbar--anchored');
                 scrollToTopBtn.classList.add('raised');
@@ -666,47 +810,57 @@
         }
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-        // Hides or shows the scroll button based on how far the user has scrolled.
+
         if (scrollFraction < 0.5) {
             scrollToTopBtn.classList.remove('is-hidden');
         } else {
             scrollToTopBtn.classList.add('is-hidden');
         }
         lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
-    }, { passive: true }); // Uses a passive listener for better scroll performance.
+    }, { passive: true });
     
-    /** Listens for a click on the scroll button to smoothly scroll to the landing page. */
+    // --- OTHER EVENT LISTENERS (UNCHANGED) ---
     scrollToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
     });
-
-    /** Listens for a click on the mobile menu button to toggle the navigation. */
     mobileMenuToggle.addEventListener('click', () => {
         navbar.classList.toggle('nav-open');
-        document.body.classList.toggle('noscroll'); // Prevents body scroll when nav is open
+        document.body.classList.toggle('noscroll');
         scrollToTopBtn.classList.toggle('is-hidden-by-nav');
         const isExpanded = navbar.classList.contains('nav-open');
         mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
         const icon = mobileMenuToggle.querySelector('i');
-        icon.classList.toggle('fa-bars', !isExpanded); // Toggles between hamburger and 'X' icon
+        icon.classList.toggle('fa-bars', !isExpanded);
         icon.classList.toggle('fa-times', isExpanded);
     });
+    const overlayButton = document.querySelector('.overlay-button');
+    // The landingPage variable is already defined, so we can use it here
 
-    /** Listens for the start of a touch event to record the initial Y position. */
+    if (overlayButton && landingPage) {
+        overlayButton.addEventListener('click', (event) => {
+            // Prevent the default button behavior
+            event.preventDefault();
+
+            // Calculate the target scroll position.
+            // This is the top of the landing page minus the height of the window,
+            // which places the landing page just below the viewport.
+            const targetScrollY = landingPage.offsetTop - window.innerHeight;
+            
+            // Scroll smoothly to the calculated position
+            window.scrollTo({
+                top: targetScrollY,
+                behavior: 'smooth'
+            });
+        });
+    }
     window.addEventListener('touchstart', (e) => {
         if (window.innerWidth <= 1024) {
             lastTouchY = e.touches[0].clientY;
         }
     }, { passive: true });
-
-    /** Listens for touch movement to handle the mobile overscroll bounce effect. */
     window.addEventListener('touchmove', handleOverscroll, { passive: false });
-
-    /** Listens for keydown events to prevent unwanted scrolling. */
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
-
-    // Disables the browser's default scroll restoration to ensure the page always loads at the top.
     history.scrollRestoration = 'manual';
 </script>
 </body>

@@ -1,4 +1,5 @@
 /* 1. Core Layout & Fonts */
+
 html, body {
     margin: 0;
     padding: 0;
@@ -59,15 +60,12 @@ body.noscroll {
     align-items: center; 
     padding-top: 50px; 
     flex-grow: 1; 
-    z-index: 1; 
     background-color: transparent; 
 }
 
 .content-section-spacer {
     height: 10vh; 
     width: 100%;
-    z-index: 1; 
-    background-color: transparent; 
 }
 
 .dashed-line {
@@ -86,21 +84,230 @@ body.noscroll {
     display: block;
 }
 
-/* 2. Landing Page */
+/*FOOTER*/
+/* --- Simplified Footer Styles --- */
+
+/* --- Main Footer Container --- */
+.footer {
+    position: relative;
+    width: 100%;
+    max-width: 2160px;
+    height: 0;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
+    z-index: 1;
+    padding-bottom: 93.11%; /* Sets responsive height based on 1728x1609 aspect ratio */
+}
+
+/* --- Main Content (Text + Links) --- */
+.footer-main-content {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px;
+    width: 50%;
+    max-width: 1100px;
+    justify-content: space-around;
+    text-align: left;
+    color: #262626;
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    position: relative;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 150%;
+    background: linear-gradient(to right, #262626 50%, #ffffff 50%);
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-column ul li {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.footer-column a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: #4d4d4d;
+}
+
+/* --- Background Image Layer Containers --- */
+.parallax-backgrounds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.parallax-layer img {
+    /* --- Add this line --- */
+    image-rendering: -webkit-optimize-contrast; /* For Chrome/Safari */
+    image-rendering: crisp-edges; /* For Firefox */
+}
+
+/* --- Z-index Stacking Order --- */
+.layer-1 { z-index: 1; } /* Back Mountain */
+.layer-2 { z-index: 2; } /* Front Mountain */
+.layer-3 { z-index: 3; } /* Forest */
+.layer-4 { z-index: 4; } /* Man and Woman */
+.layer-5 { z-index: 5; } /* Fog/Clouds */
+
+
+/* --- Definitive Control Panel for Image Layers --- */
+
+/* Layer 1: Back Mountain */
+.layer-1 img {
+    position: absolute;
+    width: 100%;
+    height: 46%;
+    bottom: 57%;
+    left: 0;
+    object-fit: cover; /* Stretches to fill the container */
+}
+
+/* Layer 2: Front Mountain */
+.layer-2 img {
+    position: absolute;
+    width: 100%;
+    height: 80%; /* Example: 80% of footer height */
+    bottom: 17%;   /* Aligns to the bottom */
+    left: 0;
+    object-fit: cover;
+}
+
+/* Layer 3: Forest */
+.layer-3 img {
+    position: absolute;
+    width: 100%;
+    height: 67%; /* Example: 60% of footer height */
+    bottom: 2%; /* Example: 15% up from the bottom */
+    left: 0;
+    object-fit: cover;
+}
+
+/* Layer 4: Man and Woman Figures */
+.layer-4 .figure-left,
+.layer-4 .figure-right {
+    position: absolute;
+    width: 20%;
+    max-width: 400px;
+    height: auto;
+    bottom: 10%; /* Example: 5% up from the bottom */
+    object-fit: contain; /* Shows the full image without cropping */
+}
+.layer-4 .figure-left {
+    left: 0; /* Example: 5% from the left edge */
+}
+.layer-4 .figure-right {
+    right: 0; /* Example: 5% from the right edge */
+}
+
+/* Layer 5: Bottom Clouds */
+.layer-5 img {
+    position: absolute;
+    width: 100%;
+    height: 40%; /* Example: 40% of footer height */
+    bottom: 0;   /* Aligns to the bottom */
+    left: 0;
+    object-fit: cover;
+}
+
+/* --- General Responsive Tweaks --- */
+@media (max-width: 768px) {
+    .footer-main-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (min-height: 2500px) {
+    .footer-main-content {
+        margin-top: 0% !important;
+    }
+}
+
+.top-scroll-spacer {
+    height: 10vh;
+}
+/* 2. Landing Page & Header */
+/* MODIFIED: Added z-index: 2 to lift this entire section up */
 #landing-page-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    flex-shrink: 0;
-    width: 100%; 
-    position: relative; 
-    z-index: 2; 
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2; /* This places the landing page above the scrolling content */
+    background-color: white;
+    isolation: isolate;
+}
+
+#landing-page-container::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 75%;
+    z-index: -1; 
+    background-image: url('img/header.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    mask-image: linear-gradient(to top, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 85%, transparent 100%);
 }
 
 header {
     width: 100%;
     display: flex;
     flex-direction: column;
+    height: 15vh;
+    flex-shrink: 0;
+    background-color: transparent;
 }
 
 .top-bar {
@@ -108,7 +315,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1% 15%;
-    min-height: 60px;
+    min-height: 30px;
     position: relative;
     font-size: 0.9em;
 }
@@ -154,7 +361,7 @@ header {
 }
 
 .logo img {
-    height: 140px;
+    height: 120px;
     padding: 0 20px;
 }
 
@@ -163,16 +370,16 @@ header {
     display: flex;
     margin: 0;
     padding: 20px;
-    gap: 100px;
     flex: 1;
+    align-items: center;
 }
 
 .nav-left {
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
 .nav-right {
-    justify-content: flex-start;
+    justify-content: space-evenly;
 }
 
 .main-nav a {
@@ -205,27 +412,52 @@ header {
 }
 
 .content-area {
-    flex-grow: 1;
-    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: transparent;
+    padding-top: 15vh;
+    box-sizing: border-box; 
 }
 
-.bottom-image {
-    width: 100%;
-    height: 75vh;
-    align-self: flex-end;
-    margin-top: auto;
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vw;
 }
 
-.bottom-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    object-position: 50% 80%;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 15%);
+.overlay-image {
+    width: 13vw;
+    height: auto;
+    max-width: 350px;
+    min-width: 200px;
 }
 
+.overlay-button {
+    font-size: clamp(14px, 1.2vw, 18px);
+    color: white;
+    background-color: #262626;
+    border: none;
+    cursor: pointer;
+    padding: 0.75em 1.5em;
+    border-radius: 1em;
+    /* MODIFICATION: Added 'transform' to the transition */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Update this existing rule */
+.overlay-button:hover {
+    background-color: #3f3f3f;
+    /* ADDITION: Increase size on hover */
+    transform: scale(1.05);
+}
+
+/* ADDITION: Add a new rule for press-down feedback */
+.overlay-button:active {
+    transform: scale(0.98);
+}
 /* 3. States Section */
 .state-container {
     display: flex;
@@ -234,22 +466,15 @@ header {
     box-sizing: border-box;
     position: relative; 
     width: 100%;
-    max-width: 1630px;
-    margin: 0 auto 80px;
+    max-width: 1610px;
+    margin: 0 auto 40px;
     padding: 2rem 5%;
-    max-height: 70vh;
+    max-height: 740px;
+    gap: 13rem;
 }
 
 .state-container--split.reverse {
     flex-direction: row-reverse;
-}
-@media (min-width: 1025px) {
-    .state-container--split.reverse .info-column {
-        margin-left: 13rem; 
-    }
-    .state-container-10 {
-        transform: translateY(-100px);
-    }
 }
 
 .info-column {
@@ -273,7 +498,7 @@ header {
     font-weight: 500;
     font-family: Helvetica, Arial, sans-serif;
     color: #333;
-    z-index: 5;
+    z-index: 2;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -360,51 +585,39 @@ header {
     padding: 12px 24px;
     text-decoration: none;
     border-radius: 50px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 2px solid #0EA63C;
     margin-left: 2rem;
-    border: 2px solid #0EA63C; 
+    position: relative; /* Required for the pseudo-element */
+    z-index: 1;         /* Keeps text above the fill effect */
+    overflow: hidden;   /* Hides the pseudo-element when it's outside */
+    transition: color 0.4s ease-out; /* Transition for the text color */
+}
+
+.info-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0EA63C;
+    transform: translateX(-100%); /* Start off-screen to the left */
+    transition: transform 0.4s ease-out; /* The actual fill animation */
+    z-index: -1;
 }
 
 .info-button:hover {
-    background-color: #0EA63C;
-    color: white;
+    color: white; /* Change text color on hover */
 }
 
-/* 4. Specific Container Tweaks */
-.state-container-1, .state-container-2, .state-container-3, .state-container-4, .state-container-5,
-.state-container-6, .state-container-7, .state-container-8, .state-container-9,
-.state-container-10, .state-container-11, .state-container-12 {
-    top: auto !important; 
-    margin-left: 0 !important; 
-    margin-right: 0 !important;
+.info-button:hover::before {
+    transform: translateX(0); /* Slide the fill effect in */
 }
-
-.state-container .info-column,
-.state-container .image-column {
-    margin-left: auto;
-    margin-right: auto; 
-    padding-top: auto; 
-    margin-top: auto; 
-}
-
-/* --- Use this corrected block to fix the mobile layout --- */
 
 @media (min-width: 1025px) {
-    .state-container-9.state-container--split.reverse .info-column {
-        margin-left: 12rem !important; 
-    }
-    .state-container-1 .image-column img {
-    transform: scale(1.1) translateY(-50px);}
-    .state-container-2 {
-    margin-top: -60px;}
 }
 
-.state-container-10 {
-    top: 90px !important; 
-}
-
-
-/* 5. UI Elements */
+/* 4. UI Elements */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -441,15 +654,7 @@ header {
 }
 
 
-/* 6. Responsive Layout Rules */
-.mobile-only { display: block; }
-.desktop-only { display: none; }
-
-@media (min-width: 1025px) {
-    .mobile-only { display: none; }
-    .desktop-only { display: block; }
-}
-
+/* 5. Responsive Layout Rules */
 @media (max-width: 1024px) {
     #landing-page-container {
         min-height: 90vh;
@@ -457,8 +662,6 @@ header {
 
     .top-content-wrapper {
         position: static; 
-        min-height: auto;
-        padding-top: 20px;
     }
 
     .dashed-line {
@@ -467,23 +670,9 @@ header {
         left: auto;
         transform: none;
         width: 90%; 
-        height: auto; 
         margin: 0 auto 50px auto; 
     }
-
-    .dashed-line-center {
-        width: 100%;
-        height: auto;
-    }
     
-    #states-wrapper {
-        margin-top: 0;
-        height: auto;
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-        overflow: visible;
-    }
-
     .state-container {
         position: static;
         margin-bottom: 5rem; 
@@ -550,8 +739,6 @@ header {
 
     .navbar.nav-open .main-nav {
         display: flex;
-        justify-content: center;
-        align-items: center;
     }
     
     .navbar.nav-open .main-nav li {
@@ -596,8 +783,6 @@ header {
     .main-nav li:last-child a {
         border-bottom: none;
     }
-
-    .bottom-image { height: 60vh; }
 
     .state-container--split,
     .state-container--split.reverse {
@@ -664,9 +849,9 @@ header {
         width: 100%;
         height: 12vh;
         min-height: 0;
-        background: rgba(255, 255, 255, 0.92);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
         z-index: 1050; 
         display: flex;
@@ -725,15 +910,12 @@ header {
     }
     .image-column img {
         transform: scale(1.30);
-        transition: transform 0.3s ease-out;
     }
 }
 
 @media (max-width: 450px) {
     .navbar.nav-open .main-nav {
         padding: 0;
-        justify-content: center;
-        align-items: center;
         padding-right: 5vw;
     }
 
@@ -743,14 +925,13 @@ header {
     
     .image-column img {
         transform: scale(1.30);
-        transition: transform 0.3s ease-out;
     }
     .info-column p {
         font-size: 0.8rem;
     }
 }
 
-/* 7. Animations */
+/* 6. Animations */
 @keyframes dropDownItem {
     from {
         opacity: 0;
@@ -810,18 +991,27 @@ header {
     }
 }
 
+/* 7. Desktop-Specific Styles & Anchored Navbar */
 @media (min-width: 1025px) {
+    /* .state-container-9.state-container--split.reverse .info-column {
+        margin-left: 12rem !important; 
+    } */
+    .state-container-1 .image-column img {
+    transform: scale(1.1) translateY(-50px);}
+    .state-container-2 {
+    margin-top: -60px;}
+
     .navbar.navbar--anchored {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 8vh;
-        background: rgba(255, 255, 255, 0.92);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.60);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
-        z-index: 1001;
+        z-index: 1050;
         align-items: center;
         padding: 0;
         animation: popUpFromBottom 0.5s ease-out;
@@ -830,6 +1020,14 @@ header {
     .navbar.navbar--anchored .main-nav {
         gap: 25px;
         flex: 1; 
+    }
+    
+    .navbar.navbar--anchored .nav-left {
+        justify-content: flex-end;
+    }
+
+    .navbar.navbar--anchored .nav-right {
+        justify-content: flex-start;
     }
 
     .navbar.navbar--anchored .logo img {
