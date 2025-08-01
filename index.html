@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         body {
             opacity: 0;
@@ -94,6 +96,9 @@
 </head>
 <body>
     <div class="footer">
+        <div class="footer-copyright">
+            <p>Copyright &copy; 2025. Swaggytoon. All Rights Reserved.</p>
+        </div>
         <div class="footer-main-content">
             <div class="footer-column">
                 <h4>About US</h4>
@@ -113,18 +118,18 @@
             <div class="footer-column">
                 <h4>Social Connect</h4>
                 <ul>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Youtube</a></li>
-                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram <i class="fa-brands fa-instagram"></i></a></li>
+                    <li><a href="#">Youtube <i class="fa-brands fa-youtube"></i></a></li>
+                    <li><a href="#">Facebook <i class="fa-brands fa-facebook"></i></a></li>
                 </ul>
             </div>
         </div>
         <div class="parallax-backgrounds">
             <div class="parallax-layer layer-1">
                 <img srcset="f/720px/Back Mountains.png 720w,
-                    f/1080px/Back Mountains.png 1080w,
-                    f/1440px/Back Mountains.png 1440w,
-                    f/2160px/Back Mountains.png 2000w"
+                    f/1080px/Back Mountains.png 1900w,
+                    f/1440px/Back Mountains.png 2000w,
+                    f/2160px/Back Mountains.png 3000w"
                     sizes="100vw"
                     src="f/1080px/Back Mountains.png" 
                     alt="Distant back mountains">
@@ -132,9 +137,9 @@
 
             <div class="parallax-layer layer-2">
                 <img srcset="f/720px/Front Mountains.png 720w,
-                    f/1080px/Front Mountains.png 1080w,
-                    f/1440px/Front Mountains.png 1440w,
-                    f/2160px/Front Mountains.png 2000w"
+                    f/1080px/Front Mountains.png 1900w,
+                    f/1440px/Front Mountains.png 2000w,
+                    f/2160px/Front Mountains.png 3000w"
                     sizes="100vw"
                     src="f/1080px/Front Mountains.png" 
                     alt="Closer front mountains">
@@ -142,9 +147,9 @@
 
             <div class="parallax-layer layer-3">
                 <img srcset="f/720px/Footer forest.png 720w,
-                    f/1080px/Footer forest.png 1080w,
-                    f/1440px/Footer forest.png 1440w,
-                    f/2160px/Footer forest.png 2000w"
+                    f/1080px/Footer forest.png 1900w,
+                    f/1440px/Footer forest.png 2000w,
+                    f/2160px/Footer forest.png 3000w"
                     sizes="100vw"
                     src="f/1080px/Footer forest.png" 
                     alt="A dense forest line">
@@ -153,17 +158,17 @@
             <div class="parallax-layer layer-4">
                 <img class="figure-left"
                     srcset="f/1440px/Women.png 720w,
-                    f/1440px/Women.png 1080w,
-                    f/1440px/Women.png 1440w,
-                    f/2160px/Women.png 2000w"
+                    f/1440px/Women.png 1920w,
+                    f/1440px/Women.png 2000w,
+                    f/2160px/Women.png 3000w"
                     src="f/1080px/Women.png"
                     sizes="35vw" 
                     alt="Illustration of a woman">
                 <img class="figure-right" 
                     srcset="f/1440px/Men.png 720w,
-                    f/1440px/Men.png 1080w,
-                    f/1440px/Men.png 1440w,
-                    f/2160px/Men.png 2000w"
+                    f/1440px/Men.png 1920w,
+                    f/1440px/Men.png 2000w,
+                    f/2160px/Men.png 3000w"
                     src="f/1080px/Men.png" 
                     sizes="35vw"
                     alt="Illustration of a man">
@@ -171,16 +176,16 @@
 
             <div class="parallax-layer layer-5">
                 <img srcset="f/720px/Bottom Clouds.png 720w,
-                    f/1080px/Bottom Clouds.png 1080w,
-                    f/1440px/Bottom Clouds.png 1440w,
-                    f/2160px/Bottom Clouds.png 2000w"
+                    f/1080px/Bottom Clouds.png 19200w,
+                    f/1440px/Bottom Clouds.png 2000w,
+                    f/2160px/Bottom Clouds.png 3000w"
                     src="f/1080px/Bottom Clouds.png" 
                     sizes="100vw"
                     alt="Layer of fog or clouds">
             </div>
         </div>
     </div>
-    <div class="top-scroll-spacer"></div>
+    <!-- <div class="top-scroll-spacer"></div> -->
     <div class="top-content-wrapper">
         <div class="dashed-line">
             <div id="svg-tip-counter">0 ft</div>
@@ -486,6 +491,107 @@
     <a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
         <i class="fas fa-arrow-down"></i>
     </a>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Find all the footer columns on the page
+    const footerColumns = document.querySelectorAll('.footer-column');
+
+    // 2. Loop through each column to set up the hover effect
+    footerColumns.forEach(column => {
+        
+        // Find the h4 and ul elements within this specific column
+        const heading = column.querySelector('h4');
+        const list = column.querySelector('ul');
+
+        // Make sure both elements exist before adding listeners
+        if (heading && list) {
+
+            // 3. When the mouse enters the list area...
+            list.addEventListener('mouseenter', () => {
+                // ...add the 'is-active' class to the heading.
+                heading.classList.add('is-active');
+            });
+
+            // 4. When the mouse leaves the list area...
+            list.addEventListener('mouseleave', () => {
+                // ...remove the 'is-active' class from the heading.
+                heading.classList.remove('is-active');
+            });
+        }
+    });
+
+});
+</script>    
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Ensure GSAP and ScrollTrigger are loaded
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.error("GSAP or ScrollTrigger not loaded!");
+        return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Use GSAP's built-in tool for responsive animations
+    gsap.matchMedia().add({
+        
+        // This condition is for desktop screens (769px and wider)
+        isDesktop: "(min-width: 769px)"
+
+    }, (context) => {
+
+        // The code inside this function will ONLY run on desktop.
+        let { isDesktop } = context.conditions;
+
+        if (isDesktop) {
+            
+            // --- YOUR ENTIRE ANIMATION SCRIPT IS PLACED HERE ---
+
+            const footerParallaxTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".footer",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 2 
+                }
+            });
+            
+            footerParallaxTimeline
+                .fromTo(".layer-1", { y: 50 }, { y: 0 }, 0)
+                .fromTo(".layer-2", { y: 90 }, { y: 0 }, 0)
+                .fromTo(".layer-3", { y: 300 }, { y: -100 }, 0)
+                .fromTo(".layer-5", { y: 350 }, { y: -100 }, 0)
+                .fromTo(".footer-main-content", { y: 150 }, { y: -400, ease: "power1.out" }, 0);
+
+            footerParallaxTimeline.fromTo(".layer-4 .figure-left",
+                { x: "0" },
+                { 
+                    x: "-100%",
+                    ease: "none"
+                },
+                0
+            );
+
+            footerParallaxTimeline.fromTo(".layer-4 .figure-right",
+                { x: "0" },
+                { 
+                    x: "100%",
+                    ease: "none"
+                },
+                0
+            );
+        }
+        
+        // --- On mobile screens (768px or less), none of the code above will run. ---
+
+        return () => {
+            // This is GSAP's cleanup function. It will automatically remove the
+            // animations if you resize your browser from desktop to mobile.
+        };
+    });
+});
+</script>
 <script>
     // --- VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');

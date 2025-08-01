@@ -88,10 +88,12 @@ body.noscroll {
 /* --- Simplified Footer Styles --- */
 
 /* --- Main Footer Container --- */
+/* --- Main Footer Container --- */
 .footer {
-    position: relative;
+    position: sticky; /* ADD THIS */
+    top: 0;           /* ADD THIS */
     width: 100%;
-    max-width: 2160px;
+    max-width: 3000px;
     height: 0;
     background-color: #ffffff;
     display: flex;
@@ -100,13 +102,90 @@ body.noscroll {
     overflow: hidden;
     margin: 0 auto;
     z-index: 1;
-    padding-bottom: 93.11%; /* Sets responsive height based on 1728x1609 aspect ratio */
+    padding-bottom: 93.11%;
 }
+
+/*
+  1. STYLING FOR THE COPYRIGHT CONTAINER
+*/
+.footer-copyright {
+    position: absolute; /* Position it relative to the .footer container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* As requested */
+    
+    /* Flexbox to perfectly center the text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Ensure it sits on top of the parallax background layers */
+    z-index: 10; 
+}
+
+
+/*
+  2. STYLING FOR THE TEXT AND PREPARING FOR ANIMATION
+*/
+.footer-copyright p {
+    margin: 0; /* Remove default paragraph margin */
+    color: black; /* A soft, dark gray for readability */
+    font-size: 0.9em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    position: relative; /* Required for positioning the underline pseudo-element */
+    padding-bottom: 5px; /* Add a little space for the underline */
+    cursor: pointer; /* Change cursor to indicate it's interactive */
+}
+
+
+/*
+  3. CREATING THE ANIMATED UNDERLINE
+*/
+
+/* Create the underline using the ::after pseudo-element */
+.footer-copyright p::after {
+    content: '';
+    position: absolute;
+    bottom: 0; /* Position it at the bottom of the <p> tag */
+    
+    /* Center the line and prepare for the "draw from center" animation */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    height: 1px; /* Thickness of the underline */
+    background-color: #333; /* Color of the underline */
+    
+    /* The magic: start with 0 width, so it's invisible */
+    width: 0; 
+    
+    /* Define the transition for the animation */
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* On hover, expand the underline to 100% width */
+.footer-copyright p:hover::after {
+    width: 100%;
+}
+
+/* Add these new rules for the starting positions of the parallax layers */
+
+/* .footer .parallax-layer.layer-1 { transform: translateY(150px); }
+.footer .parallax-layer.layer-2 { transform: translateY(200px); }
+.footer .parallax-layer.layer-3 { transform: translateY(150px); }
+.footer .parallax-layer.layer-4 { transform: translateY(550px); }
+.footer .parallax-layer.layer-5 { transform: translateY(500vh); } */
+/* 
+.footer .footer-main-content {
+    transform: translateY(150px);
+    opacity: 0;
+} */
 
 /* --- Main Content (Text + Links) --- */
 .footer-main-content {
     position: absolute;
-    top: 30%;
+    top: 22%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 6;
@@ -120,6 +199,15 @@ body.noscroll {
     color: #262626;
 }
 
+@media (max-width: 2000px) {
+  
+  /* Select the footer content container */
+  .footer-main-content {
+    top: 18%; 
+  }
+
+}
+
 .footer-column h4 {
     font-size: 1.2rem;
     margin-bottom: 25px;
@@ -129,14 +217,111 @@ body.noscroll {
     letter-spacing: 0.5px;
 }
 
+.footer-column a i {
+    margin-left: 8px; /* Adds a little space between text and icon if they get close */
+    color: #555; /* Makes the icon a slightly softer color than the text */
+    transition: color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+}
+
+/*
+  1. THE UNDERLINE'S DEFAULT STATE
+*/
 .footer-column h4::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     height: 3px;
-    width: 150%;
-    background: linear-gradient(to right, #262626 50%, #ffffff 50%);
+    
+    /* Make the underline longer, as requested */
+    width: 200%; 
+
+    /* --- TECHNIQUE FOR THE ANIMATION --- */
+    /* A. Use a light grey for the base background of the underline */
+    background-color: #ffffff;
+    
+    /* B. Create the black part as a separate gradient layer on top */
+    background-image: linear-gradient(#262626, #262626);
+    background-repeat: no-repeat;
+
+    /* C. Set the initial size of the black layer to 40%, as requested */
+    background-size: 40% 100%;
+
+    /* D. Define the transition for the background-size property */
+    transition: background-size 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- MOBILE FOOTER STYLES --- */
+/* --- MOBILE FOOTER STYLES --- */
+
+/* --- MOBILE FOOTER STYLES --- */
+
+/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
+
+/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
+
+/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
+
+@media (max-width: 768px) {
+
+    .footer {
+        height: auto;
+        /* Increased top padding to push the content down */
+        padding-top: 12rem; 
+        /* Adjusted bottom padding to a sensible default */
+        padding-bottom: 8rem; 
+        justify-content: flex-start; 
+    }
+
+    .footer-main-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        width: 85%;
+        padding-left: 5%; 
+        gap: 40px;
+    }
+
+    .footer .layer-3,
+    .footer .layer-4 {
+        display: none;
+    }
+
+    .footer-column {
+        text-align: left;
+        width: 100%;
+    }
+
+    .footer-column h4 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-column h4::after {
+        left: 0;
+        transform: none;
+        width: 120%;
+    }
+
+    .footer-column ul li {
+        font-size: 1rem;
+    }
+
+    .footer-column ul {
+        gap: 10px;
+    }
+}
+
+
+/*
+  2. THE UNDERLINE'S ACTIVE STATE (Triggered by JavaScript)
+*/
+.footer-column h4.is-active::after {
+    /* On hover, expand the black background layer to fill the entire underline */
+    background-size: 100% 100%;
 }
 
 .footer-column ul {
@@ -201,7 +386,7 @@ body.noscroll {
     position: absolute;
     width: 100%;
     height: 46%;
-    bottom: 57%;
+    bottom: 60%;
     left: 0;
     object-fit: cover; /* Stretches to fill the container */
 }
@@ -211,7 +396,7 @@ body.noscroll {
     position: absolute;
     width: 100%;
     height: 80%; /* Example: 80% of footer height */
-    bottom: 17%;   /* Aligns to the bottom */
+    bottom: 23%;   /* Aligns to the bottom */
     left: 0;
     object-fit: cover;
 }
@@ -221,7 +406,7 @@ body.noscroll {
     position: absolute;
     width: 100%;
     height: 67%; /* Example: 60% of footer height */
-    bottom: 2%; /* Example: 15% up from the bottom */
+    bottom: 15%; /* Example: 15% up from the bottom */
     left: 0;
     object-fit: cover;
 }
@@ -233,9 +418,12 @@ body.noscroll {
     width: 20%;
     max-width: 400px;
     height: auto;
-    bottom: 10%; /* Example: 5% up from the bottom */
+    bottom: 15%; /* Example: 5% up from the bottom */
     object-fit: contain; /* Shows the full image without cropping */
 }
+
+
+
 .layer-4 .figure-left {
     left: 0; /* Example: 5% from the left edge */
 }
@@ -248,7 +436,7 @@ body.noscroll {
     position: absolute;
     width: 100%;
     height: 40%; /* Example: 40% of footer height */
-    bottom: 0;   /* Aligns to the bottom */
+    bottom: 10%;   /* Aligns to the bottom */
     left: 0;
     object-fit: cover;
 }
@@ -662,6 +850,7 @@ header {
 
     .top-content-wrapper {
         position: static; 
+        width: 100%; /* Ensures full width */
     }
 
     .dashed-line {
@@ -807,6 +996,7 @@ header {
 
     .image-column {
         height: 35vh;
+        margin-bottom: -20vh;
     }
     
     .image-column img {
@@ -817,26 +1007,33 @@ header {
 
     .info-column { 
         min-height: 35vh;
-        padding: 1rem;
-        align-items: center;
-        text-align: center;
+        /* MODIFIED: Reduced top padding to decrease space below the image */
+        padding: 0 1rem 2rem; 
+        
+        /* MODIFIED: Align items (like the button) and text to the left */
+        align-items: flex-start;
+        text-align: left;
+        
         position: static;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-    }
+        justify-content: flex-start;
+    }  
 
     .info-column h2 {
         font-size: 3rem; 
-        text-align: center;
-        margin-bottom: 1rem;
+        /* MODIFIED: Changed from center to left */
+        text-align: left;
+        margin-top: 0; 
+        margin-bottom: 1.5rem; /* Adjusted margin */
         width: 100%;
         box-sizing: border-box;
         border: none;
         border-radius: 0;
         background-size: cover;
         background-position: center center;
-        padding: 2.5rem 1rem; 
+        /* MODIFIED: Adjusted padding for a better left-aligned look */
+        padding: 2.5rem 1rem 1rem 0; 
     }
 
     .info-column p { padding-left: 0; max-width: 90%; }
