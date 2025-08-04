@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -267,7 +268,7 @@ body.noscroll {
     .footer {
         height: auto;
         /* Increased top padding to push the content down */
-        padding-top: 12rem; 
+        padding-top: 13rem; 
         /* Adjusted bottom padding to a sensible default */
         padding-bottom: 8rem; 
         justify-content: flex-start; 
@@ -282,7 +283,7 @@ body.noscroll {
         align-items: flex-start;
         width: 85%;
         padding-left: 5%; 
-        gap: 40px;
+        gap: 20px;
     }
 
     .footer .layer-3,
@@ -296,7 +297,7 @@ body.noscroll {
     }
 
     .footer-column h4 {
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         margin-bottom: 15px;
     }
 
@@ -307,7 +308,7 @@ body.noscroll {
     }
 
     .footer-column ul li {
-        font-size: 1rem;
+        font-size: 0.8rem !important;
     }
 
     .footer-column ul {
@@ -345,7 +346,7 @@ body.noscroll {
 }
 
 .footer-column a:hover {
-    color: #4d4d4d;
+    color: #6f6f6f;
 }
 
 /* --- Background Image Layer Containers --- */
@@ -553,6 +554,10 @@ header {
     padding: 0 20px;
 }
 
+.navbar .logo img {
+    cursor: pointer;
+}
+
 .main-nav {
     list-style: none;
     display: flex;
@@ -577,7 +582,7 @@ header {
     font-size: 1.1em;
     padding: 20px;
     font-family: Helvetica, Arial, sans-serif;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease-out;
 }
 
 .main-nav a:hover {
@@ -727,9 +732,9 @@ header {
     transition: transform 0.4s ease-out;
 }
 
-.image-column:hover img {
+/* .image-column:hover img {
     transform: scale(1.1);
-}
+} */
 
 .info-column h2 {
     font-size: 4rem;
@@ -1007,6 +1012,7 @@ header {
 
     .info-column { 
         min-height: 35vh;
+        margin-left: -3vw;
         /* MODIFIED: Reduced top padding to decrease space below the image */
         padding: 0 1rem 2rem; 
         
@@ -1044,7 +1050,7 @@ header {
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 12vh;
+        height: 8vh;
         min-height: 0;
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(15px);
@@ -1105,8 +1111,14 @@ header {
         bottom: 15px;
         right: 15px;
     }
+
+    .image-column {
+        margin-left: -3vw;
+        padding-right: 3vw;
+    }
     .image-column img {
         transform: scale(1.30);
+        margin-right: 3vw;
     }
 }
 
