@@ -137,7 +137,7 @@ body.noscroll {
     
     position: relative; /* Required for positioning the underline pseudo-element */
     padding-bottom: 5px; /* Add a little space for the underline */
-    cursor: pointer; /* Change cursor to indicate it's interactive */
+    cursor: default;
 }
 
 
@@ -497,6 +497,8 @@ header {
     height: 15vh;
     flex-shrink: 0;
     background-color: transparent;
+    position: relative;
+    z-index: 1;
 }
 
 .top-bar {
@@ -550,8 +552,8 @@ header {
 }
 
 .logo img {
-    height: 120px;
-    padding: 0 20px;
+    height: 150px;
+    padding: 0 10px;
 }
 
 .navbar .logo img {
@@ -610,7 +612,7 @@ header {
     justify-content: center;
     align-items: flex-start;
     background-color: transparent;
-    padding-top: 15vh;
+    padding-top: 30vh;
     box-sizing: border-box; 
 }
 
@@ -618,39 +620,141 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3vw;
+    gap: 10vw;
 }
 
 .overlay-image {
-    width: 13vw;
+    width: 20vw;
     height: auto;
-    max-width: 350px;
-    min-width: 200px;
+    max-width: 400px;
+    min-width: 180px;
+}
+/* 1. Prepare the Parent Container */
+.content-area {
+    /* This establishes the container that the button will be positioned relative to.
+       Your code likely has this already, but it's essential. */
+    position: relative; 
 }
 
+/* 2. Position the Button */
+/* --- CORRECTED OVERLAY BUTTON STYLES --- */
+
+/* 1. Main Button Container */
+/* --- NEW OVERLAY BUTTON STYLES WITH BOUNCE ANIMATION --- */
+
+/* 1. Define the continuous bounce animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px); /* How high the bounce is */
+  }
+}
+
+@keyframes stopBounce {
+  /* This animation's only job is to define the final resting position */
+  to {
+    transform: translateY(-4px); /* A stable, slightly elevated position */
+  }
+}
+
+/* 2. Style the Main Button Container */
 .overlay-button {
-    font-size: clamp(14px, 1.2vw, 18px);
-    color: white;
-    background-color: #262626;
+    /* Positioning */
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 10px;
+
+    /* Basic Styling */
+    background-color: transparent;
     border: none;
+    color: white;
     cursor: pointer;
-    padding: 0.75em 1.5em;
-    border-radius: 1em;
-    /* MODIFICATION: Added 'transform' to the transition */
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    
+    /* Flexbox to arrange the icon and text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    /* Transition for the size increase on hover */
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Update this existing rule */
-.overlay-button:hover {
-    background-color: #3f3f3f;
-    /* ADDITION: Increase size on hover */
-    transform: scale(1.05);
+@media (min-width: 2000px) {
+    .overlay-button{
+        bottom: 15%;
+    }
 }
 
-/* ADDITION: Add a new rule for press-down feedback */
-.overlay-button:active {
-    transform: scale(0.98);
+@media (max-width: 1024px){
+    .overlay-button{
+        bottom: 2%;
+    }
 }
+
+/* 3. Style the SVG Icon */
+.button-icon-svg {
+    width: 28px;
+    height: 28px;
+    color: white; /* You can change the arrow color here */
+
+    /* Apply the continuous bounce animation by default */
+    animation: bounce 1.8s infinite ease-in-out;
+
+    /* Add a transition to smoothly stop the bounce on hover */
+    transition: transform 0.3s ease-out;
+}
+
+/* 4. Style the Button Text */
+.button-text {
+    font-size: 1.2rem;
+    /* letter-spacing: 0.1em; */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* --- 5. HOVER EFFECTS --- */
+
+/* Increase the size of the entire button on hover */
+/* .overlay-button:hover {
+    transform: scale(1.1) translateX(-50%);
+} */
+
+/* Stop the bounce animation when hovering over the button */
+/* .overlay-button:hover .button-icon-svg {
+    animation: stopBounce 0.4s ease-out forwards;
+} */
+.overlay-button::after {
+    content: ''; /* Required for pseudo-elements to appear */
+    position: absolute;
+    bottom: 0; /* Position the line at the very bottom of the button */
+
+    /* These two lines position the line in the center */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Line styling */
+    height: 2px;
+    background-color: white; /* Color of the underline */
+    
+    /* The animation starts here: the line is initially invisible (0 width) */
+    width: 0;
+    
+    /* Define the smooth transition for the width property */
+    transition: width 0.4s ease-out;
+}
+
+
+/* 3. Animate the Underline on Hover */
+.overlay-button:hover::after {
+    /* On hover, expand the line to fill 100% of the button's width */
+    width: 100%;
+}
+
 /* 3. States Section */
 .state-container {
     display: flex;
@@ -664,6 +768,33 @@ header {
     padding: 2rem 5%;
     max-height: 740px;
     gap: 13rem;
+}
+
+@media (max-width: 1366px) and (min-width: 1025px) {
+
+    /* 1. Fixes the "stretching" by reducing overall spacing */
+    .state-container {
+        gap: 4rem; /* Reduces space between image and text */
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    /* 2. Adjusts the large header with the background image */
+    .info-column h2 {
+        font-size: 3rem; /* Decreases the heading font size */
+        padding: 4rem 6rem 1rem 1rem; /* Reduces the large padding */
+    }
+    
+    .header-12 {
+         /* Special adjustment for the 'Una' header which has different padding */
+        padding: 4rem 10rem 1rem 1rem;
+    }
+
+    /* 3. Decreases the paragraph font size */
+    .info-column p {
+        font-size: 1rem; /* Makes the main text slightly smaller */
+    }
+
 }
 
 .state-container--split.reverse {
@@ -738,7 +869,7 @@ header {
 
 .info-column h2 {
     font-size: 4rem;
-    font-family: "kalam";
+    font-family: "Shadows Into Light Two", cursive;
     display: inline-block;
     color: black;
     border-radius: 8px;
@@ -1112,13 +1243,13 @@ header {
         right: 15px;
     }
 
-    .image-column {
+    /* .image-column {
         margin-left: -3vw;
         padding-right: 3vw;
-    }
+    } */
     .image-column img {
         transform: scale(1.30);
-        margin-right: 3vw;
+        margin: 0;
     }
 }
 
@@ -1206,7 +1337,7 @@ header {
         margin-left: 12rem !important; 
     } */
     .state-container-1 .image-column img {
-    transform: scale(1.1) translateY(-50px);}
+    transform: translateY(0px);}
     .state-container-2 {
     margin-top: -60px;}
 
@@ -1245,7 +1376,7 @@ header {
     }
 
     .navbar.navbar--anchored .main-nav a {
-        padding: 1.5rem;
+        padding: 2rem;
         font-size: 1em;
     }
 }

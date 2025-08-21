@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet"> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -35,63 +37,83 @@
             margin-left: 0.2em;
         }
         
-        #svg-tip-counter {
-            position: absolute;
-            top: 0; /* Updated by JS */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #555555;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-weight: 600;
-            z-index: 10;
-            white-space: nowrap;
-            opacity: 0;
-            transition: top 0.05s linear, opacity 0.3s ease;
-        }
+/* --- COUNTER STYLES --- */
+
+/* 1. Main Container */
+#svg-tip-counter {
+    position: absolute;
+    width: 120px;  /* Set the size of your icon */
+    height: 120px;
+    z-index: 10;
+    opacity: 0;
+
+    /* These styles are now applied to the container */
+    transform: translate(-50%, -50%) rotate(0deg);
+    transition: top 0.05s linear, 
+                left 0.05s linear, 
+                opacity 0.3s ease, 
+                transform 0.1s linear;
+}
+
+/* 2. Background Image (the PNG) */
+.counter-bg-image {
+    width: 100%;
+    height: 100%;
+}
+
+/* 3. The Altitude Text */
+.counter-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, 50%) rotate(90deg); /* Fine-tune centering */
+    
+    color: black; /* Text color */
+    font-size: 14px; /* Text size */
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    white-space: nowrap;
+}
 
         /* --- ADDED FOR SCROLL-TRIGGERED ANIMATIONS --- */
 
         /* Initial state: elements are invisible and shifted */
-        .state-container .info-column > h2,
-        .state-container .info-column > p,
-        .state-container .info-column > .info-button {
-            opacity: 0;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
+/* --- SCROLL-TRIGGERED ANIMATIONS (NEW) --- */
 
-        /* For standard containers (state-container), start from the right */
-        .state-container:not(.reverse) .info-column > h2,
-        .state-container:not(.reverse) .info-column > p,
-        .state-container:not(.reverse) .info-column > .info-button {
-            transform: translateX(50px);
-        }
+/* Initial state: elements are invisible and blurred */
+            .state-container .info-column > h2,
+            .state-container .info-column > p,
+            .state-container .info-column > .info-button {
+                opacity: 0;
+                /* The blur effect you wanted */
+                filter: blur(10px); 
+                /* Increased duration to 1s to match the React component's default */
+                transition: opacity 0.6s ease-out, filter 0.6s ease-out; 
+            }
 
-        /* For 'reverse' containers (state-container-split-reverse), start from the left */
-        .state-container.reverse .info-column > h2,
-        .state-container.reverse .info-column > p,
-        .state-container.reverse .info-column > .info-button {
-            transform: translateX(-50px);
-        }
+            /* The old transform rules are no longer needed,
+            so we can remove the entire '.state-container:not(.reverse)...'
+            and '.state-container.reverse...' blocks.
+            */
 
-        /* Add delays to create a staggered effect. h2 has no delay. */
-        .state-container .info-column > p {
-            transition-delay: 0.2s;
-        }
-        .state-container .info-column > .info-button {
-            transition-delay: 0.3s;
-        }
+            /* These delays create the same staggered effect as before */
+            .state-container .info-column > p {
+                transition-delay: 0.1s;
+            }
+            .state-container .info-column > .info-button {
+                transition-delay: 0.2s;
+            }
 
-        /* Final state: triggered by JS adding the 'is-visible' class */
-        .state-container.is-visible .info-column > h2,
-        .state-container.is-visible .info-column > p,
-        .state-container.is-visible .info-column > .info-button {
-            opacity: 1;
-            transform: translateX(0);
-        }
+            /* Final state: triggered by JS adding the 'is-visible' class */
+            .state-container.is-visible .info-column > h2,
+            .state-container.is-visible .info-column > p,
+            .state-container.is-visible .info-column > .info-button {
+                opacity: 1;
+                /* Remove the blur on the final state */
+                filter: blur(0px); 
+                /* The old transform: translateX(0) is no longer needed */
+            }
+/* --- END OF NEW CSS --- */
         /* --- END OF ADDED CSS --- */
     </style>
 </head>
@@ -189,7 +211,10 @@
     <!-- <div class="top-scroll-spacer"></div> -->
     <div class="top-content-wrapper">
         <div class="dashed-line">
-            <div id="svg-tip-counter">0 ft</div>
+            <div id="svg-tip-counter">
+    <img class="counter-bg-image" src="img/Bus.png" alt="Path indicator arrow">
+    <div class="counter-text">0 ft</div>
+</div>
                 <svg
                     class="dashed-line-center"
                     viewBox="0 0 1691 9131"
@@ -197,7 +222,7 @@
                     xmlns="http://www.w3.org/2000/svg"
                     role="img"
                     aria-labelledby="line-title"
-                    preserveAspectRatio="xMidYMin meet">
+                    preserveAspectRatio="none">
                     <title id="line-title">Decorative dashed line</title>
 
                     <defs>
@@ -445,7 +470,7 @@
                     <a href="#" class="info-button">Explore</a>
                 </div>
                 <div class="image-column image-12">
-                    <img src="img/image 2.png" alt="Scenic view of Una">
+                    <img src="img/Una.png" alt="Scenic view of Una">
                 </div>
             </section>
         </div> 
@@ -464,16 +489,16 @@
             <nav class="navbar">
                 <ul class="main-nav nav-left">
                     <li><a href="#" class="active">Home</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="#">Merch</a></li>
+
                 </ul>
                 <div class="logo">
                     <img src="img/Frame 9.png" alt="Himachalites Logo">
                 </div>
                 <ul class="main-nav nav-right">
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Packages</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="about.html">About</a></li>
+
+                    <li><a href="contact.html">Contact Us</a></li>
                 </ul>
                 <button class="mobile-menu-button" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
                     <i class="fas fa-bars"></i>
@@ -484,9 +509,19 @@
         <main class="content-area">
             <div class="overlay-content">
                 <img src="img/Group 6.png" class="overlay-image" alt="Descriptive text">
-                <button class="overlay-button">Scroll up to feel the cold</button>
             </div>
         </main>
+        <button class="overlay-button">
+            <span class="button-arrows">
+                <svg class="button-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g fill="none">
+                        <path d="M0 0h24v24H0z"/>
+                        <path fill="currentColor" d="m11.226 8.358l-4.01 4.01a.75.75 0 1 1-1.06-1.06l4.54-4.54a.75.75 0 0 1 1.06 0l4.54 4.54a.75.75 0 0 1-1.06 1.06l-4.01-4.01Zm0 5.656l-4.01 4.01a.75.75 0 1 1-1.06-1.06l4.54-4.54a.75.75 0 0 1 1.06 0l4.54 4.54a.75.75 0 0 1-1.06 1.06l-4.01-4.01Z"/>
+                    </g>
+                </svg>
+            </span>
+            <span class="button-text">Take the Road Home.</span>
+        </button>
     </div>
 
     <a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
@@ -626,41 +661,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const svgTipCounter = document.getElementById('svg-tip-counter');
     const pathElement = document.getElementById('Line'); // This now targets the solid, animated path
     let pathTotalLength = 0;
+    let lastRotationAngle = 90; // Initialize with the starting angle
     let checkpointsData = [];
     let currentCounterY = 0;
 
     // --- FUNCTION DEFINITIONS ---
     /** Updates the main altitude counter by interpolating values between checkpoints based on scroll position. */
-    function updateMainCounter() {
-        if (!checkpointsData.length || !svgTipCounter) return;
-        
+/**
+ * REVISED FUNCTION
+ * Updates the main altitude counter with corrected math for a bottom-to-top scroll.
+ */
+    function updateMainCounter(currentIconYPosition) {
+        if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
+    
         let prevCheckpoint = checkpointsData[0];
-        let nextCheckpoint = checkpointsData[0];
-        for (let i = 0; i < checkpointsData.length; i++) {
-            if (checkpointsData[i].y <= currentCounterY) {
-                prevCheckpoint = checkpointsData[i];
-            } else {
+        let nextCheckpoint = checkpointsData[checkpointsData.length - 1];
+
+        for (let i = 0; i < checkpointsData.length - 1; i++) {
+            if (checkpointsData[i].y >= currentIconYPosition && checkpointsData[i+1].y <= currentIconYPosition) {
+                prevCheckpoint = checkpointsData[i + 1];
                 nextCheckpoint = checkpointsData[i];
                 break;
             }
         }
-        if (prevCheckpoint === nextCheckpoint) {
-             nextCheckpoint = checkpointsData[checkpointsData.length - 1];
-        }
+
         const distanceBetweenPoints = nextCheckpoint.y - prevCheckpoint.y;
         const valueRange = nextCheckpoint.value - prevCheckpoint.value;
         let progress = 0;
-        if (distanceBetweenPoints > 0) {
-            progress = (currentCounterY - prevCheckpoint.y) / distanceBetweenPoints;
+        if (distanceBetweenPoints !== 0) {
+            progress = (currentIconYPosition - prevCheckpoint.y) / distanceBetweenPoints;
         }
-        if (currentCounterY >= checkpointsData[checkpointsData.length - 1].y) {
-            progress = 1;
-        }
+
         const currentValue = prevCheckpoint.value + (progress * valueRange);
-        
-        svgTipCounter.textContent = `${Math.round(currentValue).toLocaleString('en-US')} ft`;
+    
+        const textElement = svgTipCounter.querySelector('.counter-text');
+        if (textElement) {
+            textElement.textContent = `${Math.round(Math.max(0, currentValue)).toLocaleString('en-US')} ft`;
+        }
     }
 
+        window.onload = () => {
+        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
+        
+        // Setup for SVG line animation
+        if (pathElement && maskPath) {
+            pathTotalLength = pathElement.getTotalLength();
+            maskPath.style.strokeDasharray = pathTotalLength;
+            maskPath.style.strokeDashoffset = pathTotalLength;
+        }
+
+        // Calculate altitude checkpoints
+        const allStateContainers = document.querySelectorAll('.state-container');
+        if (allStateContainers.length > 0) {
+            const lastContainer = allStateContainers[allStateContainers.length - 1];
+            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
+        }
+        allStateContainers.forEach(container => {
+            const valueElement = container.querySelector('.altitude-value');
+            if (valueElement && valueElement.dataset.finalValue) {
+                const value = parseInt(valueElement.dataset.finalValue, 10);
+                checkpointsData.push({ y: container.offsetTop, value: value });
+            }
+        });
+        checkpointsData.sort((a, b) => a.y - b.y);
+        
+        // Final setup and initial calls
+        document.body.style.opacity = '1';
+        const initialIconY = animateDashedLine();
+        updateMainCounter(initialIconY);
+    };
     /** Animates an element's text content from a start value to a final value (count-up effect). */
     function animateAltitude(element) {
         const finalValue = parseInt(element.dataset.finalValue, 10);
@@ -727,10 +796,18 @@ document.addEventListener('DOMContentLoaded', () => {
     /** * REVISED & FIXED FUNCTION
      * Animates the SVG line by drawing it based on scroll position *within the content wrapper*.
      */
+/**
+ * REVISED FUNCTION
+ * Animates a PNG/SVG along the path and rotates it to match the path's direction.
+ */
+/**
+ * REVISED FUNCTION
+ * Animates and rotates an icon along the path, preventing sudden 360-degree flips.
+ */
     function animateDashedLine() {
         if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) {
             if (svgTipCounter) svgTipCounter.style.opacity = '0';
-            return;
+            return 0; // Return 0 if not active
         }
 
         const animationStartScrollY = topContentWrapper.offsetTop;
@@ -741,17 +818,29 @@ document.addEventListener('DOMContentLoaded', () => {
         linearProgress = Math.max(0, Math.min(1, linearProgress));
         const modifiedProgress = Math.pow(linearProgress, 0.95);
 
-        // Update the MASK's dash offset to create the drawing effect
         const drawLength = pathTotalLength * modifiedProgress;
         maskPath.style.strokeDashoffset = pathTotalLength - drawLength;
 
-        // Update the tooltip position (calculated on the visible path)
         if (svgTipCounter) {
             const shouldBeVisible = modifiedProgress > 0.01 && modifiedProgress < 0.99;
             svgTipCounter.style.opacity = shouldBeVisible ? '1' : '0';
 
-            const clampedDrawLength = Math.max(0.1, Math.min(drawLength, pathTotalLength - 0.1));
-            const pointOnPath = pathElement.getPointAtLength(clampedDrawLength);
+            const clampedDrawLength = Math.max(1, Math.min(drawLength, pathTotalLength - 1));
+            
+            const currentPoint = pathElement.getPointAtLength(clampedDrawLength);
+            const previousPoint = pathElement.getPointAtLength(clampedDrawLength - 1);
+
+            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
+            const rotationOffset = 90;
+            let totalRotation = angle + rotationOffset;
+
+            let angleDifference = totalRotation - lastRotationAngle;
+            if (angleDifference > 180) {
+                totalRotation -= 360;
+            } else if (angleDifference < -180) {
+                totalRotation += 360;
+            }
+            lastRotationAngle = totalRotation;
 
             const svgLineRect = svgLine.getBoundingClientRect();
             if (svgLineRect.width > 0 && svgLineRect.height > 0) {
@@ -761,19 +850,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pixelsPerSvgY = svgLineRect.height / viewBoxHeight;
                 const pixelsPerSvgX = svgLineRect.width / viewBoxWidth;
 
-                const counterLeftPx = pointOnPath.x * pixelsPerSvgX;
-                const counterTopPx = pointOnPath.y * pixelsPerSvgY;
+                const counterLeftPx = currentPoint.x * pixelsPerSvgX;
+                const counterTopPx = currentPoint.y * pixelsPerSvgY;
 
                 svgTipCounter.style.left = `${counterLeftPx}px`;
                 svgTipCounter.style.top = `${counterTopPx}px`;
+                svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
                 
-                currentCounterY = dashedLineContainer.offsetTop + counterTopPx;
+                // THIS IS THE CRITICAL FIX: Return the calculated vertical position
+                return dashedLineContainer.offsetTop + counterTopPx;
             }
         }
+        return 0; // Return 0 if something fails
     }
-
-
-    /** Checks if popups are in view and triggers their animations. */
+/** Checks if popups are in view and triggers their animations. */
     function checkAndAnimatePopups() {
         const triggerThreshold = window.innerHeight * 0.20;
         document.querySelectorAll('.h2-popup').forEach(popup => {
@@ -938,6 +1028,8 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollToTopBtn.classList.add('is-hidden');
         }
         lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
+        const currentIconY = animateDashedLine();
+        updateMainCounter(currentIconY);
     }, { passive: true });
     
     // --- OTHER EVENT LISTENERS (UNCHANGED) ---
