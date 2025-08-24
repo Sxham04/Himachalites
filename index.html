@@ -305,7 +305,7 @@
           mask="url(#mobile-drawing-mask)"
           d="M242.5 10814C286 10799 346 10772.5 361.5 10733.5C377 10694.5 389.5 10598.5 363.5 10538.5C337.5 10478.5 239.568 10439.9 121 10412.5C0 10384.5 -4.49978 10220.5 42.0002 10138C65.3336 10086 98 9940.02 255.5 9924C344 9915 404.563 9752.46 379 9638C345.5 9488 166.5 9463 104 9459.5C58.6669 9454.17 -21.2997 9426.1 21.5003 9356.5C43.0002 9330.67 83.5001 9249.6 73.5001 9132C64.8334 9086 69.4001 8994.5 157 8996.5C234.333 8992 362 8964 375 8789C377.5 8694.83 390 8517.82 298 8494.5C116.5 8448.5 14.0001 8374.5 24.0001 8216.5C32.5001 8171 76.2001 8079.3 183 8076.5C316.5 8073 355 8029 361.5 7970.5C368 7912 329 7813 333.5 7770.5C338 7728 368 7683.5 361.5 7648C355 7612.5 327 7589.5 142.5 7561C90 7548 -1.39989 7535.8 31.0001 7403C39.3334 7361.83 68.6001 7273 119 7247C157.167 7227.33 255 7204.74 327.5 7161.5C355.167 7145 399.3 7078.1 354.5 6942.5C309.7 6806.9 307.5 6836.5 327 6767.5C331.82 6750.45 367.869 6684.86 264.5 6666C127.5 6641 25.5001 6626 39.5001 6560.5C53.5001 6495 72.0001 6411.5 136 6348.5C200 6285.5 335.5 6277 361.5 6162C387.5 6047 386 5911 304 5844C222 5777 -25.4999 5697.5 31.0001 5511C55.1668 5466.33 128.805 5425.71 240.5 5400.5C400 5364.5 387.5 5165 362.5 5066.5C355.167 5009.33 301.3 4924.7 194.5 4903.5C61 4877 -59.9999 4687 57.0001 4563C101 4529.17 196 4540.5 321 4514.5C390.5 4497 380.5 4442 351.5 4180C344.029 4112.5 367.928 4117.76 340.5 4064C328 4039.5 301.867 4024.7 241 4016C153.5 4003.5 163.5 4014 55.5 3921C-23.2177 3853.22 25.5001 3696.5 79.5001 3659C199.5 3563 342 3622.5 357 3496C364 3398 393 3229.5 317.5 3123.5C257.1 3038.7 169.5 3097.5 104 3066C38.5 3034.5 26.0001 3028.4 26.0001 2966C26.0001 2888 38.0001 2815 100.5 2779.5C148.478 2752.25 291.5 2779.5 337 2654.5C364.5 2476.5 399 2428.5 353 2294.5C319.473 2196.84 220.812 2210.39 145 2199C48.5 2184.5 12.5661 2132.64 18.5 2095C36 1984 16.0001 1881.17 101 1849.5C177.5 1821 372.5 1758.5 372.5 1532.5C372.5 1306.5 286.5 1267.5 179.5 1266C72.5001 1264.5 -20.4999 1034 57.0001 957.5C134.5 881 321 915.5 347 830C373 744.5 414.5 406.5 265.5 396.5C116.5 386.5 -48.3487 362.5 15.0001 159C74.1748 -31.0912 223 -7.00009 294.5 19"          stroke="black" 
           stroke-width="2" 
-          stroke-dasharray="7 7"/>
+          stroke-dasharray="14 14"/>
 </svg>
         </div>
 
@@ -740,19 +740,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNCTION DEFINITIONS ---
 
-    /** OPTIMIZATION: This function runs ONCE to build a lookup table of path coordinates. */
     function buildMobilePathMap() {
         if (!mobilePathElement) return;
         mobilePathTotalLength = mobilePathElement.getTotalLength();
         mobilePathMap = [];
-        // The step value determines the map's precision. 25 is a good balance.
-        for (let l = 0; l < mobilePathTotalLength; l += 25) {
+        const step = 25; // Precision of the map.
+        let lastPoint = mobilePathElement.getPointAtLength(0);
+
+        for (let l = step; l <= mobilePathTotalLength; l += step) {
             const point = mobilePathElement.getPointAtLength(l);
-            mobilePathMap.push({ y: point.y, length: l });
+            const angle = Math.atan2(point.y - lastPoint.y, point.x - lastPoint.x) * (180 / Math.PI);
+            mobilePathMap.push({
+                length: l,
+                x: point.x,
+                y: point.y,
+                angle: angle
+            });
+            lastPoint = point;
         }
-        // Add the very last point to ensure full coverage
-        const lastPoint = mobilePathElement.getPointAtLength(mobilePathTotalLength);
-        mobilePathMap.push({ y: lastPoint.y, length: mobilePathTotalLength });
     }
 
     /** Updates the main altitude counter. */
