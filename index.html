@@ -20,11 +20,63 @@
             opacity: 0;
             transition: opacity 0.4s ease-in;
         }
-        @media (max-width: 1024px) {
-            .dashed-line {
-                display: none;
-            }
-        }
+/* --- FINAL & CORRECTED CSS FOR SVG --- */
+
+/* Hide mobile SVG on desktop by default */
+#mobile-line-svg {
+    display: none;
+}
+
+/* Rules for mobile screens (max-width: 1024px) */
+@media (max-width: 1024px) {
+    
+    /* 1. Ensure the main wrapper remains a positioning context */
+    .top-content-wrapper {
+        position: relative !important;
+    }
+    
+    /* 2. Set up the line container for JS positioning and place it ON TOP of content */
+    .dashed-line {
+        display: block !important;
+        position: absolute !important;
+        margin: 0 !important;
+        
+        /* Horizontally center the container */
+        width: 90% !important; 
+        max-width: 500px; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        
+        /* FIX: Set z-index to 1 to bring it in front of the content sections */
+        z-index: 1; 
+        /* Make it non-interactive so you can click/scroll through it */
+        pointer-events: none; 
+    }
+
+    /* 3. Make sure the counter is on top of the line */
+    #svg-tip-counter {
+        /* FIX: Higher z-index than the line */
+        z-index: 2; 
+        pointer-events: all; 
+    }
+
+    /* --- Hide/Show Logic --- */
+    
+    /* 4. Hide the DESKTOP SVG */
+    .dashed-line-center {
+        display: none;
+    }
+    
+    /* 5. Show the MOBILE SVG and ensure it fills its container */
+    #mobile-line-svg {
+        display: block;
+        width: 100%;
+        height: 100%; /* Fills the height set by the JS */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
         #scrollToBottomBtn.is-hidden {
             opacity: 0;
             visibility: hidden;
@@ -242,6 +294,19 @@
                         stroke-width="2"
                         stroke-dasharray="7 7" />
                 </svg>
+<svg id="mobile-line-svg" viewBox="0 0 398 10977" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    
+    <defs>
+        <mask id="mobile-drawing-mask">
+            <rect id="mobile-mask-rect" x="0" y="0" width="398" height="400" fill="white"/>
+        </mask>
+    </defs>
+    <path id="mobile-line-path" 
+          mask="url(#mobile-drawing-mask)"
+          d="M242.5 10814C286 10799 346 10772.5 361.5 10733.5C377 10694.5 389.5 10598.5 363.5 10538.5C337.5 10478.5 239.568 10439.9 121 10412.5C0 10384.5 -4.49978 10220.5 42.0002 10138C65.3336 10086 98 9940.02 255.5 9924C344 9915 404.563 9752.46 379 9638C345.5 9488 166.5 9463 104 9459.5C58.6669 9454.17 -21.2997 9426.1 21.5003 9356.5C43.0002 9330.67 83.5001 9249.6 73.5001 9132C64.8334 9086 69.4001 8994.5 157 8996.5C234.333 8992 362 8964 375 8789C377.5 8694.83 390 8517.82 298 8494.5C116.5 8448.5 14.0001 8374.5 24.0001 8216.5C32.5001 8171 76.2001 8079.3 183 8076.5C316.5 8073 355 8029 361.5 7970.5C368 7912 329 7813 333.5 7770.5C338 7728 368 7683.5 361.5 7648C355 7612.5 327 7589.5 142.5 7561C90 7548 -1.39989 7535.8 31.0001 7403C39.3334 7361.83 68.6001 7273 119 7247C157.167 7227.33 255 7204.74 327.5 7161.5C355.167 7145 399.3 7078.1 354.5 6942.5C309.7 6806.9 307.5 6836.5 327 6767.5C331.82 6750.45 367.869 6684.86 264.5 6666C127.5 6641 25.5001 6626 39.5001 6560.5C53.5001 6495 72.0001 6411.5 136 6348.5C200 6285.5 335.5 6277 361.5 6162C387.5 6047 386 5911 304 5844C222 5777 -25.4999 5697.5 31.0001 5511C55.1668 5466.33 128.805 5425.71 240.5 5400.5C400 5364.5 387.5 5165 362.5 5066.5C355.167 5009.33 301.3 4924.7 194.5 4903.5C61 4877 -59.9999 4687 57.0001 4563C101 4529.17 196 4540.5 321 4514.5C390.5 4497 380.5 4442 351.5 4180C344.029 4112.5 367.928 4117.76 340.5 4064C328 4039.5 301.867 4024.7 241 4016C153.5 4003.5 163.5 4014 55.5 3921C-23.2177 3853.22 25.5001 3696.5 79.5001 3659C199.5 3563 342 3622.5 357 3496C364 3398 393 3229.5 317.5 3123.5C257.1 3038.7 169.5 3097.5 104 3066C38.5 3034.5 26.0001 3028.4 26.0001 2966C26.0001 2888 38.0001 2815 100.5 2779.5C148.478 2752.25 291.5 2779.5 337 2654.5C364.5 2476.5 399 2428.5 353 2294.5C319.473 2196.84 220.812 2210.39 145 2199C48.5 2184.5 12.5661 2132.64 18.5 2095C36 1984 16.0001 1881.17 101 1849.5C177.5 1821 372.5 1758.5 372.5 1532.5C372.5 1306.5 286.5 1267.5 179.5 1266C72.5001 1264.5 -20.4999 1034 57.0001 957.5C134.5 881 321 915.5 347 830C373 744.5 414.5 406.5 265.5 396.5C116.5 386.5 -48.3487 362.5 15.0001 159C74.1748 -31.0912 223 -7.00009 294.5 19"          stroke="black" 
+          stroke-width="2" 
+          stroke-dasharray="7 7"/>
+</svg>
         </div>
 
         <div class="state-content-sections">
@@ -658,78 +723,61 @@ document.addEventListener('DOMContentLoaded', () => {
     let isBouncingTop = false;
     let isBouncingBottom = false;
     const svgTipCounter = document.getElementById('svg-tip-counter');
-    const pathElement = document.getElementById('Line'); // This now targets the solid, animated path
+    const pathElement = document.getElementById('Line');
     let pathTotalLength = 0;
-    let lastRotationAngle = 90; // Initialize with the starting angle
+    let lastRotationAngle = 90;
     let checkpointsData = [];
-    let currentCounterY = 0;
+    let maskPath = document.getElementById('mask-path');
+
+    // --- NEW VARIABLES FOR MOBILE SVG ---
+    const mobileSvgLine = document.getElementById('mobile-line-svg');
+    const mobilePathElement = document.getElementById('mobile-line-path'); 
+    const mobileMaskRect = document.getElementById('mobile-mask-rect'); 
+    let mobilePathTotalLength = 0;
+    let mobilePathMap = [];
+    let animationFrameId = null;
+
 
     // --- FUNCTION DEFINITIONS ---
-    /** Updates the main altitude counter by interpolating values between checkpoints based on scroll position. */
-/**
- * REVISED FUNCTION
- * Updates the main altitude counter with corrected math for a bottom-to-top scroll.
- */
+
+    /** OPTIMIZATION: This function runs ONCE to build a lookup table of path coordinates. */
+    function buildMobilePathMap() {
+        if (!mobilePathElement) return;
+        mobilePathTotalLength = mobilePathElement.getTotalLength();
+        mobilePathMap = [];
+        // The step value determines the map's precision. 25 is a good balance.
+        for (let l = 0; l < mobilePathTotalLength; l += 25) {
+            const point = mobilePathElement.getPointAtLength(l);
+            mobilePathMap.push({ y: point.y, length: l });
+        }
+        // Add the very last point to ensure full coverage
+        const lastPoint = mobilePathElement.getPointAtLength(mobilePathTotalLength);
+        mobilePathMap.push({ y: lastPoint.y, length: mobilePathTotalLength });
+    }
+
+    /** Updates the main altitude counter. */
     function updateMainCounter(currentIconYPosition) {
         if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
-    
         let prevCheckpoint = checkpointsData[0];
         let nextCheckpoint = checkpointsData[checkpointsData.length - 1];
-
         for (let i = 0; i < checkpointsData.length - 1; i++) {
-            if (checkpointsData[i].y >= currentIconYPosition && checkpointsData[i+1].y <= currentIconYPosition) {
+            if (checkpointsData[i].y >= currentIconYPosition && checkpointsData[i + 1].y <= currentIconYPosition) {
                 prevCheckpoint = checkpointsData[i + 1];
                 nextCheckpoint = checkpointsData[i];
                 break;
             }
         }
-
         const distanceBetweenPoints = nextCheckpoint.y - prevCheckpoint.y;
         const valueRange = nextCheckpoint.value - prevCheckpoint.value;
-        let progress = 0;
-        if (distanceBetweenPoints !== 0) {
-            progress = (currentIconYPosition - prevCheckpoint.y) / distanceBetweenPoints;
-        }
-
+        let progress = (distanceBetweenPoints !== 0) ? (currentIconYPosition - prevCheckpoint.y) / distanceBetweenPoints : 0;
         const currentValue = prevCheckpoint.value + (progress * valueRange);
-    
         const textElement = svgTipCounter.querySelector('.counter-text');
         if (textElement) {
             textElement.textContent = `${Math.round(Math.max(0, currentValue)).toLocaleString('en-US')} ft`;
         }
     }
 
-        window.onload = () => {
-        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
-        
-        // Setup for SVG line animation
-        if (pathElement && maskPath) {
-            pathTotalLength = pathElement.getTotalLength();
-            maskPath.style.strokeDasharray = pathTotalLength;
-            maskPath.style.strokeDashoffset = pathTotalLength;
-        }
-
-        // Calculate altitude checkpoints
-        const allStateContainers = document.querySelectorAll('.state-container');
-        if (allStateContainers.length > 0) {
-            const lastContainer = allStateContainers[allStateContainers.length - 1];
-            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
-        }
-        allStateContainers.forEach(container => {
-            const valueElement = container.querySelector('.altitude-value');
-            if (valueElement && valueElement.dataset.finalValue) {
-                const value = parseInt(valueElement.dataset.finalValue, 10);
-                checkpointsData.push({ y: container.offsetTop, value: value });
-            }
-        });
-        checkpointsData.sort((a, b) => a.y - b.y);
-        
-        // Final setup and initial calls
-        document.body.style.opacity = '1';
-        const initialIconY = animateDashedLine();
-        updateMainCounter(initialIconY);
-    };
-    /** Animates an element's text content from a start value to a final value (count-up effect). */
+    /** Animates altitude popups. */
     function animateAltitude(element) {
         const finalValue = parseInt(element.dataset.finalValue, 10);
         if (isNaN(finalValue) || element.dataset.animated) return;
@@ -740,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function step(timestamp) {
             if (!startTime) startTime = timestamp;
             const progress = Math.min((timestamp - startTime) / duration, 1);
-            const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease-out cubic function
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
             const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
             element.textContent = currentValue.toLocaleString('en-US');
             if (progress < 1) {
@@ -751,8 +799,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         requestAnimationFrame(step);
     }
-
-    /** Rearranges navigation links for mobile or desktop layout. */
+    
+    /** Rearranges navigation links for mobile/desktop. */
     function updateNavLayout() {
         const isMobile = window.innerWidth <= 1024;
         const navLeft = document.querySelector('.nav-left');
@@ -769,13 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /** Returns the bounding-box height of the SVG line element. */
-    function updateSvgHeight() {
-        if (svgLine) return svgLine.getBoundingClientRect().height;
-        return 0;
-    }
-
-    /** Positions the dashed line container based on the positions of the first and last state containers. */
+    /** (ORIGINAL & UNTOUCHED) Positions the dashed line container on DESKTOP. */
     function positionDashedLine() {
         if (window.innerWidth <= 1024) return;
         const stateContainer1 = document.querySelector('.state-container-1');
@@ -791,24 +833,13 @@ document.addEventListener('DOMContentLoaded', () => {
         dashedLineContainer.style.top = `${actualDashedLineTop}px`;
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
-    
-    /** * REVISED & FIXED FUNCTION
-     * Animates the SVG line by drawing it based on scroll position *within the content wrapper*.
-     */
-/**
- * REVISED FUNCTION
- * Animates a PNG/SVG along the path and rotates it to match the path's direction.
- */
-/**
- * REVISED FUNCTION
- * Animates and rotates an icon along the path, preventing sudden 360-degree flips.
- */
+
+    /** (ORIGINAL & UNTOUCHED) Animates the SVG line and icon for DESKTOP view. */
     function animateDashedLine() {
         if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) {
             if (svgTipCounter) svgTipCounter.style.opacity = '0';
-            return 0; // Return 0 if not active
+            return 0;
         }
-
         const animationStartScrollY = topContentWrapper.offsetTop;
         const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -816,53 +847,109 @@ document.addEventListener('DOMContentLoaded', () => {
         let linearProgress = 1 - (scrollAmountInAnimation / animationScrollHeight);
         linearProgress = Math.max(0, Math.min(1, linearProgress));
         const modifiedProgress = Math.pow(linearProgress, 0.95);
-
         const drawLength = pathTotalLength * modifiedProgress;
         maskPath.style.strokeDashoffset = pathTotalLength - drawLength;
-
         if (svgTipCounter) {
             const shouldBeVisible = modifiedProgress > 0.01 && modifiedProgress < 0.99;
             svgTipCounter.style.opacity = shouldBeVisible ? '1' : '0';
-
             const clampedDrawLength = Math.max(1, Math.min(drawLength, pathTotalLength - 1));
-            
             const currentPoint = pathElement.getPointAtLength(clampedDrawLength);
             const previousPoint = pathElement.getPointAtLength(clampedDrawLength - 1);
-
             const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
             const rotationOffset = 90;
             let totalRotation = angle + rotationOffset;
-
             let angleDifference = totalRotation - lastRotationAngle;
-            if (angleDifference > 180) {
-                totalRotation -= 360;
-            } else if (angleDifference < -180) {
-                totalRotation += 360;
-            }
+            if (angleDifference > 180) totalRotation -= 360;
+            else if (angleDifference < -180) totalRotation += 360;
             lastRotationAngle = totalRotation;
-
             const svgLineRect = svgLine.getBoundingClientRect();
             if (svgLineRect.width > 0 && svgLineRect.height > 0) {
-                const viewBoxHeight = svgLine.viewBox.baseVal.height;
-                const viewBoxWidth = svgLine.viewBox.baseVal.width;
-                
-                const pixelsPerSvgY = svgLineRect.height / viewBoxHeight;
-                const pixelsPerSvgX = svgLineRect.width / viewBoxWidth;
-
-                const counterLeftPx = currentPoint.x * pixelsPerSvgX;
-                const counterTopPx = currentPoint.y * pixelsPerSvgY;
-
-                svgTipCounter.style.left = `${counterLeftPx}px`;
-                svgTipCounter.style.top = `${counterTopPx}px`;
+                const scaleY = svgLineRect.height / svgLine.viewBox.baseVal.height;
+                const scaleX = svgLineRect.width / svgLine.viewBox.baseVal.width;
+                svgTipCounter.style.left = `${currentPoint.x * scaleX}px`;
+                svgTipCounter.style.top = `${currentPoint.y * scaleY}px`;
                 svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
-                
-                // THIS IS THE CRITICAL FIX: Return the calculated vertical position
-                return dashedLineContainer.offsetTop + counterTopPx;
+                return dashedLineContainer.offsetTop + (currentPoint.y * scaleY);
             }
         }
-        return 0; // Return 0 if something fails
+        return 0;
     }
-/** Checks if popups are in view and triggers their animations. */
+
+    /** Positions the line on MOBILE with your custom offset. */
+    function positionMobileDashedLine() {
+        if (window.innerWidth > 1024 || !dashedLineContainer) return;
+        const firstSection = document.querySelector('.state-container-1');
+        const lastSection = document.querySelector('.state-container-12');
+        if (!firstSection || !lastSection) return;
+        const bottomOffset = 170; 
+        const topPosition = firstSection.offsetTop;
+        const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
+        const containerHeight = bottomPosition - topPosition;
+        dashedLineContainer.style.top = `${topPosition}px`;
+        dashedLineContainer.style.height = `${containerHeight}px`;
+    }
+    
+    /** Final, OPTIMIZED function for the "top clip" MOBILE animation. */
+    function animateMobileDashedLine() {
+        if (!mobileMaskRect || !mobilePathElement || mobilePathMap.length === 0) {
+            if (svgTipCounter) svgTipCounter.style.opacity = '0';
+            return 0;
+        }
+
+        const counterOffsetY = 30;
+        const clipPointY = window.innerHeight * 0.3;
+        const svgRect = mobileSvgLine.getBoundingClientRect();
+        if (svgRect.height === 0) return 0;
+
+        const relativeClipY_px = clipPointY - svgRect.top;
+        const viewboxHeight = mobileSvgLine.viewBox.baseVal.height;
+        const scaleY = viewboxHeight / svgRect.height;
+        const maskStartY_svg = relativeClipY_px * scaleY;
+        const maskHeight_svg = viewboxHeight - maskStartY_svg;
+
+        mobileMaskRect.setAttribute('y', maskStartY_svg);
+        mobileMaskRect.setAttribute('height', Math.max(0, maskHeight_svg));
+
+        if (svgTipCounter) {
+            const isVisible = (relativeClipY_px > 0 && relativeClipY_px < svgRect.height);
+            svgTipCounter.style.opacity = isVisible ? '1' : '0';
+            
+            let bestLength = 0;
+            let minDiff = Infinity;
+            for (const point of mobilePathMap) {
+                const diff = Math.abs(point.y - maskStartY_svg);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    bestLength = point.length;
+                }
+            }
+            const currentLength = bestLength;
+            
+            const currentPoint = mobilePathElement.getPointAtLength(currentLength);
+            const previousPoint = mobilePathElement.getPointAtLength(currentLength > 0 ? currentLength - 1 : 0);
+            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
+            const rotationOffset = 90;
+            let totalRotation = angle + rotationOffset;
+            let angleDifference = totalRotation - lastRotationAngle;
+            if (angleDifference > 180) totalRotation -= 360;
+            else if (angleDifference < -180) totalRotation += 360;
+            lastRotationAngle = totalRotation;
+            
+            const pointScaleX = svgRect.width / mobileSvgLine.viewBox.baseVal.width;
+            const pointScaleY = svgRect.height / mobileSvgLine.viewBox.baseVal.height;
+            
+            const counterLeft = currentPoint.x * pointScaleX;
+            const counterTop = (currentPoint.y * pointScaleY) + counterOffsetY;
+
+            svgTipCounter.style.left = `${counterLeft}px`;
+            svgTipCounter.style.top = `${counterTop}px`;
+            svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
+
+            return dashedLineContainer.offsetTop + (currentPoint.y * pointScaleY);
+        }
+        return 0;
+    }
+
     function checkAndAnimatePopups() {
         const triggerThreshold = window.innerHeight * 0.20;
         document.querySelectorAll('.h2-popup').forEach(popup => {
@@ -882,59 +969,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- OTHER HELPER FUNCTIONS (UNCHANGED) ---
     function handleOverscroll(event) {
-        if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) {
-            return;
-        }
+        if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
         const touchY = event.touches[0].clientY;
-        const isScrollingDown = touchY < lastTouchY;
         const isScrollingUp = touchY > lastTouchY;
         const atTop = window.pageYOffset === 0;
         if (atTop && isScrollingUp && topContentWrapper) {
-            event.preventDefault();
-            isBouncingTop = true;
-            topContentWrapper.classList.add('pull-down-bounce-animation');
-            setTimeout(() => {
-                topContentWrapper.classList.remove('pull-down-bounce-animation');
-                isBouncingTop = false;
-            }, 600);
+            event.preventDefault(); isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
+            setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
         }
+        const isScrollingDown = touchY < lastTouchY;
         const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
         if (atBottom && isScrollingDown && landingPage) {
-            event.preventDefault();
-            isBouncingBottom = true;
-            landingPage.classList.add('push-up-bounce-animation');
-            setTimeout(() => {
-                landingPage.classList.remove('push-up-bounce-animation');
-                isBouncingBottom = false;
-            }, 600);
+            event.preventDefault(); isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
+            setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
         }
         lastTouchY = touchY;
     }
+
     function preventKeyboardJump(e) {
         if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
     }
-    
-    // --- EVENT LISTENERS ---
-    let maskPath = null; 
 
+
+    // --- MAIN ANIMATION LOOP (for performance) ---
+    function runAnimations() {
+        let currentIconY = 0;
+        if (window.innerWidth <= 1024) {
+            currentIconY = animateMobileDashedLine();
+        } else {
+            currentIconY = animateDashedLine();
+        }
+        updateMainCounter(currentIconY);
+        checkAndAnimatePopups();
+        animationFrameId = null;
+    }
+
+
+    // --- EVENT LISTENERS ---
     window.onload = () => {
         if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
         
-        // The main visible path for calculating tooltip position
-        const visiblePath = document.getElementById('Line');
-        // The path inside the mask that we will animate
-        maskPath = document.getElementById('mask-path');
-
-        if (visiblePath && maskPath) {
-            pathTotalLength = visiblePath.getTotalLength();
-            // Initialize the MASK's path for the drawing animation
+        if (pathElement && maskPath) {
+            pathTotalLength = pathElement.getTotalLength();
             maskPath.style.strokeDasharray = pathTotalLength;
             maskPath.style.strokeDashoffset = pathTotalLength;
         }
 
-        // --- CHECKPOINT LOGIC (from previous step, remains the same) ---
+        buildMobilePathMap();
+
         const allStateContainers = document.querySelectorAll('.state-container');
         if (allStateContainers.length > 0) {
             const lastContainer = allStateContainers[allStateContainers.length - 1];
@@ -942,65 +1025,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         allStateContainers.forEach(container => {
             const valueElement = container.querySelector('.altitude-value');
-            if(valueElement && valueElement.dataset.finalValue) {
+            if (valueElement && valueElement.dataset.finalValue) {
                 const value = parseInt(valueElement.dataset.finalValue, 10);
                 checkpointsData.push({ y: container.offsetTop, value: value });
             }
         });
         checkpointsData.sort((a, b) => a.y - b.y);
         
-        // --- Rest of the onload function ---
         document.body.style.opacity = '1';
-        lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        scrollToTopBtn.classList.add('is-hidden');
         
-        positionDashedLine();
-        animateDashedLine();
-        checkAndAnimatePopups();
+        if (window.innerWidth <= 1024) {
+            positionMobileDashedLine();
+        } else {
+            positionDashedLine();
+        }
+        runAnimations();
+        
         updateNavLayout();
-        updateMainCounter();
 
-        // --- ADDED FOR SCROLL-TRIGGERED ANIMATIONS ---
-        const observerOptions = {
-            root: null, // Use the viewport as the root
-            rootMargin: '0px 0px -20% 0px', // Trigger a little after the element enters the viewport
-            threshold: 0.25 // Trigger as soon as a single pixel is visible within the rootMargin
-        };
-
+        const observerOptions = { root: null, rootMargin: '0px 0px -20% 0px', threshold: 0.25 };
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
-                // When the element is intersecting the viewport
                 if (entry.isIntersecting) {
-                    // Add the class to trigger the CSS transition
                     entry.target.classList.add('is-visible');
-                    // Stop observing the element so the animation doesn't re-trigger
                     observer.unobserve(entry.target);
                 }
             });
         };
-
-        // Create the Intersection Observer
         const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-        // Observe all the state containers
-        const containersToAnimate = document.querySelectorAll('.state-container');
-        containersToAnimate.forEach(container => {
-            scrollObserver.observe(container);
-        });
-        // --- END OF ADDED CODE ---
+        document.querySelectorAll('.state-container').forEach(container => scrollObserver.observe(container));
     };
 
     window.addEventListener('resize', () => {
-        positionDashedLine();
-        animateDashedLine();
-        checkAndAnimatePopups();
+        if (window.innerWidth <= 1024) {
+            positionMobileDashedLine();
+            buildMobilePathMap();
+        } else {
+            positionDashedLine();
+        }
+        runAnimations();
         updateNavLayout();
     });
 
     window.addEventListener('scroll', () => {
-        animateDashedLine(); // This now controls the new drawing animation
-        checkAndAnimatePopups();
-        updateMainCounter();
+        if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(runAnimations);
+        }
         
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (landingPage) {
@@ -1009,7 +1079,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const topOfLandingPage = landingPage.offsetTop;
             const heightOfLandingPage = landingPage.offsetHeight;
             const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-
             if (bottomOfViewport < triggerPoint) {
                 navbar.classList.add('navbar--anchored');
                 scrollToTopBtn.classList.add('raised');
@@ -1020,18 +1089,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-
         if (scrollFraction < 0.5) {
             scrollToTopBtn.classList.remove('is-hidden');
         } else {
             scrollToTopBtn.classList.add('is-hidden');
         }
         lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
-        const currentIconY = animateDashedLine();
-        updateMainCounter(currentIconY);
     }, { passive: true });
     
-    // --- OTHER EVENT LISTENERS (UNCHANGED) ---
+    // All other event listeners
     scrollToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
@@ -1047,29 +1113,15 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.classList.toggle('fa-times', isExpanded);
     });
     const overlayButton = document.querySelector('.overlay-button');
-    // The landingPage variable is already defined, so we can use it here
-
     if (overlayButton && landingPage) {
         overlayButton.addEventListener('click', (event) => {
-            // Prevent the default button behavior
             event.preventDefault();
-
-            // Calculate the target scroll position.
-            // This is the top of the landing page minus the height of the window,
-            // which places the landing page just below the viewport.
             const targetScrollY = landingPage.offsetTop - window.innerHeight;
-            
-            // Scroll smoothly to the calculated position
-            window.scrollTo({
-                top: targetScrollY,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
         });
     }
     window.addEventListener('touchstart', (e) => {
-        if (window.innerWidth <= 1024) {
-            lastTouchY = e.touches[0].clientY;
-        }
+        if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
     }, { passive: true });
     window.addEventListener('touchmove', handleOverscroll, { passive: false });
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
