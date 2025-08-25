@@ -1,3 +1,5 @@
+/* 1. Core Layout & Fonts */
+
 html, body {
     margin: 0;
     padding: 0;
@@ -83,6 +85,8 @@ body.noscroll {
     display: block;
 }
 
+/* --- NEW CSS FOR MOBILE SVG --- */
+
 #mobile-line-svg {
     display: none;
     width: 100%;
@@ -110,6 +114,10 @@ body.noscroll {
     }
 }
 
+/*FOOTER*/
+/* --- Simplified Footer Styles --- */
+
+/* --- Main Footer Container --- */
 .footer {
     position: sticky;
     top: 0;
@@ -126,6 +134,9 @@ body.noscroll {
     padding-bottom: 93.11%;
 }
 
+/*
+  1. STYLING FOR THE COPYRIGHT CONTAINER
+*/
 .footer-copyright {
     position: absolute;
     top: 0;
@@ -138,6 +149,10 @@ body.noscroll {
     z-index: 10; 
 }
 
+
+/*
+  2. STYLING FOR THE TEXT AND PREPARING FOR ANIMATION
+*/
 .footer-copyright p {
     margin: 0;
     color: black;
@@ -148,6 +163,10 @@ body.noscroll {
     cursor: default;
 }
 
+
+/*
+  3. CREATING THE ANIMATED UNDERLINE
+*/
 .footer-copyright p::after {
     content: '';
     position: absolute;
@@ -164,6 +183,7 @@ body.noscroll {
     width: 100%;
 }
 
+/* --- Main Content (Text + Links) --- */
 .footer-main-content {
     position: absolute;
     top: 22%;
@@ -201,6 +221,9 @@ body.noscroll {
     transition: color 0.3s, transform 0.3s;
 }
 
+/*
+  1. THE UNDERLINE'S DEFAULT STATE
+*/
 .footer-column h4::after {
     content: '';
     position: absolute;
@@ -215,7 +238,9 @@ body.noscroll {
     transition: background-size 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+
 @media (max-width: 768px) {
+
     .footer {
         height: auto;
         padding-top: 13rem; 
@@ -265,6 +290,10 @@ body.noscroll {
     }
 }
 
+
+/*
+  2. THE UNDERLINE'S ACTIVE STATE (Triggered by JavaScript)
+*/
 .footer-column h4.is-active::after {
     background-size: 100% 100%;
 }
@@ -293,6 +322,7 @@ body.noscroll {
     color: #6f6f6f;
 }
 
+/* --- Background Image Layer Containers --- */
 .parallax-backgrounds {
     position: absolute;
     top: 0;
@@ -314,11 +344,15 @@ body.noscroll {
     image-rendering: crisp-edges;
 }
 
+/* --- Z-index Stacking Order --- */
 .layer-1 { z-index: 1; }
 .layer-2 { z-index: 2; }
 .layer-3 { z-index: 3; }
 .layer-4 { z-index: 4; }
 .layer-5 { z-index: 5; }
+
+
+/* --- Definitive Control Panel for Image Layers --- */
 
 .layer-1 img {
     position: absolute;
@@ -372,6 +406,7 @@ body.noscroll {
     object-fit: cover;
 }
 
+/* --- General Responsive Tweaks --- */
 @media (max-width: 768px) {
     .footer-main-content {
         flex-direction: column;
@@ -389,7 +424,7 @@ body.noscroll {
 .top-scroll-spacer {
     height: 10vh;
 }
-
+/* 2. Landing Page & Header */
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -557,10 +592,12 @@ header {
     max-width: 400px;
     min-width: 180px;
 }
-
+/* 1. Prepare the Parent Container */
 .content-area {
     position: relative; 
 }
+
+/* --- NEW OVERLAY BUTTON STYLES WITH BOUNCE ANIMATION --- */
 
 @keyframes bounce {
     0%, 100% {
@@ -631,10 +668,12 @@ header {
     transition: width 0.4s ease-out;
 }
 
+
 .overlay-button:hover::after {
     width: 100%;
 }
 
+/* 3. States Section */
 .state-container {
     display: flex;
     align-items: center;
@@ -810,6 +849,7 @@ header {
 @media (min-width: 1025px) {
 }
 
+/* 4. UI Elements */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -845,6 +885,8 @@ header {
     pointer-events: none !important;
 }
 
+
+/* 5. Responsive Layout Rules */
 @media (max-width: 1024px) {
     #landing-page-container {
         min-height: 90vh;
@@ -893,9 +935,9 @@ header {
     }
 
     .button-text {
-        font-size: 1rem;
-        font-family: Arial, Helvetica, sans-serif;
-    }
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
     
     .main-nav {
         display: none;
@@ -1123,6 +1165,7 @@ header {
     }
 }
 
+/* 6. Animations */
 @keyframes dropDownItem {
     from {
         opacity: 0;
@@ -1170,6 +1213,7 @@ header {
     animation: push-up-bounce 0.6s forwards;
 }
 
+
 @keyframes popUpFromBottom {
     from {
         opacity: 0;
@@ -1181,13 +1225,12 @@ header {
     }
 }
 
+/* 7. Desktop-Specific Styles & Anchored Navbar */
 @media (min-width: 1025px) {
     .state-container-1 .image-column img {
-        transform: translateY(0px);
-    }
+    transform: translateY(0px);}
     .state-container-2 {
-        margin-top: -60px;
-    }
+    margin-top: -60px;}
 
     .navbar.navbar--anchored {
         position: fixed;
