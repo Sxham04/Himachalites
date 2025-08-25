@@ -399,7 +399,7 @@ header {
 .layer-2 img { position: absolute; width: 100%; height: 80%; bottom: 15%; left: 0; object-fit: cover; }
 .layer-3 img { position: absolute; width: 100%; height: 67%; bottom: -5%; left: 0; object-fit: cover; }
 .layer-4 .figure-left, 
-.layer-4 .figure-right { position: absolute; width: 20%; max-width: 400px; height: auto; bottom: -5%; object-fit: contain; }
+.layer-4 .figure-right { position: absolute; width: 20%; height: auto; bottom: -5%; object-fit: contain; }
 .layer-4 .figure-left { left: 0; }
 .layer-4 .figure-right { right: 0; }
 .layer-5 img { position: absolute; width: 100%; height: 40%; bottom: -10%; left: 0; object-fit: cover; }

@@ -20,22 +20,19 @@
             opacity: 0;
             transition: opacity 0.4s ease-in;
         }
-/* --- FINAL & CORRECTED CSS FOR SVG --- */
-
 /* Hide mobile SVG on desktop by default */
 #mobile-line-svg {
     display: none;
 }
 
-/* Rules for mobile screens (max-width: 1024px) */
 @media (max-width: 1024px) {
     
-    /* 1. Ensure the main wrapper remains a positioning context */
+    /* Ensure the main wrapper remains a positioning context */
     .top-content-wrapper {
         position: relative !important;
     }
     
-    /* 2. Set up the line container for JS positioning and place it ON TOP of content */
+    /* Set up the line container for JS positioning and place it ON TOP of content */
     .dashed-line {
         display: block !important;
         position: absolute !important;
@@ -47,31 +44,28 @@
         left: 50% !important;
         transform: translateX(-50%) !important;
         
-        /* FIX: Set z-index to 1 to bring it in front of the content sections */
+        /* Set z-index to bring it in front of the content sections */
         z-index: 1; 
         /* Make it non-interactive so you can click/scroll through it */
         pointer-events: none; 
     }
 
-    /* 3. Make sure the counter is on top of the line */
+    /* Make sure the counter is on top of the line */
     #svg-tip-counter {
-        /* FIX: Higher z-index than the line */
         z-index: 2; 
         pointer-events: all; 
     }
 
-    /* --- Hide/Show Logic --- */
-    
-    /* 4. Hide the DESKTOP SVG */
+    /* Hide the DESKTOP SVG */
     .dashed-line-center {
         display: none;
     }
     
-    /* 5. Show the MOBILE SVG and ensure it fills its container */
+    /* Show the MOBILE SVG and ensure it fills its container */
     #mobile-line-svg {
         display: block;
         width: 100%;
-        height: 100%; /* Fills the height set by the JS */
+        height: 100%; /* Fills the height set by JS */
         position: absolute;
         top: 0;
         left: 0;
@@ -89,17 +83,12 @@
             margin-left: 0.2em;
         }
         
-/* --- COUNTER STYLES --- */
-
-/* 1. Main Container */
 #svg-tip-counter {
     position: absolute;
-    width: 120px;  /* Set the size of your icon */
+    width: 120px;
     height: 120px;
     z-index: 10;
     opacity: 0;
-
-    /* These styles are now applied to the container */
     transform: translate(-50%, -50%) rotate(0deg);
     transition: top 0.05s linear, 
                 left 0.05s linear, 
@@ -107,48 +96,44 @@
                 transform 0.1s linear;
 }
 
-/* 2. Background Image (the PNG) */
+@media (max-width: 500px){
+    #svg-tip-counter {
+        width: 80px;
+        height:80px;
+    }
+
+    .counter-text {
+        font-size: 10px !important;
+    }
+}
+
 .counter-bg-image {
     width: 100%;
     height: 100%;
 }
 
-/* 3. The Altitude Text */
 .counter-text {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, 50%) rotate(90deg); /* Fine-tune centering */
-    
-    color: black; /* Text color */
-    font-size: 14px; /* Text size */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%) rotate(90deg);
+    color: black;
+    font-size: 14px;
     font-weight: 600;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     white-space: nowrap;
 }
 
-        /* --- ADDED FOR SCROLL-TRIGGERED ANIMATIONS --- */
-
-        /* Initial state: elements are invisible and shifted */
-/* --- SCROLL-TRIGGERED ANIMATIONS (NEW) --- */
-
-/* Initial state: elements are invisible and blurred */
+        /* Initial state for scroll-triggered animations: elements are invisible and blurred */
             .state-container .info-column > h2,
             .state-container .info-column > p,
             .state-container .info-column > .info-button {
                 opacity: 0;
-                /* The blur effect you wanted */
                 filter: blur(10px); 
-                /* Increased duration to 1s to match the React component's default */
                 transition: opacity 0.6s ease-out, filter 0.6s ease-out; 
             }
 
-            /* The old transform rules are no longer needed,
-            so we can remove the entire '.state-container:not(.reverse)...'
-            and '.state-container.reverse...' blocks.
-            */
-
-            /* These delays create the same staggered effect as before */
+            /* Staggered animation effect via delays */
             .state-container .info-column > p {
                 transition-delay: 0.1s;
             }
@@ -161,12 +146,8 @@
             .state-container.is-visible .info-column > p,
             .state-container.is-visible .info-column > .info-button {
                 opacity: 1;
-                /* Remove the blur on the final state */
                 filter: blur(0px); 
-                /* The old transform: translateX(0) is no longer needed */
             }
-/* --- END OF NEW CSS --- */
-        /* --- END OF ADDED CSS --- */
     </style>
 </head>
 <body>
@@ -201,65 +182,64 @@
         <div class="parallax-backgrounds">
             <div class="parallax-layer layer-1">
                 <img srcset="f/720px/Back Mountains.png 720w,
-                    f/1080px/Back Mountains.png 1900w,
-                    f/1440px/Back Mountains.png 2000w,
-                    f/2160px/Back Mountains.png 3000w"
-                    sizes="100vw"
-                    src="f/1080px/Back Mountains.png" 
-                    alt="Distant back mountains">
+                     f/1080px/Back Mountains.png 1900w,
+                     f/1440px/Back Mountains.png 2000w,
+                     f/2160px/Back Mountains.png 3000w"
+                     sizes="100vw"
+                     src="f/1080px/Back Mountains.png" 
+                     alt="Distant back mountains">
             </div>
 
             <div class="parallax-layer layer-2">
                 <img srcset="f/720px/Front Mountains.png 720w,
-                    f/1080px/Front Mountains.png 1900w,
-                    f/1440px/Front Mountains.png 2000w,
-                    f/2160px/Front Mountains.png 3000w"
-                    sizes="100vw"
-                    src="f/1080px/Front Mountains.png" 
-                    alt="Closer front mountains">
+                     f/1080px/Front Mountains.png 1900w,
+                     f/1440px/Front Mountains.png 2000w,
+                     f/2160px/Front Mountains.png 3000w"
+                     sizes="100vw"
+                     src="f/1080px/Front Mountains.png" 
+                     alt="Closer front mountains">
             </div>
 
             <div class="parallax-layer layer-3">
                 <img srcset="f/720px/Footer forest.png 720w,
-                    f/1080px/Footer forest.png 1900w,
-                    f/1440px/Footer forest.png 2000w,
-                    f/2160px/Footer forest.png 3000w"
-                    sizes="100vw"
-                    src="f/1080px/Footer forest.png" 
-                    alt="A dense forest line">
+                     f/1080px/Footer forest.png 1900w,
+                     f/1440px/Footer forest.png 2000w,
+                     f/2160px/Footer forest.png 3000w"
+                     sizes="100vw"
+                     src="f/1080px/Footer forest.png" 
+                     alt="A dense forest line">
             </div>
 
             <div class="parallax-layer layer-4">
                 <img class="figure-left"
-                    srcset="f/1440px/Women.png 720w,
-                    f/1440px/Women.png 1920w,
-                    f/1440px/Women.png 2000w,
-                    f/2160px/Women.png 3000w"
-                    src="f/1080px/Women.png"
-                    sizes="35vw" 
-                    alt="Illustration of a woman">
+                     srcset="f/1440px/Women.png 720w,
+                     f/1440px/Women.png 1920w,
+                     f/1440px/Women.png 2000w,
+                     f/2160px/Women.png 3000w"
+                     src="f/1080px/Women.png"
+                     sizes="35vw" 
+                     alt="Illustration of a woman">
                 <img class="figure-right" 
-                    srcset="f/1440px/Men.png 720w,
-                    f/1440px/Men.png 1920w,
-                    f/1440px/Men.png 2000w,
-                    f/2160px/Men.png 3000w"
-                    src="f/1080px/Men.png" 
-                    sizes="35vw"
-                    alt="Illustration of a man">
+                     srcset="f/1440px/Men.png 720w,
+                     f/1440px/Men.png 1920w,
+                     f/1440px/Men.png 2000w,
+                     f/2160px/Men.png 3000w"
+                     src="f/1080px/Men.png" 
+                     sizes="35vw"
+                     alt="Illustration of a man">
             </div>
 
             <div class="parallax-layer layer-5">
                 <img srcset="f/720px/Bottom Clouds.png 720w,
-                    f/1080px/Bottom Clouds.png 19200w,
-                    f/1440px/Bottom Clouds.png 2000w,
-                    f/2160px/Bottom Clouds.png 3000w"
-                    src="f/1080px/Bottom Clouds.png" 
-                    sizes="100vw"
-                    alt="Layer of fog or clouds">
+                     f/1080px/Bottom Clouds.png 19200w,
+                     f/1440px/Bottom Clouds.png 2000w,
+                     f/2160px/Bottom Clouds.png 3000w"
+                     src="f/1080px/Bottom Clouds.png" 
+                     sizes="100vw"
+                     alt="Layer of fog or clouds">
             </div>
         </div>
     </div>
-    <!-- <div class="top-scroll-spacer"></div> -->
     <div class="top-content-wrapper">
         <div class="dashed-line">
             <div id="svg-tip-counter">
@@ -303,7 +283,7 @@
     </defs>
     <path id="mobile-line-path" 
           mask="url(#mobile-drawing-mask)"
-d="M242.5 10830C286 10815 346 10788.5 361.5 10749.5C377 10710.5 388.5 10633.5 373 10559.5C359.594 10495.5 356 10381.5 184 10369C50.2771 10359.3 -6.5 10226.5 40 10144C83.5 10084.5 98 9956.02 255.5 9940C344 9931 404.563 9768.46 379 9654C345.5 9504 244 9420 181.5 9416.5C136.167 9411.17 22 9385 41 9304C62 9244.5 83.5001 9265.6 73.5001 9148C64.8334 9102 69.4001 9010.5 157 9012.5C234.333 9008 362 8980 375 8805C377.5 8710.84 390 8533.82 298 8510.5C116.5 8464.5 14.0001 8390.5 24.0001 8232.5C32.5001 8187 76.2001 8095.3 183 8092.5C316.5 8089 355 8045 361.5 7986.5C368 7928 329 7829 333.5 7786.5C338 7744 368 7699.5 361.5 7664C355 7628.5 327 7605.5 142.5 7577C90 7564 -1.39989 7551.8 31.0001 7419C39.3334 7377.83 68.6001 7289 119 7263C157.167 7243.33 255 7220.74 327.5 7177.5C355.167 7161 399.3 7094.1 354.5 6958.5C309.7 6822.9 307.5 6852.5 327 6783.5C331.82 6766.45 367.869 6700.86 264.5 6682C127.5 6657 25.5001 6642 39.5001 6576.5C53.5001 6511 72.0001 6427.5 136 6364.5C200 6301.5 335.5 6293 361.5 6178C387.5 6063 386 5927 304 5860C222 5793 -25.4999 5713.5 31.0001 5527C55.1668 5482.33 128.805 5441.71 240.5 5416.5C400 5380.5 387.5 5181 362.5 5082.5C355.167 5025.33 301.3 4940.7 194.5 4919.5C61 4893 -59.9999 4703 57.0001 4579C101 4545.17 196 4556.5 321 4530.5C390.5 4513 380.5 4458 351.5 4196C344.029 4128.5 367.928 4133.76 340.5 4080C328 4055.5 301.867 4040.7 241 4032C153.5 4019.5 163.5 4030 55.5 3937C-23.2177 3869.22 25.5001 3712.5 79.5001 3675C199.5 3579 342 3638.5 357 3512C364 3414 393 3245.5 317.5 3139.5C257.1 3054.7 169.5 3113.5 104 3082C38.5 3050.5 26.0001 3044.4 26.0001 2982C26.0001 2904 38.0001 2831 100.5 2795.5C148.478 2768.25 291.5 2795.5 337 2670.5C364.5 2492.5 399 2444.5 353 2310.5C319.473 2212.84 220.812 2226.39 145 2215C48.5 2200.5 12.5661 2148.64 18.5 2111C36 2000 16.0001 1897.17 101 1865.5C177.5 1837 372.5 1774.5 372.5 1548.5C372.5 1322.5 286.5 1283.5 179.5 1282C72.5001 1280.5 -20.4999 1050 57.0001 973.5C134.5 897 321 931.5 347 846C373 760.5 414.5 422.5 265.5 412.5C116.5 402.5 -48.3487 378.5 15.0001 175C74.1748 -15.0911 155 129 246.5 1"           
+d="M242.5 10830C286 10815 346 10788.5 361.5 10749.5C377 10710.5 388.5 10633.5 373 10559.5C359.594 10495.5 356 10381.5 184 10369C50.2771 10359.3 -6.5 10226.5 40 10144C83.5 10084.5 98 9956.02 255.5 9940C344 9931 404.563 9768.46 379 9654C345.5 9504 244 9420 181.5 9416.5C136.167 9411.17 22 9385 41 9304C62 9244.5 83.5001 9265.6 73.5001 9148C64.8334 9102 69.4001 9010.5 157 9012.5C234.333 9008 362 8980 375 8805C377.5 8710.84 390 8533.82 298 8510.5C116.5 8464.5 14.0001 8390.5 24.0001 8232.5C32.5001 8187 76.2001 8095.3 183 8092.5C316.5 8089 355 8045 361.5 7986.5C368 7928 329 7829 333.5 7786.5C338 7744 368 7699.5 361.5 7664C355 7628.5 327 7605.5 142.5 7577C90 7564 -1.39989 7551.8 31.0001 7419C39.3334 7377.83 68.6001 7289 119 7263C157.167 7243.33 255 7220.74 327.5 7177.5C355.167 7161 399.3 7094.1 354.5 6958.5C309.7 6822.9 307.5 6852.5 327 6783.5C331.82 6766.45 367.869 6700.86 264.5 6682C127.5 6657 25.5001 6642 39.5001 6576.5C53.5001 6511 72.0001 6427.5 136 6364.5C200 6301.5 335.5 6293 361.5 6178C387.5 6063 386 5927 304 5860C222 5793 -25.4999 5713.5 31.0001 5527C55.1668 5482.33 128.805 5441.71 240.5 5416.5C400 5380.5 387.5 5181 362.5 5082.5C355.167 5025.33 301.3 4940.7 194.5 4919.5C61 4893 -59.9999 4703 57.0001 4579C101 4545.17 196 4556.5 321 4530.5C390.5 4513 380.5 4458 351.5 4196C344.029 4128.5 367.928 4133.76 340.5 4080C328 4055.5 301.867 4040.7 241 4032C153.5 4019.5 163.5 4030 55.5 3937C-23.2177 3869.22 25.5001 3712.5 79.5001 3675C199.5 3579 342 3638.5 357 3512C364 3414 393 3245.5 317.5 3139.5C257.1 3054.7 169.5 3113.5 104 3082C38.5 3050.5 26.0001 3044.4 26.0001 2982C26.0001 2904 38.0001 2831 100.5 2795.5C148.478 2768.25 291.5 2795.5 337 2670.5C364.5 2492.5 399 2444.5 353 2310.5C319.473 2212.84 220.812 2226.39 145 2215C48.5 2200.5 12.5661 2148.64 18.5 2111C36 2000 16.0001 1897.17 101 1865.5C177.5 1837 372.5 1774.5 372.5 1548.5C372.5 1322.5 286.5 1283.5 179.5 1282C72.5001 1280.5 -20.4999 1050 57.0001 973.5C134.5 897 321 931.5 347 846C373 760.5 414.5 422.5 265.5 412.5C116.5 402.5 -48.3487 378.5 15.0001 175C74.1748 -15.0911 155 129 246.5 1"          
 stroke="black" 
           stroke-width="2" 
           stroke-dasharray="7 7"/>
@@ -595,36 +575,24 @@ stroke="black"
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. Find all the footer columns on the page
     const footerColumns = document.querySelectorAll('.footer-column');
 
-    // 2. Loop through each column to set up the hover effect
     footerColumns.forEach(column => {
-        
-        // Find the h4 and ul elements within this specific column
         const heading = column.querySelector('h4');
         const list = column.querySelector('ul');
 
-        // Make sure both elements exist before adding listeners
         if (heading && list) {
-
-            // 3. When the mouse enters the list area...
             list.addEventListener('mouseenter', () => {
-                // ...add the 'is-active' class to the heading.
                 heading.classList.add('is-active');
             });
 
-            // 4. When the mouse leaves the list area...
             list.addEventListener('mouseleave', () => {
-                // ...remove the 'is-active' class from the heading.
                 heading.classList.remove('is-active');
             });
         }
     });
-
 });
-</script>    
+</script>   
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // Ensure GSAP and ScrollTrigger are loaded
@@ -634,7 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    // Use GSAP's built-in tool for responsive animations
+    // Use GSAP's tool for responsive animations
     gsap.matchMedia().add({
         
         // This condition is for desktop screens (769px and wider)
@@ -647,22 +615,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (isDesktop) {
             
-            // --- YOUR ENTIRE ANIMATION SCRIPT IS PLACED HERE ---
-
             const footerParallaxTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: ".footer",
                     start: "top top",
-                    end: "bottom bottom",
-                    scrub: 2 
+                    // The animation completes after scrolling 2000px past the start point.
+                    end: "+=2000", 
+                    scrub: 2
                 }
             });
             
             footerParallaxTimeline
-                .fromTo(".layer-1", { y: 50 }, { y: 0 }, 0)
-                .fromTo(".layer-2", { y: 90 }, { y: 0 }, 0)
-                .fromTo(".layer-3", { y: 300 }, { y: -100 }, 0)
-                .fromTo(".layer-5", { y: 350 }, { y: -100 }, 0)
+                .fromTo(".layer-1", { y: 30 }, { y: 0 }, 0)
+                .fromTo(".layer-2", { y: 70 }, { y: 0 }, 0)
+                .fromTo(".layer-3", { y: 310 }, { y: 0 }, 0)
+                .fromTo(".layer-5", { y: 340 }, { y: 0 }, 0)
                 .fromTo(".footer-main-content", { y: 150 }, { y: -400, ease: "power1.out" }, 0);
 
             footerParallaxTimeline.fromTo(".layer-4 .figure-left",
@@ -684,31 +651,25 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
         
-        // --- On mobile screens (768px or less), none of the code above will run. ---
+        // On mobile screens (768px or less), the animation code above will not run.
 
         return () => {
-            // This is GSAP's cleanup function. It will automatically remove the
-            // animations if you resize your browser from desktop to mobile.
+            // GSAP's cleanup function automatically removes animations on browser resize.
         };
     });
 });
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Find the logo image in the navbar
     const logoImage = document.querySelector('.navbar .logo img');
-
-    // If the logo exists, add a click event listener
     if (logoImage) {
         logoImage.addEventListener('click', () => {
-            // Reload the current page
             location.reload();
         });
     }
 });
 </script>
 <script>
-    // --- VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');
     const landingPage = document.getElementById('landing-page-container');
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
@@ -729,8 +690,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastRotationAngle = 90;
     let checkpointsData = [];
     let maskPath = document.getElementById('mask-path');
-
-    // --- NEW VARIABLES FOR MOBILE SVG ---
     const mobileSvgLine = document.getElementById('mobile-line-svg');
     const mobilePathElement = document.getElementById('mobile-line-path'); 
     const mobileMaskRect = document.getElementById('mobile-mask-rect'); 
@@ -738,9 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let mobilePathMap = [];
     let animationFrameId = null;
 
-
-    // --- FUNCTION DEFINITIONS ---
-
+    /** Pre-calculates points and angles along the mobile SVG path for faster lookup during animation. */
     function buildMobilePathMap() {
         if (!mobilePathElement) return;
         mobilePathTotalLength = mobilePathElement.getTotalLength();
@@ -761,7 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /** Updates the main altitude counter. */
+    /** Updates the main altitude counter based on the icon's vertical position. */
     function updateMainCounter(currentIconYPosition) {
         if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
         let prevCheckpoint = checkpointsData[0];
@@ -783,7 +740,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /** Animates altitude popups. */
+    /** Animates the counting-up effect for altitude popups. */
     function animateAltitude(element) {
         const finalValue = parseInt(element.dataset.finalValue, 10);
         if (isNaN(finalValue) || element.dataset.animated) return;
@@ -806,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(step);
     }
     
-    /** Rearranges navigation links for mobile/desktop. */
+    /** Rearranges navigation links for mobile or desktop layouts. */
     function updateNavLayout() {
         const isMobile = window.innerWidth <= 1024;
         const navLeft = document.querySelector('.nav-left');
@@ -823,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /** (ORIGINAL & UNTOUCHED) Positions the dashed line container on DESKTOP. */
+    /** Positions the dashed line container on desktop. */
     function positionDashedLine() {
         if (window.innerWidth <= 1024) return;
         const stateContainer1 = document.querySelector('.state-container-1');
@@ -840,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
 
-    /** (ORIGINAL & UNTOUCHED) Animates the SVG line and icon for DESKTOP view. */
+    /** Animates the SVG line and icon for desktop view. */
     function animateDashedLine() {
         if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) {
             if (svgTipCounter) svgTipCounter.style.opacity = '0';
@@ -881,7 +838,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return 0;
     }
 
-    /** Positions the line on MOBILE with your custom offset. */
+    /** Positions the dashed line container on mobile. */
     function positionMobileDashedLine() {
         if (window.innerWidth > 1024 || !dashedLineContainer) return;
         const firstSection = document.querySelector('.state-container-1');
@@ -895,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dashedLineContainer.style.height = `${containerHeight}px`;
     }
     
-    /** Final, OPTIMIZED function for the "top clip" MOBILE animation. */
+    /** Animates the mobile SVG line using a clipping mask effect based on scroll position. */
     function animateMobileDashedLine() {
         if (!mobileMaskRect || !mobilePathElement || mobilePathMap.length === 0) {
             if (svgTipCounter) svgTipCounter.style.opacity = '0';
@@ -956,6 +913,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return 0;
     }
 
+    /** Checks if altitude popups are in view and triggers their animation. */
     function checkAndAnimatePopups() {
         const triggerThreshold = window.innerHeight * 0.20;
         document.querySelectorAll('.h2-popup').forEach(popup => {
@@ -975,6 +933,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /** Creates a "bounce" effect on mobile when overscrolling at the top or bottom of the page. */
     function handleOverscroll(event) {
         if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
         const touchY = event.touches[0].clientY;
@@ -993,12 +952,12 @@ document.addEventListener('DOMContentLoaded', () => {
         lastTouchY = touchY;
     }
 
+    /** Prevents page jumping from keyboard input during certain scroll animations. */
     function preventKeyboardJump(e) {
         if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
     }
 
-
-    // --- MAIN ANIMATION LOOP (for performance) ---
+    // Main animation loop, run inside requestAnimationFrame for performance.
     function runAnimations() {
         let currentIconY = 0;
         if (window.innerWidth <= 1024) {
@@ -1011,8 +970,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animationFrameId = null;
     }
 
-
-    // --- EVENT LISTENERS ---
     window.onload = () => {
         if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
         
@@ -1103,7 +1060,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
     }, { passive: true });
     
-    // All other event listeners
     scrollToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });

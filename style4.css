@@ -1,5 +1,3 @@
-/* 1. Core Layout & Fonts */
-
 html, body {
     margin: 0;
     padding: 0;
@@ -85,51 +83,36 @@ body.noscroll {
     display: block;
 }
 
-/* --- NEW CSS FOR MOBILE SVG --- */
-
-/* 1. Hide the mobile SVG by default on desktop */
 #mobile-line-svg {
     display: none;
     width: 100%;
     height: 100%;
 }
 
-/* 2. Modify the existing media query to handle both SVGs */
 @media (max-width: 500px) {
-    /* Instead of hiding the whole container, just hide the desktop SVG */
     .dashed-line .dashed-line-center {
         display: none;
     }
 
-    /* Now, show the new mobile SVG on mobile screens */
     #mobile-line-svg {
         display: block;
     }
     
-    /* 3. Prepare the mobile path for its drawing animation */
     #mobile-line-path {
-        /* These values will be set by JavaScript, but it's good practice to declare them */
         stroke-dasharray: 10;
         stroke-dashoffset: 1;
     }
     
-    /* 4. Adjust the counter's transition for mobile (optional but recommended) */
     #svg-tip-counter {
-         /* Removing 'left' from transition as it won't change much on a vertical path */
         transition: top 0.05s linear, 
                     opacity 0.3s ease, 
                     transform 0.1s linear;
     }
 }
 
-/*FOOTER*/
-/* --- Simplified Footer Styles --- */
-
-/* --- Main Footer Container --- */
-/* --- Main Footer Container --- */
 .footer {
-    position: sticky; /* ADD THIS */
-    top: 0;           /* ADD THIS */
+    position: sticky;
+    top: 0;
     width: 100%;
     max-width: 3000px;
     height: 0;
@@ -143,84 +126,44 @@ body.noscroll {
     padding-bottom: 93.11%;
 }
 
-/*
-  1. STYLING FOR THE COPYRIGHT CONTAINER
-*/
 .footer-copyright {
-    position: absolute; /* Position it relative to the .footer container */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px; /* As requested */
-    
-    /* Flexbox to perfectly center the text */
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* Ensure it sits on top of the parallax background layers */
     z-index: 10; 
 }
 
-
-/*
-  2. STYLING FOR THE TEXT AND PREPARING FOR ANIMATION
-*/
 .footer-copyright p {
-    margin: 0; /* Remove default paragraph margin */
-    color: black; /* A soft, dark gray for readability */
+    margin: 0;
+    color: black;
     font-size: 0.9em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    
-    position: relative; /* Required for positioning the underline pseudo-element */
-    padding-bottom: 5px; /* Add a little space for the underline */
+    position: relative;
+    padding-bottom: 5px;
     cursor: default;
 }
 
-
-/*
-  3. CREATING THE ANIMATED UNDERLINE
-*/
-
-/* Create the underline using the ::after pseudo-element */
 .footer-copyright p::after {
     content: '';
     position: absolute;
-    bottom: 0; /* Position it at the bottom of the <p> tag */
-    
-    /* Center the line and prepare for the "draw from center" animation */
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    
-    height: 1px; /* Thickness of the underline */
-    background-color: #333; /* Color of the underline */
-    
-    /* The magic: start with 0 width, so it's invisible */
+    height: 1px;
+    background-color: #333;
     width: 0; 
-    
-    /* Define the transition for the animation */
     transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* On hover, expand the underline to 100% width */
 .footer-copyright p:hover::after {
     width: 100%;
 }
 
-/* Add these new rules for the starting positions of the parallax layers */
-
-/* .footer .parallax-layer.layer-1 { transform: translateY(150px); }
-.footer .parallax-layer.layer-2 { transform: translateY(200px); }
-.footer .parallax-layer.layer-3 { transform: translateY(150px); }
-.footer .parallax-layer.layer-4 { transform: translateY(550px); }
-.footer .parallax-layer.layer-5 { transform: translateY(500vh); } */
-/* 
-.footer .footer-main-content {
-    transform: translateY(150px);
-    opacity: 0;
-} */
-
-/* --- Main Content (Text + Links) --- */
 .footer-main-content {
     position: absolute;
     top: 22%;
@@ -238,12 +181,9 @@ body.noscroll {
 }
 
 @media (max-width: 2000px) {
-  
-  /* Select the footer content container */
-  .footer-main-content {
-    top: 18%; 
-  }
-
+    .footer-main-content {
+        top: 18%; 
+    }
 }
 
 .footer-column h4 {
@@ -256,57 +196,29 @@ body.noscroll {
 }
 
 .footer-column a i {
-    margin-left: 8px; /* Adds a little space between text and icon if they get close */
-    color: #555; /* Makes the icon a slightly softer color than the text */
-    transition: color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+    margin-left: 8px;
+    color: #555;
+    transition: color 0.3s, transform 0.3s;
 }
 
-/*
-  1. THE UNDERLINE'S DEFAULT STATE
-*/
 .footer-column h4::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     height: 3px;
-    
-    /* Make the underline longer, as requested */
     width: 200%; 
-
-    /* --- TECHNIQUE FOR THE ANIMATION --- */
-    /* A. Use a light grey for the base background of the underline */
     background-color: #ffffff;
-    
-    /* B. Create the black part as a separate gradient layer on top */
     background-image: linear-gradient(#262626, #262626);
     background-repeat: no-repeat;
-
-    /* C. Set the initial size of the black layer to 40%, as requested */
     background-size: 40% 100%;
-
-    /* D. Define the transition for the background-size property */
     transition: background-size 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* --- MOBILE FOOTER STYLES --- */
-/* --- MOBILE FOOTER STYLES --- */
-
-/* --- MOBILE FOOTER STYLES --- */
-
-/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
-
-/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
-
-/* --- MOBILE FOOTER STYLES (CORRECTED) --- */
-
 @media (max-width: 768px) {
-
     .footer {
         height: auto;
-        /* Increased top padding to push the content down */
         padding-top: 13rem; 
-        /* Adjusted bottom padding to a sensible default */
         padding-bottom: 8rem; 
         justify-content: flex-start; 
     }
@@ -353,12 +265,7 @@ body.noscroll {
     }
 }
 
-
-/*
-  2. THE UNDERLINE'S ACTIVE STATE (Triggered by JavaScript)
-*/
 .footer-column h4.is-active::after {
-    /* On hover, expand the black background layer to fill the entire underline */
     background-size: 100% 100%;
 }
 
@@ -386,7 +293,6 @@ body.noscroll {
     color: #6f6f6f;
 }
 
-/* --- Background Image Layer Containers --- */
 .parallax-backgrounds {
     position: absolute;
     top: 0;
@@ -404,82 +310,68 @@ body.noscroll {
 }
 
 .parallax-layer img {
-    /* --- Add this line --- */
-    image-rendering: -webkit-optimize-contrast; /* For Chrome/Safari */
-    image-rendering: crisp-edges; /* For Firefox */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
-/* --- Z-index Stacking Order --- */
-.layer-1 { z-index: 1; } /* Back Mountain */
-.layer-2 { z-index: 2; } /* Front Mountain */
-.layer-3 { z-index: 3; } /* Forest */
-.layer-4 { z-index: 4; } /* Man and Woman */
-.layer-5 { z-index: 5; } /* Fog/Clouds */
+.layer-1 { z-index: 1; }
+.layer-2 { z-index: 2; }
+.layer-3 { z-index: 3; }
+.layer-4 { z-index: 4; }
+.layer-5 { z-index: 5; }
 
-
-/* --- Definitive Control Panel for Image Layers --- */
-
-/* Layer 1: Back Mountain */
 .layer-1 img {
     position: absolute;
     width: 100%;
     height: 46%;
     bottom: 60%;
     left: 0;
-    object-fit: cover; /* Stretches to fill the container */
+    object-fit: cover;
 }
 
-/* Layer 2: Front Mountain */
 .layer-2 img {
     position: absolute;
     width: 100%;
-    height: 80%; /* Example: 80% of footer height */
-    bottom: 23%;   /* Aligns to the bottom */
+    height: 80%;
+    bottom: 23%;
     left: 0;
     object-fit: cover;
 }
 
-/* Layer 3: Forest */
 .layer-3 img {
     position: absolute;
     width: 100%;
-    height: 67%; /* Example: 60% of footer height */
-    bottom: 15%; /* Example: 15% up from the bottom */
+    height: 67%;
+    bottom: 15%;
     left: 0;
     object-fit: cover;
 }
 
-/* Layer 4: Man and Woman Figures */
 .layer-4 .figure-left,
 .layer-4 .figure-right {
     position: absolute;
     width: 20%;
-    max-width: 400px;
     height: auto;
-    bottom: 15%; /* Example: 5% up from the bottom */
-    object-fit: contain; /* Shows the full image without cropping */
+    bottom: 15%;
+    object-fit: contain;
 }
-
-
 
 .layer-4 .figure-left {
-    left: 0; /* Example: 5% from the left edge */
+    left: 0;
 }
 .layer-4 .figure-right {
-    right: 0; /* Example: 5% from the right edge */
+    right: 0;
 }
 
-/* Layer 5: Bottom Clouds */
 .layer-5 img {
     position: absolute;
     width: 100%;
-    height: 40%; /* Example: 40% of footer height */
-    bottom: 10%;   /* Aligns to the bottom */
+    height: 40%;
+    bottom: 10%;
     left: 0;
     object-fit: cover;
 }
 
-/* --- General Responsive Tweaks --- */
 @media (max-width: 768px) {
     .footer-main-content {
         flex-direction: column;
@@ -497,8 +389,7 @@ body.noscroll {
 .top-scroll-spacer {
     height: 10vh;
 }
-/* 2. Landing Page & Header */
-/* MODIFIED: Added z-index: 2 to lift this entire section up */
+
 #landing-page-container {
     display: flex;
     flex-direction: column;
@@ -506,7 +397,7 @@ body.noscroll {
     width: 100%;
     overflow: hidden;
     position: relative;
-    z-index: 2; /* This places the landing page above the scrolling content */
+    z-index: 2;
     background-color: white;
     isolation: isolate;
 }
@@ -666,58 +557,40 @@ header {
     max-width: 400px;
     min-width: 180px;
 }
-/* 1. Prepare the Parent Container */
+
 .content-area {
-    /* This establishes the container that the button will be positioned relative to.
-       Your code likely has this already, but it's essential. */
     position: relative; 
 }
 
-/* 2. Position the Button */
-/* --- CORRECTED OVERLAY BUTTON STYLES --- */
-
-/* 1. Main Button Container */
-/* --- NEW OVERLAY BUTTON STYLES WITH BOUNCE ANIMATION --- */
-
-/* 1. Define the continuous bounce animation */
 @keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px); /* How high the bounce is */
-  }
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
 @keyframes stopBounce {
-  /* This animation's only job is to define the final resting position */
-  to {
-    transform: translateY(-4px); /* A stable, slightly elevated position */
-  }
+    to {
+        transform: translateY(-4px);
+    }
 }
 
-/* 2. Style the Main Button Container */
 .overlay-button {
-    /* Positioning */
     position: absolute;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
     padding-bottom: 10px;
-
-    /* Basic Styling */
     background-color: transparent;
     border: none;
     color: white;
     cursor: pointer;
-    
-    /* Flexbox to arrange the icon and text */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-
-    /* Transition for the size increase on hover */
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -733,66 +606,35 @@ header {
     }
 }
 
-/* 3. Style the SVG Icon */
 .button-icon-svg {
     width: 28px;
     height: 28px;
-    color: white; /* You can change the arrow color here */
-
-    /* Apply the continuous bounce animation by default */
+    color: white;
     animation: bounce 1.8s infinite ease-in-out;
-
-    /* Add a transition to smoothly stop the bounce on hover */
     transition: transform 0.3s ease-out;
 }
 
-/* 4. Style the Button Text */
 .button-text {
     font-size: 1.2rem;
-    /* letter-spacing: 0.1em; */
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* --- 5. HOVER EFFECTS --- */
-
-/* Increase the size of the entire button on hover */
-/* .overlay-button:hover {
-    transform: scale(1.1) translateX(-50%);
-} */
-
-/* Stop the bounce animation when hovering over the button */
-/* .overlay-button:hover .button-icon-svg {
-    animation: stopBounce 0.4s ease-out forwards;
-} */
 .overlay-button::after {
-    content: ''; /* Required for pseudo-elements to appear */
+    content: '';
     position: absolute;
-    bottom: 0; /* Position the line at the very bottom of the button */
-
-    /* These two lines position the line in the center */
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-
-    /* Line styling */
     height: 2px;
-    background-color: white; /* Color of the underline */
-    
-    /* The animation starts here: the line is initially invisible (0 width) */
+    background-color: white;
     width: 0;
-    
-    /* Define the smooth transition for the width property */
     transition: width 0.4s ease-out;
 }
 
-
-/* 3. Animate the Underline on Hover */
 .overlay-button:hover::after {
-    /* On hover, expand the line to fill 100% of the button's width */
     width: 100%;
 }
 
-/* 3. States Section */
 .state-container {
     display: flex;
     align-items: center;
@@ -808,30 +650,24 @@ header {
 }
 
 @media (max-width: 1366px) and (min-width: 1025px) {
-
-    /* 1. Fixes the "stretching" by reducing overall spacing */
     .state-container {
-        gap: 4rem; /* Reduces space between image and text */
+        gap: 4rem;
         padding-left: 3%;
         padding-right: 3%;
     }
 
-    /* 2. Adjusts the large header with the background image */
     .info-column h2 {
-        font-size: 3rem; /* Decreases the heading font size */
-        padding: 4rem 6rem 1rem 1rem; /* Reduces the large padding */
+        font-size: 3rem;
+        padding: 4rem 6rem 1rem 1rem;
     }
     
     .header-12 {
-         /* Special adjustment for the 'Una' header which has different padding */
         padding: 4rem 10rem 1rem 1rem;
     }
 
-    /* 3. Decreases the paragraph font size */
     .info-column p {
-        font-size: 1rem; /* Makes the main text slightly smaller */
+        font-size: 1rem;
     }
-
 }
 
 .state-container--split.reverse {
@@ -900,10 +736,6 @@ header {
     transition: transform 0.4s ease-out;
 }
 
-/* .image-column:hover img {
-    transform: scale(1.1);
-} */
-
 .info-column h2 {
     font-size: 4rem;
     font-family: "Shadows Into Light Two", cursive;
@@ -948,10 +780,10 @@ header {
     border-radius: 50px;
     border: 2px solid #0EA63C;
     margin-left: 2rem;
-    position: relative; /* Required for the pseudo-element */
-    z-index: 1;         /* Keeps text above the fill effect */
-    overflow: hidden;   /* Hides the pseudo-element when it's outside */
-    transition: color 0.4s ease-out; /* Transition for the text color */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s ease-out;
 }
 
 .info-button::before {
@@ -962,23 +794,22 @@ header {
     width: 100%;
     height: 100%;
     background-color: #0EA63C;
-    transform: translateX(-100%); /* Start off-screen to the left */
-    transition: transform 0.4s ease-out; /* The actual fill animation */
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-out;
     z-index: -1;
 }
 
 .info-button:hover {
-    color: white; /* Change text color on hover */
+    color: white;
 }
 
 .info-button:hover::before {
-    transform: translateX(0); /* Slide the fill effect in */
+    transform: translateX(0);
 }
 
 @media (min-width: 1025px) {
 }
 
-/* 4. UI Elements */
 #scrollToBottomBtn {
     position: fixed;
     bottom: 25px;
@@ -1014,8 +845,6 @@ header {
     pointer-events: none !important;
 }
 
-
-/* 5. Responsive Layout Rules */
 @media (max-width: 1024px) {
     #landing-page-container {
         min-height: 90vh;
@@ -1023,17 +852,8 @@ header {
 
     .top-content-wrapper {
         position: static; 
-        width: 100%; /* Ensures full width */
+        width: 100%;
     }
-
-    /* .dashed-line {
-        position: relative; 
-        top: auto;
-        left: auto;
-        transform: none;
-        width: 90%; 
-        margin: 0 auto 50px auto; 
-    } */
     
     .state-container {
         position: static;
@@ -1073,10 +893,9 @@ header {
     }
 
     .button-text {
-    font-size: 1rem;
-    /* letter-spacing: 0.1em; */
-    font-family: Arial, Helvetica, sans-serif;
-}
+        font-size: 1rem;
+        font-family: Arial, Helvetica, sans-serif;
+    }
     
     .main-nav {
         display: none;
@@ -1188,32 +1007,26 @@ header {
     .info-column { 
         min-height: 35vh;
         margin-left: -3vw;
-        /* MODIFIED: Reduced top padding to decrease space below the image */
         padding: 0 2rem 2rem 2rem; 
-        
-        /* MODIFIED: Align items (like the button) and text to the left */
         align-items: flex-start;
         text-align: left;
-        
         position: static;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-    }  
+    } 
 
     .info-column h2 {
         font-size: 3rem; 
-        /* MODIFIED: Changed from center to left */
         text-align: left;
         margin-top: 0; 
-        margin-bottom: 1.5rem; /* Adjusted margin */
+        margin-bottom: 1.5rem;
         width: 100%;
         box-sizing: border-box;
         border: none;
         border-radius: 0;
         background-size: cover;
         background-position: center center;
-        /* MODIFIED: Adjusted padding for a better left-aligned look */
         padding: 2.5rem 1rem 1rem 0; 
     }
 
@@ -1287,10 +1100,6 @@ header {
         right: 15px;
     }
 
-    /* .image-column {
-        margin-left: -3vw;
-        padding-right: 3vw;
-    } */
     .image-column img {
         margin: 0;
     }
@@ -1314,7 +1123,6 @@ header {
     }
 }
 
-/* 6. Animations */
 @keyframes dropDownItem {
     from {
         opacity: 0;
@@ -1362,7 +1170,6 @@ header {
     animation: push-up-bounce 0.6s forwards;
 }
 
-
 @keyframes popUpFromBottom {
     from {
         opacity: 0;
@@ -1374,15 +1181,13 @@ header {
     }
 }
 
-/* 7. Desktop-Specific Styles & Anchored Navbar */
 @media (min-width: 1025px) {
-    /* .state-container-9.state-container--split.reverse .info-column {
-        margin-left: 12rem !important; 
-    } */
     .state-container-1 .image-column img {
-    transform: translateY(0px);}
+        transform: translateY(0px);
+    }
     .state-container-2 {
-    margin-top: -60px;}
+        margin-top: -60px;
+    }
 
     .navbar.navbar--anchored {
         position: fixed;
