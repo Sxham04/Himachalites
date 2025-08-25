@@ -95,7 +95,7 @@ body.noscroll {
 }
 
 /* 2. Modify the existing media query to handle both SVGs */
-@media (max-width: 1024px) {
+@media (max-width: 500px) {
     /* Instead of hiding the whole container, just hide the desktop SVG */
     .dashed-line .dashed-line-center {
         display: none;
@@ -109,7 +109,7 @@ body.noscroll {
     /* 3. Prepare the mobile path for its drawing animation */
     #mobile-line-path {
         /* These values will be set by JavaScript, but it's good practice to declare them */
-        stroke-dasharray: 1;
+        stroke-dasharray: 10;
         stroke-dashoffset: 1;
     }
     
