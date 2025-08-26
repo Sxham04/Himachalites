@@ -765,7 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     /** Rearranges navigation links for mobile or desktop layouts. */
     function updateNavLayout() {
-        const isMobile = window.innerWidth <= 1024;
+        const isMobile = window.innerWidth <= 600;
         const navLeft = document.querySelector('.nav-left');
         const navRight = document.querySelector('.nav-right');
         if (isMobile) {
