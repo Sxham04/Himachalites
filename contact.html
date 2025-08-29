@@ -208,16 +208,7 @@ That’s where Himachalites began. With a little homesickness, a lot of gratitud
         </div>
     </div>
     
-    <script>
-        // Simple mobile menu toggle script
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const navbar = document.querySelector('.navbar');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', () => {
-                navbar.classList.toggle('nav-open');
-            });
-        }
-    </script>
+
     <script>
     history.scrollRestoration = 'manual';
     </script>
@@ -269,27 +260,50 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
+    // --- VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');
-    // We use the header's full height as the trigger point
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const header = document.querySelector('header');
-    const stickyPoint = header.offsetHeight;
-    // Get the height of the navbar to prevent content from jumping
-    const navHeight = navbar.offsetHeight;
 
-    window.onscroll = function() {
-      // Check if the user has scrolled past the header
-      if (window.pageYOffset > stickyPoint) {
-        navbar.classList.add('navbar--anchored');
-        // Add padding to the body to prevent the content from jumping up
-        document.body.style.paddingTop = navHeight + 'px';
-      } else {
-        navbar.classList.remove('navbar--anchored');
-        // Remove the padding when scrolling back to the top
-        document.body.style.paddingTop = '0';
-      }
-    };
-  });
+    // --- 1. MOBILE MENU TOGGLE LOGIC ---
+    if (mobileMenuToggle && navbar) {
+        mobileMenuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('nav-open');
+            document.body.classList.toggle('noscroll');
+            document.documentElement.classList.toggle('noscroll');
+            
+            const isExpanded = navbar.classList.contains('nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileMenuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isExpanded);
+                icon.classList.toggle('fa-times', isExpanded);
+            }
+        });
+    }
+
+    // --- 2. ANCHORED NAVBAR LOGIC ---
+    // Wait for the page to fully load to get correct element heights
+    window.addEventListener('DOMContentLoaded', (event) => {
+        if (header && navbar) {
+            const stickyPoint = header.offsetHeight;
+            const navHeight = navbar.offsetHeight;
+
+            window.onscroll = function() {
+                // Check if the user has scrolled past the header
+                if (window.pageYOffset > stickyPoint) {
+                    navbar.classList.add('navbar--anchored');
+                    // Add padding to the body to prevent content from jumping up
+                    document.body.style.paddingTop = navHeight + 'px';
+                } else {
+                    navbar.classList.remove('navbar--anchored');
+                    // Remove the padding when scrolling back to the top
+                    document.body.style.paddingTop = '0';
+                }
+            };
+        }
+    });
 </script>
 </body>
 </html>

@@ -7,6 +7,11 @@ html, body {
     scroll-behavior: smooth;
 }
 
+html.noscroll,
+body.noscroll {
+    overflow: hidden;
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -1268,6 +1273,61 @@ header {
     .overlay-button {
         bottom: 35%;
     }
+
+    /* Anchored Navbar for Tablets (Desktop Style) */
+.navbar.navbar--anchored {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 9vh;
+    max-height: 70px; /* Set a max height */
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+    z-index: 1050;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem; /* Reduced horizontal padding */
+    animation: popUpFromBottom 0.5s ease-out;
+}
+
+/* Ensure the full navigation is visible */
+.navbar.navbar--anchored .main-nav {
+    display: flex;
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    gap: 15px; /* Reduced gap between nav items */
+}
+
+.navbar.navbar--anchored .nav-left {
+    justify-content: flex-end;
+}
+
+.navbar.navbar--anchored .nav-right {
+    justify-content: flex-start;
+}
+
+/* Adjust nav link font size and padding */
+.navbar.navbar--anchored .main-nav a {
+    font-size: 0.9em; /* Reduced font size */
+    padding: 1rem;
+}
+
+/* Adjust logo size */
+.navbar.navbar--anchored .logo img {
+    height: 7vh;
+    max-height: 55px; /* Reduced logo size */
+    padding: 0 10px;
+}
+
+/* Hide the hamburger button in this state */
+.navbar.navbar--anchored .mobile-menu-button {
+    display: none;
+}
 }
 
 /* 6. Animations */

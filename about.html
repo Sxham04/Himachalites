@@ -214,16 +214,6 @@
     </div>
     
     <script>
-        // Simple mobile menu toggle script
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const navbar = document.querySelector('.navbar');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', () => {
-                navbar.classList.toggle('nav-open');
-            });
-        }
-    </script>
-    <script>
     history.scrollRestoration = 'manual';
     </script>
     <script>
@@ -250,71 +240,74 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const allPills = document.querySelectorAll('.pill:not(.is-active)');
 
     allPills.forEach(pill => {
-        // Get all the necessary elements for the animation
-        const circle = pill.querySelector('.hover-circle');
         const label = pill.querySelector('.pill-label');
         const labelHover = pill.querySelector('.pill-label-hover');
+        const h = pill.getBoundingClientRect().height;
 
-        // 1. Set up the initial state and dimensions
-        const rect = pill.getBoundingClientRect();
-        const { width: w, height: h } = rect;
-        const R = ((w * w) / 4 + h * h) / (2 * h);
-        const D = Math.ceil(2 * R) + 2;
-        const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
-        const originY = D - delta;
-
-        circle.style.width = `${D}px`;
-        circle.style.height = `${D}px`;
-        circle.style.bottom = `-${delta}px`;
-
-        // Set initial positions with GSAP
-        gsap.set(circle, { scale: 0, xPercent: -50, transformOrigin: `50% ${originY}px` });
+        // Set initial positions
         gsap.set(label, { y: 0 });
         gsap.set(labelHover, { y: h + 12, opacity: 0 });
 
-        // 2. Create the GSAP animation timeline
+        // Create the animation timeline for text and icons
         const tl = gsap.timeline({ paused: true });
-        tl.to(circle, { scale: 1.2, duration: 0.4, ease: 'power3.easeOut' })
-          .to(label, { y: -(h + 8), duration: 0.4, ease: 'power3.easeOut' }, 0)
+        tl.to(label, { y: -(h + 8), duration: 0.4, ease: 'power3.easeOut' })
           .to(labelHover, { y: 0, opacity: 1, duration: 0.4, ease: 'power3.easeOut' }, 0);
         
-        // 3. Add event listeners to play and reverse the animation
-        pill.addEventListener('mouseenter', () => {
-            tl.timeScale(1).play();
-        });
-
-        pill.addEventListener('mouseleave', () => {
-            tl.timeScale(1.5).reverse();
-        });
+        // Add event listeners
+        pill.addEventListener('mouseenter', () => tl.play());
+        pill.addEventListener('mouseleave', () => tl.reverse());
     });
 });
 </script>
 <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
+    // --- VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');
-    // We use the header's full height as the trigger point
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const header = document.querySelector('header');
-    const stickyPoint = header.offsetHeight;
-    // Get the height of the navbar to prevent content from jumping
-    const navHeight = navbar.offsetHeight;
 
-    window.onscroll = function() {
-      // Check if the user has scrolled past the header
-      if (window.pageYOffset > stickyPoint) {
-        navbar.classList.add('navbar--anchored');
-        // Add padding to the body to prevent the content from jumping up
-        document.body.style.paddingTop = navHeight + 'px';
-      } else {
-        navbar.classList.remove('navbar--anchored');
-        // Remove the padding when scrolling back to the top
-        document.body.style.paddingTop = '0';
-      }
-    };
-  });
+    // --- 1. MOBILE MENU TOGGLE LOGIC ---
+    if (mobileMenuToggle && navbar) {
+        mobileMenuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('nav-open');
+            document.body.classList.toggle('noscroll');
+            document.documentElement.classList.toggle('noscroll');
+            
+            const isExpanded = navbar.classList.contains('nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileMenuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isExpanded);
+                icon.classList.toggle('fa-times', isExpanded);
+            }
+        });
+    }
+
+    // --- 2. ANCHORED NAVBAR LOGIC ---
+    // Wait for the page to fully load to get correct element heights
+    window.addEventListener('DOMContentLoaded', (event) => {
+        if (header && navbar) {
+            const stickyPoint = header.offsetHeight;
+            const navHeight = navbar.offsetHeight;
+
+            window.onscroll = function() {
+                // Check if the user has scrolled past the header
+                if (window.pageYOffset > stickyPoint) {
+                    navbar.classList.add('navbar--anchored');
+                    // Add padding to the body to prevent content from jumping up
+                    document.body.style.paddingTop = navHeight + 'px';
+                } else {
+                    navbar.classList.remove('navbar--anchored');
+                    // Remove the padding when scrolling back to the top
+                    document.body.style.paddingTop = '0';
+                }
+            };
+        }
+    });
 </script>
 </body>
 </html>

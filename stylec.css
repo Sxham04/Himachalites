@@ -11,6 +11,12 @@ html, body {
     color: #333;
 }
 
+/* Add this to your main CSS file */
+html.noscroll,
+body.noscroll {
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -670,4 +676,112 @@ header {
   .navbar.navbar--anchored {
     padding: 0 1.5rem; /* Re-apply horizontal padding */
   }
+}
+
+/* Final Tablet Layout (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    /* Hide scroll path elements */
+    .dashed-line,
+    #mobile-line-svg,
+    #svg-tip-counter {
+        display: none !important;
+    }
+
+    /* Forcefully apply side-by-side layout to the specific containers */
+    .state-container--split {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important; /* Prevent columns from stacking */
+        align-items: center !important;
+        gap: 1.5rem;
+        padding: 1rem;
+        min-height: 420px;
+        margin-bottom: 2rem;
+        box-sizing: border-box;
+    }
+
+    /* Apply the reverse layout for relevant containers */
+    .state-container--split.reverse {
+        flex-direction: row-reverse !important;
+    }
+
+    /* Define column widths and reset mobile styles */
+    .state-container--split .info-column,
+    .state-container--split .image-column {
+        flex: 1 1 50%; /* Set width to 50% */
+        max-width: 50%;
+        position: relative; /* For positioning child elements */
+        margin: 0;
+        padding: 0;
+        min-height: unset;
+    }
+    
+    .image-column img {
+       width: 100%;
+       height: auto;
+       max-height: 400px;
+       object-fit: contain;
+       display: block;
+    }
+
+    /* Adjust the popup and text elements */
+    .h2-popup {
+        position: absolute;
+        top: 0;
+        left: 1rem;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .info-column h2 {
+        font-size: 2.5rem;
+        padding: 5rem 3rem 1rem 1rem;
+        margin: 0;
+    }
+
+    .info-column p {
+        font-size: 0.9rem;
+        padding-left: 1rem;
+    }
+
+    .info-button {
+        margin-left: 1rem;
+    }
+
+    .footer-main-content {
+        width: 70%; /* Makes the content block narrower */
+        top: 32%;   /* Adjusts vertical position */
+    }
+
+    .footer-column h4 {
+        font-size: 0.9rem; /* Reduces heading size */
+        margin-bottom: 15px;
+    }
+
+    .footer-column ul li {
+        font-size: 0.8rem; /* Reduces link size */
+    }
+
+    .footer-column ul {
+        gap: 10px; /* Reduces spacing between links */
+    }
+
+/* Move parallax layers down */
+    .layer-3 img,
+    .layer-4 .figure-left,
+    .layer-4 .figure-right {
+        bottom: -5%; /* Original was 15% */
+    }
+
+    .layer-5 img {
+        bottom: -10%; /* Original was 10% */
+    }
+
+    .layer-2 img {
+        bottom: 15%;
+    }
+
+    .overlay-button {
+        bottom: 35%;
+    }
 }

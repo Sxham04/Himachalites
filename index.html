@@ -512,7 +512,7 @@ stroke="black"
                     <br>• One of the few Himachali districts with a broad-gauge rail line.
                     <br>• Chintpurni Temple attracts lakhs of devotees.
                     <br>• More Punjabi in flavour — in both food and weather.</p>
-                    <a href="#" class="info-button">Explore</a>
+                    <a href="dist/d12.html" class="info-button">Explore</a>
                 </div>
                 <div class="image-column image-12">
                     <img src="img/Una.png" alt="Scenic view of Una">
@@ -1064,16 +1064,19 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
     });
-    mobileMenuToggle.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open');
-        document.body.classList.toggle('noscroll');
-        scrollToTopBtn.classList.toggle('is-hidden-by-nav');
-        const isExpanded = navbar.classList.contains('nav-open');
-        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-        const icon = mobileMenuToggle.querySelector('i');
-        icon.classList.toggle('fa-bars', !isExpanded);
-        icon.classList.toggle('fa-times', isExpanded);
-    });
+mobileMenuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('nav-open');
+    document.body.classList.toggle('noscroll');
+    // ADD THIS LINE
+    document.documentElement.classList.toggle('noscroll');
+    
+    scrollToTopBtn.classList.toggle('is-hidden-by-nav');
+    const isExpanded = navbar.classList.contains('nav-open');
+    mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+    const icon = mobileMenuToggle.querySelector('i');
+    icon.classList.toggle('fa-bars', !isExpanded);
+    icon.classList.toggle('fa-times', isExpanded);
+});
     const overlayButton = document.querySelector('.overlay-button');
     if (overlayButton && landingPage) {
         overlayButton.addEventListener('click', (event) => {

@@ -1,0 +1,746 @@
+/* ==============================================
+   COMPLETE CSS FOR STATIC WEBPAGES
+============================================== */
+
+/* --- 1. CORE LAYOUT & FONTS --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1; /* Pushes the footer down */
+    width: 100%;
+    max-width: 1450px; /* MODIFIED */
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    box-sizing: border-box;
+}
+
+/* --- NEW STYLES FOR MAIN CONTENT --- */
+
+/* This targets the main heading you already had */
+main.main-content h1 {
+    text-align: center;
+}
+
+/* 1. Image Container */
+.main-image-container {
+    width: 100%; /* Takes the full width of the main content area */
+    margin-bottom: 3rem; /* Adds space between the image and the text below */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.main-image-container img {
+    width: 100%;
+    display: block; /* Removes any extra space below the image */
+}
+
+/* ==============================================
+  STYLES FOR THE NEW TWO-SIDED CONTAINER
+============================================== */
+
+/* Main container for the two-sided layout */
+.two-sided-container {
+    display: flex;         /* Aligns children (left and right sides) in a row */
+    align-items: center;   /* Vertically centers the content on each side */
+    gap: 2.5rem;           /* Creates space between the image and the text */
+    margin-bottom: 3rem;   /* Adds space below this entire section */
+    margin-top: 15vh;
+}
+
+/* This applies to both the left and right side divs */
+.left-side, .right-side {
+    flex: 1; /* This makes both sides take up an equal amount of space */
+}
+
+/* --- Left Side Image --- */
+/* Use this class to alter your image properties */
+.side-image {
+    width: 100%;           /* Makes the image fill the container */
+    height: auto;          /* Maintains the image's original aspect ratio */
+    display: block;        /* Removes any default bottom spacing on images */
+    border-radius: 8px;    /* Adds slightly rounded corners to the image */
+}
+
+/* --- Right Side Content --- */
+/* Style for the header element */
+.right-side h2 {
+    /* Uses the same font as the main h1 for a consistent look */
+    font-family: "Shadows Into Light Two", cursive; 
+    font-size: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+/* Style for the paragraph element */
+.right-side p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7; /* Adds vertical space between lines of text */
+    color: #555;
+}
+
+
+/* ==============================================
+  RESPONSIVE STYLES FOR THE TWO-SIDED CONTAINER
+============================================== */
+@media (max-width: 1024px) {
+    .two-sided-container {
+        /* On smaller screens, stack the items on top of each other */
+        flex-direction: column; 
+        text-align: left; /* Center-aligns the text for a better mobile view */
+        font-size: 0.9rem;
+    }
+
+    .right-side h2 {
+        font-size: 2.2rem; /* Slightly smaller font size for mobile */
+    }
+
+    .right-side p {
+      line-height: 1.3;
+    }
+}
+
+/* ==============================================
+  STYLES FOR THE NEW IMAGE GALLERY CONTAINER
+============================================== */
+
+.image-gallery-container {
+    margin-top: 10vh;      /* Adds space above this section */
+    margin-bottom: 10vh;   /* Adds space below this section */
+    text-align: center;    /* Centers the header */
+}
+
+.image-gallery-container h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+}
+
+.gallery-images {
+    display: flex;
+    justify-content: center; /* Centers the image items */
+    gap: 3rem;             /* Space between the two image items */
+    flex-wrap: wrap;       /* Allows items to wrap on smaller screens */
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 450px;      /* Limits the width of each item */
+    text-align: center;
+}
+
+.gallery-image {
+    width: 100%;           /* Images fill their container */
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease-in-out;    /* Smooth transition for hover effect */
+}
+
+/* Specific rotation for each image */
+.gallery-item:first-child .gallery-image {
+    transform: rotate(-5deg); /* Rotates the first image slightly left */
+}
+
+.gallery-item:last-child .gallery-image {
+    transform: rotate(5deg);  /* Rotates the second image slightly right */
+}
+
+/* Hover effect for images */
+.gallery-image:hover {
+    transform: scale(1.03) rotate(0deg); /* Slightly enlarges and straightens on hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    max-width: 350px; /* Limits paragraph width for readability */
+}
+
+/* ==============================================
+  RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
+============================================== */
+/* ==============================================
+  RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
+============================================== */
+@media (max-width: 1024px) {
+    .image-gallery-container h2 {
+        font-size: 2.5rem; /* Smaller header font for mobile */
+    }
+
+    .gallery-images {
+        /* Items are now side-by-side by default, removed flex-direction: column */
+        gap: 1rem; /* Reduced the gap to better fit content on small screens */
+    }
+
+    .gallery-item {
+        /* Each item will now flex to share the available space */
+        flex: 1;
+        min-width: 150px; /* Prevents items from becoming too narrow */
+    }
+    
+    .gallery-item p {
+        font-size: 0.9rem; /* Slightly smaller font for the text below the images */
+    }
+
+    .gallery-item:first-child .gallery-image,
+    .gallery-item:last-child .gallery-image {
+        transform: rotate(0deg); /* Keep rotation off for mobile for a cleaner look */
+    }
+
+    .gallery-image:hover {
+        transform: scale(1.0); /* Disable scale on hover for mobile */
+    }
+}
+
+/* 2. Info Container */
+.info-container h1 {
+    font-family: "Shadows Into Light Two", cursive;
+    text-align: left;
+    font-size: 3.5rem;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.info-container p {
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: left;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 5rem;
+}
+
+main h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 200%;
+    background-color: #ffffff;
+    background-image: linear-gradient(#262626, #262626);
+    background-repeat: no-repeat;
+    background-size: 40% 100%;
+}
+
+/* --- 2. HEADER & NAVIGATION --- */
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    flex-shrink: 0;
+    background-color: transparent;
+    position: relative;
+    /* z-index: 2; */
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1% 15%;
+    min-height: 30px;
+    position: relative;
+    font-size: 0.9em;
+}
+
+.top-bar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #4a4a4a;
+    left: 10%;
+    right: 10%;
+}
+
+.top-bar p {
+    margin: 0;
+    color: black;
+    font-size: 1.2em;
+}
+
+.social-links {
+    display: flex;
+    gap: 20px;
+}
+
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #ccc;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    flex-grow: 1;
+}
+
+.logo img {
+    height: 150px;
+    padding: 0 10px;
+}
+
+.main-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    align-items: center;
+}
+
+.nav-left {
+    justify-content: space-evenly;
+}
+
+.nav-right {
+    justify-content: space-evenly;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: 150;
+    font-size: 1.1em;
+    padding: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    transition: color 0.3s ease-out;
+}
+
+.main-nav a:hover {
+    color: #7d7d7d;
+}
+
+.main-nav a.active {
+    color: #7d7d7d;
+}
+
+.mobile-menu-button {
+    display: none;
+}
+
+
+/* --- 3. FOOTER --- */
+.footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #ffffff;
+    height: 0;
+    padding-bottom: 93.11%;
+}
+
+.footer-main-content {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px;
+    width: 50%;
+    max-width: 1100px;
+    justify-content: space-around;
+    text-align: left;
+    color: #262626;
+}
+
+.footer-copyright {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.footer-copyright p { 
+    margin: 0; 
+    color: black; 
+    font-size: 0.9em; 
+}
+
+.footer-column { 
+    color: #262626; 
+    text-align: left; 
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 200%;
+    background-color: #ffffff;
+    background-image: linear-gradient(#262626, #262626);
+    background-repeat: no-repeat;
+    background-size: 40% 100%; 
+    transition: background-size 0.4s ease-out;
+}
+
+.footer-column h4.is-active::after {
+    background-size: 100% 100%;
+}
+.footer-column ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+.footer-column li { 
+    font-size: 1.2rem; 
+}
+.footer-column a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-column a:hover { 
+    color: #6f6f6f; 
+}
+.parallax-backgrounds { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 1; 
+}
+.parallax-layer { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+}
+.parallax-layer img { 
+    image-rendering: -webkit-optimize-contrast; 
+}
+.layer-1 { z-index: 1; } 
+.layer-2 { z-index: 2; } 
+.layer-3 { z-index: 3; }
+.layer-4 { z-index: 4; } 
+.layer-5 { z-index: 5; }
+
+.layer-1 img { position: absolute; width: 100%; height: 46%; bottom: 52%; left: 0; object-fit: cover; }
+.layer-2 img { position: absolute; width: 100%; height: 80%; bottom: 15%; left: 0; object-fit: cover; }
+.layer-3 img { position: absolute; width: 100%; height: 67%; bottom: -5%; left: 0; object-fit: cover; }
+.layer-4 .figure-left, 
+.layer-4 .figure-right { position: absolute; width: 20%; height: auto; bottom: -5%; object-fit: contain; }
+.layer-4 .figure-left { left: 0; }
+.layer-4 .figure-right { right: 0; }
+.layer-5 img { position: absolute; width: 100%; height: 40%; bottom: -10%; left: 0; object-fit: cover; }
+
+
+/* ==============================================
+   DEFINITIVE MOBILE RESPONSIVE STYLES
+============================================== */
+
+/* --- 1. Animation Definition --- */
+/* ==============================================
+   DEFINITIVE MOBILE RESPONSIVE STYLES (CORRECTED)
+============================================== */
+
+/* --- 1. Animation Definition --- */
+@keyframes dropDownItem {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- 2. Mobile Layout & Fixes (Tablets & Below) --- */
+@media (max-width: 1024px) {
+  /* --- Main Header & Nav Structure --- */
+  header {
+    height: auto;
+    padding-bottom: 1rem;
+  }
+  .top-bar {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 10px;
+    text-align: center;
+  }
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0 1.5rem;
+  }
+  .logo {
+    order: -1;
+  }
+  .logo img {
+    height: 80px;
+    padding: 0;
+  }
+  .mobile-menu-button {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #333;
+    padding: 10px;
+    z-index: 1100;
+  }
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    order: 3;
+    flex: none; 
+  }
+  .nav-left,
+  .nav-right {
+    width: 100%;
+  }
+
+  /* --- Styles for the OPEN Mobile Menu --- */
+  .navbar.nav-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1099;
+    flex-wrap: nowrap;
+    /* THIS IS THE FIX for the navbar shifting right */
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .navbar.nav-open .logo {
+    display: none;
+  }
+  .navbar.nav-open .mobile-menu-button {
+    position: absolute;
+    top: 2rem;
+    right: 1.5rem;
+  }
+  .navbar.nav-open .main-nav {
+    display: flex;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* --- Styling for Individual Links & Animation --- */
+  .main-nav a {
+    padding: 1rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  .main-nav li:last-child a {
+    border-bottom: none;
+  }
+  
+  .navbar.nav-open .main-nav li {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: dropDownItem 0.5s ease-out forwards;
+  }
+
+  /* Animation delays */
+  .navbar.nav-open .main-nav li:nth-child(1) { animation-delay: 0.1s; }
+  .navbar.nav-open .main-nav li:nth-child(2) { animation-delay: 0.2s; }
+  .navbar.nav-open .main-nav li:nth-child(3) { animation-delay: 0.3s; }
+  .navbar.nav-open .main-nav li:nth-child(4) { animation-delay: 0.4s; }
+}
+
+/* --- Specific Mobile Layout (Phones) --- */
+@media (max-width: 1440px) {
+        .pill-nav-items {
+        width: 95%;
+        gap: 5px;
+        padding: 5px;
+        flex-wrap: wrap;
+    }
+    .pill {
+        padding: 0.8rem 1rem; 
+    }
+    .pill-nav-items {
+       --nav-font-size: 14px; 
+    }
+}
+
+@media (max-width: 768px) {
+    /* --- Mobile Footer --- */
+    .footer {
+        height: auto;
+        padding: 8rem 1rem 4rem 1rem;
+        background-image: none;
+    }
+    .parallax-backgrounds {
+        display: none;
+    }
+    /* THIS IS THE FIX for the footer alignment */
+    .footer-main-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        width: 85%;
+        padding-left: 5%;
+        gap: 20px;
+    }
+    .footer-column {
+        text-align: left;
+        width: 100%;
+    }
+    .footer-column h4 {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    .footer-column ul li {
+        font-size: 0.8rem;
+    }
+    .footer-column ul {
+        gap: 10px;
+    }
+    
+    /* --- Mobile Pill Nav --- */
+    .pill-nav-items {
+        width: 95%;
+        gap: 5px;
+        padding: 5px;
+        flex-wrap: wrap;
+    }
+    .pill {
+        padding: 0.8rem 1rem; 
+    }
+    .pill-nav-items {
+       --nav-font-size: 14px; 
+    }
+
+    /* --- Mobile Content Font Size --- */
+    .info-container p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+/* ==============================================
+   TOP-ANCHORED NAVBAR STYLES
+============================================== */
+
+/* 1. Defines the new slide-down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Styles for the top-anchored bar */
+.navbar.navbar--anchored {
+  position: fixed;
+  top: 0; /* ANCHORS TO THE TOP */
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Shadow points down */
+  z-index: 9999;
+  animation: slideDown 0.5s ease-out;
+  box-sizing: border-box;
+}
+
+/* 3. Desktop-specific layout for the anchored bar */
+@media (min-width: 1025px) {
+  .navbar.navbar--anchored {
+    height: 8vh;
+    min-height: 65px; /* Ensures a minimum height */
+    padding: 0;
+    align-items: center;
+  }
+  .navbar.navbar--anchored .main-nav {
+    gap: 25px;
+    flex: 1;
+  }
+  .navbar.navbar--anchored .nav-left {
+    justify-content: flex-end;
+  }
+  .navbar.navbar--anchored .nav-right {
+    justify-content: flex-start;
+  }
+  .navbar.navbar--anchored .logo img {
+    height: 8vh;
+    max-height: 60px;
+  }
+  .navbar.navbar--anchored .main-nav a {
+    padding: 1.5rem; /* Slightly adjusted padding for vertical alignment */
+    font-size: 1em;
+  }
+}
+
+/* 4. Mobile-specific layout for the anchored bar */
+@media (max-width: 1024px) {
+  .navbar.navbar--anchored {
+    padding: 0 1.5rem; /* Re-apply horizontal padding */
+  }
+}
