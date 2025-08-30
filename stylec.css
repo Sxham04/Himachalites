@@ -666,7 +666,7 @@ header {
     max-height: 60px;
   }
   .navbar.navbar--anchored .main-nav a {
-    padding: 1.5rem; /* Slightly adjusted padding for vertical alignment */
+    padding: 2rem; /* Slightly adjusted padding for vertical alignment */
     font-size: 1em;
   }
 }
@@ -679,6 +679,7 @@ header {
 }
 
 /* Final Tablet Layout (601px to 1024px) */
+
 @media (min-width: 601px) and (max-width: 1024px) {
     /* Hide scroll path elements */
     .dashed-line,
@@ -750,7 +751,7 @@ header {
 
     .footer-main-content {
         width: 70%; /* Makes the content block narrower */
-        top: 32%;   /* Adjusts vertical position */
+        top: 28%;   /* Adjusts vertical position */
     }
 
     .footer-column h4 {
@@ -778,7 +779,11 @@ header {
     }
 
     .layer-2 img {
-        bottom: 15%;
+        bottom: 20%;
+    }
+
+    .layer-1 img {
+        bottom: 62% !important;
     }
 
     .overlay-button {
