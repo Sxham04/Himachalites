@@ -7,6 +7,14 @@ html, body {
     scroll-behavior: smooth;
 }
 
+/* Promote SVG elements to their own compositing layer for hardware acceleration */
+.dashed-line,
+#mobile-line-svg,
+#tablet-line-svg {
+    will-change: transform, opacity;
+    transform: translateZ(0); /* A common trick to force GPU rendering */
+}
+
 html.noscroll,
 body.noscroll {
     overflow: hidden;
