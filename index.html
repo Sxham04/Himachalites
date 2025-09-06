@@ -716,33 +716,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
-    // --- VARIABLE DECLARATIONS ---
-    const navbar = document.querySelector('.navbar');
-    const landingPage = document.getElementById('landing-page-container');
-    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const svgLine = document.querySelector(".dashed-line-center");
-    const topContentWrapper = document.querySelector('.top-content-wrapper');
-    const dashedLineContainer = document.querySelector('.dashed-line');
-    const stateContainers = document.querySelectorAll('.state-container');
-    let lastScrollTop = 0;
-    let isSlowing = false;
-    let lastTouchY = 0;
-    const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
-    let isBouncingTop = false;
-    let isBouncingBottom = false;
-    const svgTipCounter = document.getElementById('svg-tip-counter');
-    const pathElement = document.getElementById('Line');
-    let pathTotalLength = 0;
-    let lastRotationAngle = 90;
-    let checkpointsData = [];
-    let maskPath = document.getElementById('mask-path');
+    // --- VARIABLE DECLARATIONS ---
+    const navbar = document.querySelector('.navbar');
+    const landingPage = document.getElementById('landing-page-container');
+    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const svgLine = document.querySelector(".dashed-line-center");
+    const topContentWrapper = document.querySelector('.top-content-wrapper');
+    const dashedLineContainer = document.querySelector('.dashed-line');
+    const stateContainers = document.querySelectorAll('.state-container');
+    let lastScrollTop = 0;
+    let isSlowing = false;
+    let lastTouchY = 0;
+    const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
+    let isBouncingTop = false;
+    let isBouncingBottom = false;
+    const svgTipCounter = document.getElementById('svg-tip-counter');
+    const pathElement = document.getElementById('Line');
+    let pathTotalLength = 0;
+    let lastRotationAngle = 90;
+    let checkpointsData = [];
+    let maskPath = document.getElementById('mask-path');
 
-    // --- NEW VARIABLES FOR MOBILE SVG ---
-    const mobileSvgLine = document.getElementById('mobile-line-svg');
-    const mobilePathElement = document.getElementById('mobile-line-path');
-    const mobileMaskPath = document.getElementById('mobile-mask-path');
-    let mobilePathTotalLength = 0;
+    // --- NEW VARIABLES FOR MOBILE SVG ---
+    const mobileSvgLine = document.getElementById('mobile-line-svg');
+    const mobilePathElement = document.getElementById('mobile-line-path');
+    const mobileMaskPath = document.getElementById('mobile-mask-path');
+    let mobilePathTotalLength = 0;
 
     // --- ADDED FOR TABLET ---
     const tabletSvgLine = document.getElementById('tablet-line-svg');
@@ -750,441 +750,387 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabletMaskPath = document.getElementById('tablet-mask-path');
     let tabletPathTotalLength = 0;
 
-    let animationFrameId = null;
+    let animationFrameId = null;
 
-    // --- FUNCTION DEFINITIONS ---
+    // --- New variables for throttling the counter update ---
+    let lastCounterUpdateTime = 0;
+    const COUNTER_UPDATE_INTERVAL = 50; // ms. Update counter ~33 times/sec. You can tweak this value.
 
-    /** Updates the main altitude counter. */
-    function updateMainCounter(currentIconYPosition) {
-        if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
-        let prevCheckpoint = checkpointsData[0];
-        let nextCheckpoint = checkpointsData[checkpointsData.length - 1];
-        for (let i = 0; i < checkpointsData.length - 1; i++) {
-            if (checkpointsData[i].y >= currentIconYPosition && checkpointsData[i + 1].y <= currentIconYPosition) {
-                prevCheckpoint = checkpointsData[i + 1];
-                nextCheckpoint = checkpointsData[i];
-                break;
-            }
-        }
-        const distanceBetweenPoints = nextCheckpoint.y - prevCheckpoint.y;
-        const valueRange = nextCheckpoint.value - prevCheckpoint.value;
-        let progress = (distanceBetweenPoints !== 0) ? (currentIconYPosition - prevCheckpoint.y) / distanceBetweenPoints : 0;
-        const currentValue = prevCheckpoint.value + (progress * valueRange);
-        const textElement = svgTipCounter.querySelector('.counter-text');
-        if (textElement) {
-            textElement.textContent = `${Math.round(Math.max(0, currentValue)).toLocaleString('en-US')} ft`;
-        }
-    }
+    // --- FUNCTION DEFINITIONS ---
 
-    /** Animates altitude popups. */
-    function animateAltitude(element) {
-        const finalValue = parseInt(element.dataset.finalValue, 10);
-        if (isNaN(finalValue) || element.dataset.animated) return;
-        element.dataset.animated = 'true';
-        const startValue = parseInt(element.textContent.replace(/,/g, ''), 10);
-        const duration = 1500;
-        let startTime = null;
-        function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-            const easedProgress = 1 - Math.pow(1 - progress, 3);
-            const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
-            element.textContent = currentValue.toLocaleString('en-US');
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            } else {
-                element.textContent = finalValue.toLocaleString('en-US');
-            }
-        }
-        requestAnimationFrame(step);
-    }
-    
-    /** Rearranges navigation links for mobile/desktop. */
-    function updateNavLayout() {
-        const isMobile = window.innerWidth <= 700;
-        const navLeft = document.querySelector('.nav-left');
-        const navRight = document.querySelector('.nav-right');
-        if (isMobile) {
-            if (navRight && navRight.children.length > 0) {
-                while (navRight.firstElementChild) {
-                    navLeft.appendChild(navRight.firstElementChild);
-                }
-            }
-            if (navRight) navRight.style.display = 'none';
-        } else {
-            if (navRight) navRight.style.display = 'flex';
-        }
-    }
-
-    /** (ORIGINAL & UNTOUCHED) Positions the dashed line container on DESKTOP. */
-    function positionDashedLine() {
-        if (window.innerWidth <= 1024) return;
-        const stateContainer1 = document.querySelector('.state-container-1');
-        const stateContainer12 = document.querySelector('.state-container-12');
-        if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) return;
-        const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
-        const state1Rect = stateContainer1.getBoundingClientRect();
-        const state12Rect = stateContainer12.getBoundingClientRect();
-        const offset = 0;
-        const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
-        const state12MiddleY =(state12Rect.bottom);
-        const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
-        dashedLineContainer.style.top = `${actualDashedLineTop}px`;
-        dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
-    }
-
-    /** (ORIGINAL & UNTOUCHED) Animates the SVG line and icon for DESKTOP view. */
-    function animateDashedLine() {
-        if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) {
-            if (svgTipCounter) svgTipCounter.style.opacity = '0';
-            return 0;
-        }
-        const animationStartScrollY = topContentWrapper.offsetTop;
-        const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollAmountInAnimation = scrollTop - animationStartScrollY;
-        let linearProgress = 1 - (scrollAmountInAnimation / animationScrollHeight);
-        linearProgress = Math.max(0, Math.min(1, linearProgress));
-        const modifiedProgress = Math.pow(linearProgress, 0.95);
-        const drawLength = pathTotalLength * modifiedProgress;
-        maskPath.style.strokeDashoffset = pathTotalLength - drawLength;
-        if (svgTipCounter) {
-            const shouldBeVisible = modifiedProgress > 0.01 && modifiedProgress < 0.99;
-            svgTipCounter.style.opacity = shouldBeVisible ? '1' : '0';
-            const clampedDrawLength = Math.max(1, Math.min(drawLength, pathTotalLength - 1));
-            const currentPoint = pathElement.getPointAtLength(clampedDrawLength);
-            const previousPoint = pathElement.getPointAtLength(clampedDrawLength - 1);
-            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
-            const rotationOffset = 90;
-            let totalRotation = angle + rotationOffset;
-            let angleDifference = totalRotation - lastRotationAngle;
-            if (angleDifference > 180) totalRotation -= 360;
-            else if (angleDifference < -180) totalRotation += 360;
-            lastRotationAngle = totalRotation;
-            const svgLineRect = svgLine.getBoundingClientRect();
-            if (svgLineRect.width > 0 && svgLineRect.height > 0) {
-                const scaleY = svgLineRect.height / svgLine.viewBox.baseVal.height;
-                const scaleX = svgLineRect.width / svgLine.viewBox.baseVal.width;
-                svgTipCounter.style.left = `${currentPoint.x * scaleX}px`;
-                svgTipCounter.style.top = `${currentPoint.y * scaleY}px`;
-                svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
-                return dashedLineContainer.offsetTop + (currentPoint.y * scaleY);
-            }
-        }
-        return 0;
-    }
-
-    /** Positions the line on MOBILE with your custom offset. */
-    function positionMobileDashedLine() {
-        if (window.innerWidth > 1024 || !dashedLineContainer) return;
-        const firstSection = document.querySelector('.state-container-1');
-        const lastSection = document.querySelector('.state-container-12');
-        if (!firstSection || !lastSection) return;
-        const bottomOffset = -80; 
-        const topPosition = firstSection.offsetTop;
-        const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
-        const containerHeight = bottomPosition - topPosition;
-        dashedLineContainer.style.top = `${topPosition}px`;
-        dashedLineContainer.style.height = `${containerHeight}px`;
-    }
-    
-    /** ✅ FINAL REWRITE for the "draw at 30% of viewport" MOBILE animation. */
-    function animateMobileDashedLine() {
-        if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) {
-            if (svgTipCounter) svgTipCounter.style.opacity = '0';
-            return 0;
-        }
-
-        const counterOffsetY = 30;
-        const triggerPointY = window.innerHeight * 0.3;
-        const svgRect = mobileSvgLine.getBoundingClientRect();
-        if (svgRect.height === 0) return 0;
-
-        // ✅ FIX: The progress calculation is inverted to match the bottom-to-top scroll.
-        // This ensures the animation progresses from 0 to 1 as you scroll up.
-        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
-        const clampedProgress = Math.max(0, Math.min(1, progress));
-
-        const drawLength = mobilePathTotalLength * clampedProgress;
-        
-        mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - drawLength;
-
-        if (svgTipCounter) {
-            // The counter is visible when the animation is between its start and end points.
-            const isVisible = (clampedProgress > 0.01 && clampedProgress < 0.99);
-            svgTipCounter.style.opacity = isVisible ? '1' : '0';
-            
-            const currentLength = drawLength;
-            const currentPoint = mobilePathElement.getPointAtLength(currentLength);
-            const previousPoint = mobilePathElement.getPointAtLength(currentLength > 0 ? currentLength - 1 : 0);
-            
-            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
-            const rotationOffset = 90;
-            let totalRotation = angle + rotationOffset;
-            let angleDifference = totalRotation - lastRotationAngle;
-            if (angleDifference > 180) totalRotation -= 360;
-            else if (angleDifference < -180) totalRotation += 360;
-            lastRotationAngle = totalRotation;
-            
-            const pointScaleX = svgRect.width / mobileSvgLine.viewBox.baseVal.width;
-            const pointScaleY = svgRect.height / mobileSvgLine.viewBox.baseVal.height;
-            
-            const counterLeft = currentPoint.x * pointScaleX;
-            const counterTop = (currentPoint.y * pointScaleY) + counterOffsetY;
-
-            svgTipCounter.style.left = `${counterLeft}px`;
-            svgTipCounter.style.top = `${counterTop}px`;
-            svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
-
-            return dashedLineContainer.offsetTop + counterTop;
-        }
-        return 0;
-    }
-
-    // --- ADDED FOR TABLET ---
-    /** Animation function for TABLET view. */
-    function animateTabletDashedLine() {
-        if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) {
-            if (svgTipCounter) svgTipCounter.style.opacity = '0';
-            return 0;
+    /** Updates the main altitude counter. */
+    function updateMainCounter(currentIconYPosition) {
+        if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
+        let prevCheckpoint = checkpointsData[0];
+        let nextCheckpoint = checkpointsData[checkpointsData.length - 1];
+        for (let i = 0; i < checkpointsData.length - 1; i++) {
+            if (checkpointsData[i].y >= currentIconYPosition && checkpointsData[i + 1].y <= currentIconYPosition) {
+                prevCheckpoint = checkpointsData[i + 1];
+                nextCheckpoint = checkpointsData[i];
+                break;
+            }
         }
+        const distanceBetweenPoints = nextCheckpoint.y - prevCheckpoint.y;
+        const valueRange = nextCheckpoint.value - prevCheckpoint.value;
+        let progress = (distanceBetweenPoints !== 0) ? (currentIconYPosition - prevCheckpoint.y) / distanceBetweenPoints : 0;
+        const currentValue = prevCheckpoint.value + (progress * valueRange);
+        const textElement = svgTipCounter.querySelector('.counter-text');
+        if (textElement) {
+            textElement.textContent = `${Math.round(Math.max(0, currentValue)).toLocaleString('en-US')} ft`;
+        }
+    }
 
-        const counterOffsetY = 30;
-        const triggerPointY = window.innerHeight * 0.7;
-        const svgRect = tabletSvgLine.getBoundingClientRect();
-        if (svgRect.height === 0) return 0;
+    /** Animates altitude popups. */
+    function animateAltitude(element) {
+        const finalValue = parseInt(element.dataset.finalValue, 10);
+        if (isNaN(finalValue) || element.dataset.animated) return;
+        element.dataset.animated = 'true';
+        const startValue = parseInt(element.textContent.replace(/,/g, ''), 10);
+        const duration = 1500;
+        let startTime = null;
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
+            element.textContent = currentValue.toLocaleString('en-US');
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.textContent = finalValue.toLocaleString('en-US');
+            }
+        }
+        requestAnimationFrame(step);
+    }
+    
+    /** Rearranges navigation links for mobile/desktop. */
+    function updateNavLayout() {
+        const isMobile = window.innerWidth <= 700;
+        const navLeft = document.querySelector('.nav-left');
+        const navRight = document.querySelector('.nav-right');
+        if (isMobile) {
+            if (navRight && navRight.children.length > 0) {
+                while (navRight.firstElementChild) {
+                    navLeft.appendChild(navRight.firstElementChild);
+                }
+            }
+            if (navRight) navRight.style.display = 'none';
+        } else {
+            if (navRight) navRight.style.display = 'flex';
+        }
+    }
 
-        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
-        const clampedProgress = Math.max(0, Math.min(1, progress));
+    /** Positions the dashed line container on DESKTOP. */
+    function positionDashedLine() {
+        if (window.innerWidth <= 1024) return;
+        const stateContainer1 = document.querySelector('.state-container-1');
+        const stateContainer12 = document.querySelector('.state-container-12');
+        if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) return;
+        const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
+        const state1Rect = stateContainer1.getBoundingClientRect();
+        const state12Rect = stateContainer12.getBoundingClientRect();
+        const offset = 0;
+        const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
+        const state12MiddleY =(state12Rect.bottom);
+        const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
+        dashedLineContainer.style.top = `${actualDashedLineTop}px`;
+        dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
+    }
+    
+    /** Positions the line on MOBILE/TABLET. */
+    function positionMobileDashedLine() {
+        if (window.innerWidth > 1024 || !dashedLineContainer) return;
+        const firstSection = document.querySelector('.state-container-1');
+        const lastSection = document.querySelector('.state-container-12');
+        if (!firstSection || !lastSection) return;
+        const bottomOffset = -60;
+        const topPosition = firstSection.offsetTop;
+        const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
+        const containerHeight = bottomPosition - topPosition;
+        dashedLineContainer.style.top = `${topPosition}px`;
+        dashedLineContainer.style.height = `${containerHeight}px`;
+    }
 
-        const drawLength = tabletPathTotalLength * clampedProgress;
+    // --- NEW: This function ONLY handles the expensive counter update ---
+    function updateCounterPosition(progress, path, pathLength, svg) {
+        if (!svgTipCounter || !path || !svg) return 0;
+
+        const isVisible = (progress > 0.01 && progress < 0.99);
+        svgTipCounter.style.opacity = isVisible ? '1' : '0';
+        if (!isVisible) return 0;
+
+        const clampedDrawLength = Math.max(1, Math.min(progress * pathLength, pathLength - 1));
+        const currentPoint = path.getPointAtLength(clampedDrawLength);
+        const previousPoint = path.getPointAtLength(clampedDrawLength > 0 ? clampedDrawLength - 1 : 0);
+
+        const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
+        const rotationOffset = 90;
+        let totalRotation = angle + rotationOffset;
         
-        tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - drawLength;
+        // Shortest angle rotation
+        let angleDifference = totalRotation - lastRotationAngle;
+        if (angleDifference > 180) totalRotation -= 360;
+        else if (angleDifference < -180) totalRotation += 360;
+        lastRotationAngle = totalRotation;
 
-        if (svgTipCounter) {
-            const isVisible = (clampedProgress > 0.01 && clampedProgress < 0.99);
-            svgTipCounter.style.opacity = isVisible ? '1' : '0';
-            
-            const currentLength = drawLength;
-            const currentPoint = tabletPathElement.getPointAtLength(currentLength);
-            const previousPoint = tabletPathElement.getPointAtLength(currentLength > 0 ? currentLength - 1 : 0);
-            
-            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
-            const rotationOffset = 90;
-            let totalRotation = angle + rotationOffset;
-            let angleDifference = totalRotation - lastRotationAngle;
-            if (angleDifference > 180) totalRotation -= 360;
-            else if (angleDifference < -180) totalRotation += 360;
-            lastRotationAngle = totalRotation;
-            
-            const pointScaleX = svgRect.width / tabletSvgLine.viewBox.baseVal.width;
-            const pointScaleY = svgRect.height / tabletSvgLine.viewBox.baseVal.height;
-            
-            const counterLeft = currentPoint.x * pointScaleX;
-            const counterTop = (currentPoint.y * pointScaleY) + counterOffsetY;
+        const svgRect = svg.getBoundingClientRect();
+        if (svgRect.width > 0 && svgRect.height > 0) {
+            const scaleY = svgRect.height / svg.viewBox.baseVal.height;
+            const scaleX = svgRect.width / svg.viewBox.baseVal.width;
+            const counterOffsetY = (svg !== svgLine) ? 30 : 0; // Offset for mobile/tablet
 
-            svgTipCounter.style.left = `${counterLeft}px`;
-            svgTipCounter.style.top = `${counterTop}px`;
+            svgTipCounter.style.left = `${currentPoint.x * scaleX}px`;
+            svgTipCounter.style.top = `${(currentPoint.y * scaleY) + counterOffsetY}px`;
             svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
-
-            return dashedLineContainer.offsetTop + counterTop;
+            return dashedLineContainer.offsetTop + (currentPoint.y * scaleY);
         }
         return 0;
     }
 
-    function checkAndAnimatePopups() {
-        const triggerThreshold = window.innerHeight * 0.20;
-        document.querySelectorAll('.h2-popup').forEach(popup => {
-            if (popup.classList.contains('visible')) return;
-            const h2 = popup.nextElementSibling;
-            if (!h2) return;
-            const h2Rect = h2.getBoundingClientRect();
-            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return;
-            const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
-            if (h2TriggerPoint > triggerThreshold) {
-                popup.classList.add('visible');
-                const altitudeValueElement = popup.querySelector('.altitude-value');
-                if (altitudeValueElement) {
-                    animateAltitude(altitudeValueElement);
-                }
-            }
-        });
-    }
+    // --- MODIFIED: These functions now ONLY draw the line and return progress ---
+// This version restores your custom easing curve
+    function animateDashedLine() {
+        if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) return 0;
+        const animationStartScrollY = topContentWrapper.offsetTop;
+        const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
+        linearProgress = Math.max(0, Math.min(1, linearProgress));
 
-    function handleOverscroll(event) {
-        if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
-        const touchY = event.touches[0].clientY;
-        const isScrollingUp = touchY > lastTouchY;
-        const atTop = window.pageYOffset === 0;
-        if (atTop && isScrollingUp && topContentWrapper) {
-            event.preventDefault(); isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
-            setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
-        }
-        const isScrollingDown = touchY < lastTouchY;
-        const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
-        if (atBottom && isScrollingDown && landingPage) {
-            event.preventDefault(); isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
-            setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
-        }
-        lastTouchY = touchY;
-    }
+        // --- THIS IS THE RESTORED LINE ---
+        const modifiedProgress = Math.pow(linearProgress, 0.95);
 
-    function preventKeyboardJump(e) {
-        if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
-    }
+        maskPath.style.strokeDashoffset = pathTotalLength - (pathTotalLength * modifiedProgress);
+        return modifiedProgress; // Return the modified progress for the counter
+    }
+    
+    function animateMobileDashedLine() {
+        if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
+        const triggerPointY = window.innerHeight * 0.3;
+        const svgRect = mobileSvgLine.getBoundingClientRect();
+        if (svgRect.height === 0) return 0;
+        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
+        const clampedProgress = Math.max(0, Math.min(1, progress));
+        mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
+        return clampedProgress;
+    }
 
+    function animateTabletDashedLine() {
+        if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
+        const triggerPointY = window.innerHeight * 0.7;
+        const svgRect = tabletSvgLine.getBoundingClientRect();
+        if (svgRect.height === 0) return 0;
+        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
+        const clampedProgress = Math.max(0, Math.min(1, progress));
+        tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - (tabletPathTotalLength * clampedProgress);
+        return clampedProgress;
+    }
 
-    // --- MAIN ANIMATION LOOP (for performance) ---
-    function runAnimations() {
-        let currentIconY = 0;
-        // --- MODIFIED FOR TABLET ---
+    function checkAndAnimatePopups() {
+        const triggerThreshold = window.innerHeight * 0.20;
+        document.querySelectorAll('.h2-popup').forEach(popup => {
+            if (popup.classList.contains('visible')) return;
+            const h2 = popup.nextElementSibling;
+            if (!h2) return;
+            const h2Rect = h2.getBoundingClientRect();
+            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return;
+            const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
+            if (h2TriggerPoint > triggerThreshold) {
+                popup.classList.add('visible');
+                const altitudeValueElement = popup.querySelector('.altitude-value');
+                if (altitudeValueElement) {
+                    animateAltitude(altitudeValueElement);
+                }
+            }
+        });
+    }
+
+    function handleOverscroll(event) {
+        if (window.innerWidth > 1024 || document.body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
+        const touchY = event.touches[0].clientY;
+        const isScrollingUp = touchY > lastTouchY;
+        const atTop = window.pageYOffset === 0;
+        if (atTop && isScrollingUp && topContentWrapper) {
+            event.preventDefault(); isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
+            setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
+        }
+        const isScrollingDown = touchY < lastTouchY;
+        const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
+        if (atBottom && isScrollingDown && landingPage) {
+            event.preventDefault(); isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
+            setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
+        }
+        lastTouchY = touchY;
+    }
+
+    function preventKeyboardJump(e) {
+        if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
+    }
+    
+    // --- REFACTORED: The main animation loop ---
+    function runAnimations() {
         const screenWidth = window.innerWidth;
+        let progress = 0;
 
-        if (screenWidth <= 600) { // Mobile
-            currentIconY = animateMobileDashedLine();
-        } else if (screenWidth > 600 && screenWidth <= 1024) { // Tablet
-            currentIconY = animateTabletDashedLine();
-        } else { // Desktop
-            currentIconY = animateDashedLine();
+        // Step 1: Draw the line smoothly on every frame and get the progress
+        if (screenWidth <= 700) {
+            progress = animateMobileDashedLine();
+        } else if (screenWidth > 700 && screenWidth <= 1024) {
+            progress = animateTabletDashedLine();
+        } else {
+            progress = animateDashedLine();
+        }
+    
+        // Step 2: On an interval, run the expensive counter updates
+        const now = performance.now();
+        if (now - lastCounterUpdateTime > COUNTER_UPDATE_INTERVAL) {
+            lastCounterUpdateTime = now;
+            let currentIconY = 0;
+            if (screenWidth <= 700) {
+                currentIconY = updateCounterPosition(progress, mobilePathElement, mobilePathTotalLength, mobileSvgLine);
+            } else if (screenWidth > 700 && screenWidth <= 1024) {
+                currentIconY = updateCounterPosition(progress, tabletPathElement, tabletPathTotalLength, tabletSvgLine);
+            } else {
+                currentIconY = updateCounterPosition(progress, pathElement, pathTotalLength, svgLine);
+            }
+            // Also throttle the main counter update since it depends on the icon's position
+            updateMainCounter(currentIconY);
         }
         
-        updateMainCounter(currentIconY);
         checkAndAnimatePopups();
         animationFrameId = null;
-    }
+    }
 
+    // --- EVENT LISTENERS ---
+    window.onload = () => {
+        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
+        
+        if (pathElement && maskPath) {
+            pathTotalLength = pathElement.getTotalLength();
+            maskPath.style.strokeDasharray = pathTotalLength;
+            maskPath.style.strokeDashoffset = pathTotalLength;
+        }
 
-    // --- EVENT LISTENERS ---
-    window.onload = () => {
-        if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
-        
-        if (pathElement && maskPath) {
-            pathTotalLength = pathElement.getTotalLength();
-            maskPath.style.strokeDasharray = pathTotalLength;
-            maskPath.style.strokeDashoffset = pathTotalLength;
-        }
+        if (mobilePathElement && mobileMaskPath) {
+            mobilePathTotalLength = mobilePathElement.getTotalLength();
+            mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
+            mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength;
+        }
 
-        if (mobilePathElement && mobileMaskPath) {
-            mobilePathTotalLength = mobilePathElement.getTotalLength();
-            mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
-            mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength;
-        }
-
-        // --- ADDED FOR TABLET ---
         if (tabletPathElement && tabletMaskPath) {
             tabletPathTotalLength = tabletPathElement.getTotalLength();
             tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
             tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength;
         }
 
-        const allStateContainers = document.querySelectorAll('.state-container');
-        if (allStateContainers.length > 0) {
-            const lastContainer = allStateContainers[allStateContainers.length - 1];
-            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
-        }
-        allStateContainers.forEach(container => {
-            const valueElement = container.querySelector('.altitude-value');
-            if (valueElement && valueElement.dataset.finalValue) {
-                const value = parseInt(valueElement.dataset.finalValue, 10);
-                checkpointsData.push({ y: container.offsetTop, value: value });
-            }
-        });
-        checkpointsData.sort((a, b) => a.y - b.y);
-        
-        document.body.style.opacity = '1';
-        
-        if (window.innerWidth <= 1024) {
-            positionMobileDashedLine();
-        } else {
-            positionDashedLine();
-        }
-        runAnimations();
-        
-        updateNavLayout();
+        const allStateContainers = document.querySelectorAll('.state-container');
+        if (allStateContainers.length > 0) {
+            const lastContainer = allStateContainers[allStateContainers.length - 1];
+            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
+        }
+        allStateContainers.forEach(container => {
+            const valueElement = container.querySelector('.altitude-value');
+            if (valueElement && valueElement.dataset.finalValue) {
+                const value = parseInt(valueElement.dataset.finalValue, 10);
+                checkpointsData.push({ y: container.offsetTop, value: value });
+            }
+        });
+        checkpointsData.sort((a, b) => a.y - b.y);
+        
+        document.body.style.opacity = '1';
+        
+        if (window.innerWidth <= 1024) {
+            positionMobileDashedLine();
+        } else {
+            positionDashedLine();
+        }
+        runAnimations();
+        
+        updateNavLayout();
 
-        const observerOptions = { root: null, rootMargin: '0px 0px -20% 0px', threshold: 0.25 };
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-        document.querySelectorAll('.state-container').forEach(container => scrollObserver.observe(container));
-    };
+        const observerOptions = { root: null, rootMargin: '0px 0px -20% 0px', threshold: 0.25 };
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+        document.querySelectorAll('.state-container').forEach(container => scrollObserver.observe(container));
+    };
 
-    window.addEventListener('resize', () => {
-        if (window.innerWidth <= 1024) {
-            positionMobileDashedLine();
-        } else {
-            positionDashedLine();
-        }
-        runAnimations();
-        updateNavLayout();
-    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 1024) {
+            positionMobileDashedLine();
+        } else {
+            positionDashedLine();
+        }
+        runAnimations();
+        updateNavLayout();
+    });
 
-    window.addEventListener('scroll', () => {
-        if (!animationFrameId) {
-            animationFrameId = requestAnimationFrame(runAnimations);
-        }
-        
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (landingPage) {
-            const anchorThreshold = 0.90;
-            const bottomOfViewport = scrollTop + window.innerHeight;
-            const topOfLandingPage = landingPage.offsetTop;
-            const heightOfLandingPage = landingPage.offsetHeight;
-            const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-            if (bottomOfViewport < triggerPoint) {
-                navbar.classList.add('navbar--anchored');
-                scrollToTopBtn.classList.add('raised');
-            } else {
-                navbar.classList.remove('navbar--anchored');
-                scrollToTopBtn.classList.remove('raised');
-            }
-        }
-        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-        if (scrollFraction < 0.5) {
-            scrollToTopBtn.classList.remove('is-hidden');
-        } else {
-            scrollToTopBtn.classList.add('is-hidden');
-        }
-        lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
-    }, { passive: true });
-    
-    // All other event listeners
-    scrollToTopBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
-    });
-    mobileMenuToggle.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open');
-        document.body.classList.toggle('noscroll');
-        document.documentElement.classList.toggle('noscroll');
-        scrollToTopBtn.classList.toggle('is-hidden-by-nav');
-        const isExpanded = navbar.classList.contains('nav-open');
-        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-        const icon = mobileMenuToggle.querySelector('i');
-        icon.classList.toggle('fa-bars', !isExpanded);
-        icon.classList.toggle('fa-times', isExpanded);
-    });
-    const overlayButton = document.querySelector('.overlay-button');
-    if (overlayButton && landingPage) {
-        overlayButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            const targetScrollY = landingPage.offsetTop - window.innerHeight;
-            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-        });
-    }
-    window.addEventListener('touchstart', (e) => {
-        if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
-    }, { passive: true });
-    window.addEventListener('touchmove', handleOverscroll, { passive: false });
-    window.addEventListener('keydown', preventKeyboardJump, { passive: false });
-    history.scrollRestoration = 'manual';
+    window.addEventListener('scroll', () => {
+        if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(runAnimations);
+        }
+        
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (landingPage) {
+            const anchorThreshold = 0.90;
+            const bottomOfViewport = scrollTop + window.innerHeight;
+            const topOfLandingPage = landingPage.offsetTop;
+            const heightOfLandingPage = landingPage.offsetHeight;
+            const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
+            if (bottomOfViewport < triggerPoint) {
+                navbar.classList.add('navbar--anchored');
+                scrollToTopBtn.classList.add('raised');
+            } else {
+                navbar.classList.remove('navbar--anchored');
+                scrollToTopBtn.classList.remove('raised');
+            }
+        }
+        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
+        if (scrollFraction < 0.5) {
+            scrollToTopBtn.classList.remove('is-hidden');
+        } else {
+            scrollToTopBtn.classList.add('is-hidden');
+        }
+        lastScrollTop = (scrollTop <= 0) ? 0 : scrollTop;
+    }, { passive: true });
+    
+    // All other event listeners
+    scrollToTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
+    });
+    mobileMenuToggle.addEventListener('click', () => {
+        navbar.classList.toggle('nav-open');
+        document.body.classList.toggle('noscroll');
+        document.documentElement.classList.toggle('noscroll');
+        scrollToTopBtn.classList.toggle('is-hidden-by-nav');
+        const isExpanded = navbar.classList.contains('nav-open');
+        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+        const icon = mobileMenuToggle.querySelector('i');
+        icon.classList.toggle('fa-bars', !isExpanded);
+        icon.classList.toggle('fa-times', isExpanded);
+    });
+    const overlayButton = document.querySelector('.overlay-button');
+    if (overlayButton && landingPage) {
+        overlayButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            const targetScrollY = landingPage.offsetTop - window.innerHeight;
+            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+        });
+    }
+    window.addEventListener('touchstart', (e) => {
+        if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
+    }, { passive: true });
+    window.addEventListener('touchmove', handleOverscroll, { passive: false });
+    window.addEventListener('keydown', preventKeyboardJump, { passive: false });
+    history.scrollRestoration = 'manual';
 </script>
 </body>
 </html>
