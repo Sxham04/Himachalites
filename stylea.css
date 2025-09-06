@@ -52,98 +52,6 @@ main.main-content h1 {
     display: block; /* Removes any extra space below the image */
 }
 
-/* --- PILL NAVIGATION STYLES --- */
-
-:root {
-    /* --- CUSTOMIZE YOUR NAVBAR HERE --- */
-    --pill-nav-width: 780px;      /* The total width of the green navigation bar */
-    --pill-font-size: 16px;       /* The font size of the text in the pills */
-    --pill-vertical-padding: 15px;/* Controls the height of the inner pills */
-    --pill-horizontal-padding: 45px;/* Controls the width and spacing of the inner pills */
-    /* ---------------------------------- */
-
-    --pill-nav-base: #0EA63C;
-    --pill-nav-text: #FFFFFF;
-}
-
-.pill-nav-container {
-    width: 100%;
-    display: flex;
-    justify-content: center; /* This centers the fixed-width navbar */
-}
-
-.pill-nav-items {
-    width: var(--pill-nav-width); /* Sets the fixed width as you requested */
-    max-width: 100%; /* Ensures it shrinks gracefully on smaller screens */
-    
-    display: flex;
-    /* This distributes the 5 pills evenly across the container for perfect symmetry */
-    justify-content: space-around;
-    align-items: center;
-
-    background: var(--pill-nav-base);
-    border-radius: 9999px;
-    list-style: none;
-    margin: 0;
-    padding: 5px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.pill-nav-items li {
-    display: flex; /* Ensures li takes up space correctly */
-}
-
-.pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* The pill's size is now controlled by padding and font size, not a fixed height */
-    padding: var(--pill-vertical-padding) var(--pill-horizontal-padding);
-    
-    background: var(--pill-nav-text);
-    color: var(--pill-nav-base);
-    border-radius: 9999px;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: var(--pill-font-size);
-    white-space: nowrap;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Styles for the GSAP animation elements */
-.pill .hover-circle {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    border-radius: 50%;
-    background: var(--pill-nav-base);
-    z-index: 1;
-    pointer-events: none;
-}
-.pill .label-stack {
-    position: relative;
-    z-index: 2;
-}
-.pill .pill-label {
-    display: inline-block;
-}
-.pill .pill-label-hover {
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--pill-nav-text);
-    display: inline-block;
-}
-
-/* Style for the active page link */
-.pill.is-active {
-    background: var(--pill-nav-base);
-    color: var(--pill-nav-text);
-    cursor: default;
-}
 
 /* 2. Info Container */
 .info-container h1 {
@@ -585,7 +493,7 @@ header {
 
     /* --- Mobile Content Font Size --- */
     .info-container p {
-        font-size: 1rem;
+        font-size: 0.9rem;
         line-height: 1.5;
     }
 }

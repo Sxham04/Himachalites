@@ -541,7 +541,7 @@ header {
 
 /* --- Specific Mobile Layout (Phones) --- */
 @media (max-width: 1440px) {
-        .pill-nav-items {
+    .pill-nav-items {
         width: 95%;
         gap: 5px;
         padding: 5px;
@@ -608,7 +608,7 @@ header {
 
     /* --- Mobile Content Font Size --- */
     .info-container p {
-        font-size: 1rem;
+        font-size: 0.9rem;
         line-height: 1.5;
     }
 }
