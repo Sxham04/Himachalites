@@ -716,6 +716,42 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const landingPageContainer = document.getElementById('landing-page-container');
+    const navbar = document.querySelector('.navbar');
+    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+
+    if (!landingPageContainer || !navbar) return;
+
+    // This observer will watch the landing page container
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                // entry.isIntersecting is true as long as any part of the landing page is visible.
+                // It becomes false only when the landing page is COMPLETELY off-screen.
+                if (!entry.isIntersecting) {
+                    // When the landing page is NOT on screen, anchor the navbar.
+                    navbar.classList.add('navbar--anchored');
+                    scrollToTopBtn.classList.add('raised');
+                } else {
+                    // When it IS on screen, un-anchor the navbar.
+                    navbar.classList.remove('navbar--anchored');
+                    scrollToTopBtn.classList.remove('raised');
+                }
+            });
+        },
+        {
+            // threshold: 0 means the event will fire the moment the
+            // last pixel of the element leaves the viewport.
+            threshold: 0 
+        }
+    );
+
+    // Start observing the landing page
+    observer.observe(landingPageContainer);
+});
+</script>
+<script>
     // --- VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');
     const landingPage = document.getElementById('landing-page-container');
@@ -754,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- New variables for throttling the counter update ---
     let lastCounterUpdateTime = 0;
-    const COUNTER_UPDATE_INTERVAL = 50; // ms. Update counter ~33 times/sec. You can tweak this value.
+    const COUNTER_UPDATE_INTERVAL = 70; // ms. Update counter ~33 times/sec. You can tweak this value.
 
     // --- FUNCTION DEFINITIONS ---
 
@@ -1077,20 +1113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (landingPage) {
-            const anchorThreshold = 0.90;
-            const bottomOfViewport = scrollTop + window.innerHeight;
-            const topOfLandingPage = landingPage.offsetTop;
-            const heightOfLandingPage = landingPage.offsetHeight;
-            const triggerPoint = topOfLandingPage + (heightOfLandingPage * (1 - anchorThreshold));
-            if (bottomOfViewport < triggerPoint) {
-                navbar.classList.add('navbar--anchored');
-                scrollToTopBtn.classList.add('raised');
-            } else {
-                navbar.classList.remove('navbar--anchored');
-                scrollToTopBtn.classList.remove('raised');
-            }
-        }
+
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
         if (scrollFraction < 0.5) {
