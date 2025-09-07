@@ -44,6 +44,7 @@
             </button>
         </nav>
     </header>
+    <div id="nav-anchor-trigger"></div>
 
 <main class="main-content">
 
@@ -260,12 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
-    // --- VARIABLE DECLARATIONS ---
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. VARIABLE DECLARATIONS ---
     const navbar = document.querySelector('.navbar');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const header = document.querySelector('header');
+    const triggerElement = document.querySelector('#nav-anchor-trigger'); // The new trigger
 
-    // --- 1. MOBILE MENU TOGGLE LOGIC ---
+    // --- 2. MOBILE MENU TOGGLE LOGIC (Unchanged) ---
     if (mobileMenuToggle && navbar) {
         mobileMenuToggle.addEventListener('click', () => {
             navbar.classList.toggle('nav-open');
@@ -283,27 +286,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. ANCHORED NAVBAR LOGIC ---
-    // Wait for the page to fully load to get correct element heights
-    window.addEventListener('DOMContentLoaded', (event) => {
-        if (header && navbar) {
-            const stickyPoint = header.offsetHeight;
-            const navHeight = navbar.offsetHeight;
+    // --- 3. NEW ANCHORED NAVBAR LOGIC (Using IntersectionObserver) ---
+    if (header && navbar && triggerElement) {
+        const navHeight = navbar.offsetHeight;
 
-            window.onscroll = function() {
-                // Check if the user has scrolled past the header
-                if (window.pageYOffset > stickyPoint) {
-                    navbar.classList.add('navbar--anchored');
-                    // Add padding to the body to prevent content from jumping up
-                    document.body.style.paddingTop = navHeight + 'px';
-                } else {
-                    navbar.classList.remove('navbar--anchored');
-                    // Remove the padding when scrolling back to the top
-                    document.body.style.paddingTop = '0';
-                }
-            };
-        }
-    });
+        // The observer watches the trigger element
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    // When the trigger is no longer intersecting the top of the screen...
+                    if (!entry.isIntersecting) {
+                        // Anchor the navbar
+                        navbar.classList.add('navbar--anchored');
+                        // Add padding to the body to prevent content from jumping
+                        document.body.style.paddingTop = navHeight + 'px';
+                    } else {
+                        // Un-anchor the navbar
+                        navbar.classList.remove('navbar--anchored');
+                        // Remove the padding
+                        document.body.style.paddingTop = '0';
+                    }
+                });
+            },
+            {
+                // This creates a trigger line 1px from the top of the viewport.
+                rootMargin: "-1px 0px 0px 0px"
+            }
+        );
+
+        // Start observing the trigger
+        observer.observe(triggerElement);
+    }
+});
 </script>
 </body>
 </html>

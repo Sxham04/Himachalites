@@ -30,7 +30,7 @@
 }
 
 /* --- TABLET STYLES --- */
-    @media (min-width: 701px) and (max-width: 1024px) {
+    @media (min-width: 601px) and (max-width: 1024px) {
         /* Hide desktop and mobile SVGs */
         .dashed-line-center, #mobile-line-svg {
             display: none;
@@ -44,6 +44,10 @@
             position: absolute;
             top: 0;
             left: 0;
+        }
+
+        #tablet-line-path {
+            stroke-dasharray: 15 !important;
         }
 
         /* Generic container styles for tablet/mobile */
@@ -62,7 +66,7 @@
     }
 
     /* --- MOBILE STYLES --- */
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
         /* Hide desktop and tablet SVGs */
         .dashed-line-center, #tablet-line-svg {
             display: none;
@@ -723,27 +727,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!landingPageContainer || !navbar) return;
 
-    // This observer will watch the landing page container
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach(entry => {
-                // entry.isIntersecting is true as long as any part of the landing page is visible.
-                // It becomes false only when the landing page is COMPLETELY off-screen.
+                // We go back to the simple check: is the element intersecting our new, smaller detection area?
                 if (!entry.isIntersecting) {
-                    // When the landing page is NOT on screen, anchor the navbar.
+                    // When the landing page is no longer in the detection area, anchor the navbar.
                     navbar.classList.add('navbar--anchored');
                     scrollToTopBtn.classList.add('raised');
                 } else {
-                    // When it IS on screen, un-anchor the navbar.
                     navbar.classList.remove('navbar--anchored');
                     scrollToTopBtn.classList.remove('raised');
                 }
             });
         },
         {
-            // threshold: 0 means the event will fire the moment the
-            // last pixel of the element leaves the viewport.
-            threshold: 0 
+            // This shrinks the detection area by 150px from the top.
+            // The navbar will anchor 150px BEFORE the landing page fully leaves the screen.
+            rootMargin: "0px 0px -20px 0px"
         }
     );
 
@@ -773,27 +774,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastRotationAngle = 90;
     let checkpointsData = [];
     let maskPath = document.getElementById('mask-path');
-
-    // --- NEW VARIABLES FOR MOBILE SVG ---
     const mobileSvgLine = document.getElementById('mobile-line-svg');
     const mobilePathElement = document.getElementById('mobile-line-path');
     const mobileMaskPath = document.getElementById('mobile-mask-path');
     let mobilePathTotalLength = 0;
-
-    // --- ADDED FOR TABLET ---
     const tabletSvgLine = document.getElementById('tablet-line-svg');
     const tabletPathElement = document.getElementById('tablet-line-path');
     const tabletMaskPath = document.getElementById('tablet-mask-path');
     let tabletPathTotalLength = 0;
-
     let animationFrameId = null;
-
-    // --- New variables for throttling the counter update ---
     let lastCounterUpdateTime = 0;
-    const COUNTER_UPDATE_INTERVAL = 70; // ms. Update counter ~33 times/sec. You can tweak this value.
+    const COUNTER_UPDATE_INTERVAL = 60;
 
     // --- FUNCTION DEFINITIONS ---
-
     /** Updates the main altitude counter. */
     function updateMainCounter(currentIconYPosition) {
         if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
@@ -841,7 +834,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     /** Rearranges navigation links for mobile/desktop. */
     function updateNavLayout() {
-        const isMobile = window.innerWidth <= 700;
+        const isMobile = window.innerWidth <= 600; // Updated breakpoint
         const navLeft = document.querySelector('.nav-left');
         const navRight = document.querySelector('.nav-right');
         if (isMobile) {
@@ -873,48 +866,51 @@ document.addEventListener("DOMContentLoaded", () => {
         dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
     }
     
-    /** Positions the line on MOBILE/TABLET. */
+    /** Positions the line on TABLET & MOBILE. */
     function positionMobileDashedLine() {
-        if (window.innerWidth > 1024 || !dashedLineContainer) return;
+        // This function now runs on all screens up to 1024px
+        if (window.innerWidth > 1024) return;
+
         const firstSection = document.querySelector('.state-container-1');
         const lastSection = document.querySelector('.state-container-12');
-        if (!firstSection || !lastSection) return;
-        const bottomOffset = -60;
+
+        if (!firstSection || !lastSection || !dashedLineContainer) return;
+
+        // This variable is restored to fine-tune the animation's end point.
+        const bottomOffset = -60; 
+
         const topPosition = firstSection.offsetTop;
+        
+        // The bottom position is calculated from the last section's top plus its height, then adjusted by the offset.
         const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
+        
         const containerHeight = bottomPosition - topPosition;
+
         dashedLineContainer.style.top = `${topPosition}px`;
         dashedLineContainer.style.height = `${containerHeight}px`;
     }
 
-    // --- NEW: This function ONLY handles the expensive counter update ---
+    /** This function ONLY handles the expensive counter update */
     function updateCounterPosition(progress, path, pathLength, svg) {
         if (!svgTipCounter || !path || !svg) return 0;
-
         const isVisible = (progress > 0.01 && progress < 0.99);
         svgTipCounter.style.opacity = isVisible ? '1' : '0';
         if (!isVisible) return 0;
-
         const clampedDrawLength = Math.max(1, Math.min(progress * pathLength, pathLength - 1));
         const currentPoint = path.getPointAtLength(clampedDrawLength);
         const previousPoint = path.getPointAtLength(clampedDrawLength > 0 ? clampedDrawLength - 1 : 0);
-
         const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
         const rotationOffset = 90;
         let totalRotation = angle + rotationOffset;
-        
-        // Shortest angle rotation
         let angleDifference = totalRotation - lastRotationAngle;
         if (angleDifference > 180) totalRotation -= 360;
         else if (angleDifference < -180) totalRotation += 360;
         lastRotationAngle = totalRotation;
-
         const svgRect = svg.getBoundingClientRect();
         if (svgRect.width > 0 && svgRect.height > 0) {
             const scaleY = svgRect.height / svg.viewBox.baseVal.height;
             const scaleX = svgRect.width / svg.viewBox.baseVal.width;
-            const counterOffsetY = (svg !== svgLine) ? 30 : 0; // Offset for mobile/tablet
-
+            const counterOffsetY = (svg !== svgLine) ? 30 : 0;
             svgTipCounter.style.left = `${currentPoint.x * scaleX}px`;
             svgTipCounter.style.top = `${(currentPoint.y * scaleY) + counterOffsetY}px`;
             svgTipCounter.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
@@ -922,9 +918,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return 0;
     }
-
-    // --- MODIFIED: These functions now ONLY draw the line and return progress ---
-// This version restores your custom easing curve
+    
+    /** This function ONLY draws the line and returns progress for DESKTOP */
     function animateDashedLine() {
         if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) return 0;
         const animationStartScrollY = topContentWrapper.offsetTop;
@@ -932,25 +927,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
         linearProgress = Math.max(0, Math.min(1, linearProgress));
-
-        // --- THIS IS THE RESTORED LINE ---
         const modifiedProgress = Math.pow(linearProgress, 0.95);
-
         maskPath.style.strokeDashoffset = pathTotalLength - (pathTotalLength * modifiedProgress);
-        return modifiedProgress; // Return the modified progress for the counter
+        return modifiedProgress;
     }
-    
+
+        /** This function ONLY draws the line and returns progress for MOBILE */
     function animateMobileDashedLine() {
         if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
-        const triggerPointY = window.innerHeight * 0.3;
+
+        // Use a trigger point in the viewport (e.g., 70% from the top)
+        const triggerPointY = window.innerHeight * 0.4; 
         const svgRect = mobileSvgLine.getBoundingClientRect();
+
         if (svgRect.height === 0) return 0;
+
+        // Calculate progress from 0 (top of SVG at trigger) to 1 (bottom of SVG at trigger)
         const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
         const clampedProgress = Math.max(0, Math.min(1, progress));
+
+        // Update the mask to "draw" the line
         mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
+        
         return clampedProgress;
     }
-
+        
+    /** This function ONLY draws the line and returns progress for TABLET */
     function animateTabletDashedLine() {
         if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
         const triggerPointY = window.innerHeight * 0.7;
@@ -1003,39 +1005,47 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isSlowing && scrollBlockingKeys.includes(e.key)) e.preventDefault();
     }
     
-    // --- REFACTORED: The main animation loop ---
-    function runAnimations() {
-        const screenWidth = window.innerWidth;
-        let progress = 0;
+    /** The main animation loop, refactored for new logic */
+/** The main animation loop, refactored for new logic */
+function runAnimations() {
+    const screenWidth = window.innerWidth;
+    let progress = 0;
+    let currentIconY = 0;
 
-        // Step 1: Draw the line smoothly on every frame and get the progress
-        if (screenWidth <= 700) {
-            progress = animateMobileDashedLine();
-        } else if (screenWidth > 700 && screenWidth <= 1024) {
-            progress = animateTabletDashedLine();
-        } else {
-            progress = animateDashedLine();
-        }
-    
-        // Step 2: On an interval, run the expensive counter updates
+    // Mobile (<= 600px)
+    if (screenWidth <= 600) {
+        progress = animateMobileDashedLine(); // Draw line every frame
+
+        // Throttle expensive counter updates for performance
         const now = performance.now();
         if (now - lastCounterUpdateTime > COUNTER_UPDATE_INTERVAL) {
             lastCounterUpdateTime = now;
-            let currentIconY = 0;
-            if (screenWidth <= 700) {
-                currentIconY = updateCounterPosition(progress, mobilePathElement, mobilePathTotalLength, mobileSvgLine);
-            } else if (screenWidth > 700 && screenWidth <= 1024) {
-                currentIconY = updateCounterPosition(progress, tabletPathElement, tabletPathTotalLength, tabletSvgLine);
-            } else {
-                currentIconY = updateCounterPosition(progress, pathElement, pathTotalLength, svgLine);
-            }
-            // Also throttle the main counter update since it depends on the icon's position
+            currentIconY = updateCounterPosition(progress, mobilePathElement, mobilePathTotalLength, mobileSvgLine);
             updateMainCounter(currentIconY);
         }
-        
-        checkAndAnimatePopups();
-        animationFrameId = null;
     }
+    // Tablet (601px - 1024px)
+    else if (screenWidth > 600 && screenWidth <= 1024) {
+        progress = animateTabletDashedLine(); // Draw line every frame
+        
+        // Throttle expensive counter updates for performance
+        const now = performance.now();
+        if (now - lastCounterUpdateTime > COUNTER_UPDATE_INTERVAL) {
+            lastCounterUpdateTime = now;
+            currentIconY = updateCounterPosition(progress, tabletPathElement, tabletPathTotalLength, tabletSvgLine);
+            updateMainCounter(currentIconY);
+        }
+    } 
+    // Desktop (> 1024px)
+    else {
+        progress = animateDashedLine();
+        currentIconY = updateCounterPosition(progress, pathElement, pathTotalLength, svgLine);
+        updateMainCounter(currentIconY);
+    }
+
+    checkAndAnimatePopups();
+    animationFrameId = null; // Reset for the next scroll event
+}
 
     // --- EVENT LISTENERS ---
     window.onload = () => {
@@ -1046,13 +1056,11 @@ document.addEventListener("DOMContentLoaded", () => {
             maskPath.style.strokeDasharray = pathTotalLength;
             maskPath.style.strokeDashoffset = pathTotalLength;
         }
-
         if (mobilePathElement && mobileMaskPath) {
             mobilePathTotalLength = mobilePathElement.getTotalLength();
             mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
             mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength;
         }
-
         if (tabletPathElement && tabletMaskPath) {
             tabletPathTotalLength = tabletPathElement.getTotalLength();
             tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
@@ -1113,7 +1121,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
         const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
         if (scrollFraction < 0.5) {
