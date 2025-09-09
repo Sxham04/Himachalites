@@ -1134,6 +1134,7 @@ header {
         justify-content: space-between;
         align-items: center;
         padding: 0 1.5rem;
+        padding-bottom: env(safe-area-inset-bottom); /* Add this line */
         animation: popUpFromBottom 0.5s ease-out;
         flex-wrap: nowrap;
     }

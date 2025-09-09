@@ -539,19 +539,53 @@ header {
   .navbar.nav-open .main-nav li:nth-child(4) { animation-delay: 0.4s; }
 }
 
-/* --- Specific Mobile Layout (Phones) --- */
+/* For tablets & small laptops (601px to 1440px) */
 @media (max-width: 1440px) {
-    .pill-nav-items {
-        width: 95%;
-        gap: 5px;
-        padding: 5px;
-        flex-wrap: wrap;
+    .pill-nav-container {
+        /* Center the entire navigation component */
+        display: flex;
+        justify-content: center;
     }
+
+    .pill-nav-items {
+        /* 1. Set the container width to 90% */
+        width: 90%;
+        display: flex; /* Ensure it remains a flex container */
+        gap: 10px;
+    }
+
+    .pill-nav-items li {
+        /* 2. THIS IS THE KEY: Tell each item to grow and take an equal share of the empty space */
+        flex-grow: 1;
+        display: flex; /* Helps the link inside fill the space */
+    }
+
     .pill {
-        padding: 0.8rem 1rem; 
+        /* 3. Make the link fill its parent (the li) and center its text */
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 0.5rem; /* Adjust padding for the new flexible width */
+        --nav-font-size: 14px;
     }
+}
+
+/* For mobile screens (600px and smaller) - This remains the same */
+@media (max-width: 600px) {
     .pill-nav-items {
-       --nav-font-size: 14px; 
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        width: 100%; /* Take full width on mobile */
+    }
+
+    .pill-nav-items li {
+        /* Reset flex-grow for the column layout */
+        flex-grow: 0;
+    }
+
+    .pill {
+        padding: 1.2rem 1rem;
+        --nav-font-size: 16px;
     }
 }
 
@@ -789,5 +823,35 @@ header {
 
     .overlay-button {
         bottom: 35%;
+    }
+}
+
+/* ==============================================
+   ENHANCED MOBILE PILL NAVIGATION
+============================================== */
+
+/* For screens 600px and smaller */
+@media (max-width: 600px) {
+    .pill-nav-items {
+        /* 1. Switch the layout from a row to a column */
+        flex-direction: column;
+
+        /* 2. Make all items stretch to fill the container's width */
+        align-items: stretch;
+
+        /* 3. Adjust the vertical gap between the stacked buttons */
+        gap: 15px;
+    }
+
+    .pill {
+        /* 4. Ensure each pill takes up the full width and has comfortable padding */
+        padding: 1.2rem 1rem;
+        width: 100%;
+        box-sizing: border-box; /* This is crucial to include padding within the 100% width */
+    }
+
+    /* Optional: Slightly increase font size for better readability on mobile */
+    .pill-nav-items {
+        --nav-font-size: 16px;
     }
 }
