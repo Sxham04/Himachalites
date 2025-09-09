@@ -1123,8 +1123,8 @@ header {
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 8vh;
-        min-height: 0;
+        box-sizing: border-box;
+        height: calc(6vh + env(safe-area-inset-bottom));
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
@@ -1134,9 +1134,11 @@ header {
         justify-content: space-between;
         align-items: center;
         padding: 0 1.5rem;
-        padding-bottom: env(safe-area-inset-bottom); /* Add this line */
+        padding-bottom: env(safe-area-inset-bottom);
         animation: popUpFromBottom 0.5s ease-out;
         flex-wrap: nowrap;
+
+        /* REMOVED the border-bottom line from here */
     }
 
     .navbar.navbar--anchored .main-nav {
