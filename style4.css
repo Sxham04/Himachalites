@@ -1124,7 +1124,7 @@ header {
         left: 0;
         width: 100%;
         box-sizing: border-box;
-        height: calc(6vh + env(safe-area-inset-bottom));
+        height: calc(60px + env(safe-area-inset-bottom));
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
@@ -1137,6 +1137,7 @@ header {
         padding-bottom: env(safe-area-inset-bottom);
         animation: popUpFromBottom 0.5s ease-out;
         flex-wrap: nowrap;
+        transform: translateZ(0);
 
         /* REMOVED the border-bottom line from here */
     }
