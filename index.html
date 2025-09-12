@@ -723,6 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener("DOMContentLoaded", () => {
     const landingPageContainer = document.getElementById('landing-page-container');
     const navbar = document.querySelector('.navbar');
+    const originalNavbarParent = navbar.parentElement; // Store its original home (<header>)
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
 
     if (!landingPageContainer || !navbar) return;
@@ -730,25 +731,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach(entry => {
-                // We go back to the simple check: is the element intersecting our new, smaller detection area?
-                if (!entry.isIntersecting) {
-                    // When the landing page is no longer in the detection area, anchor the navbar.
+                const isAnchored = navbar.classList.contains('navbar--anchored');
+
+                if (!entry.isIntersecting && !isAnchored) {
+                    // When scrolling past the landing page, ANCHOR the navbar
                     navbar.classList.add('navbar--anchored');
+                    document.body.appendChild(navbar); // Move navbar to the <body>
                     scrollToTopBtn.classList.add('raised');
-                } else {
+                } else if (entry.isIntersecting && isAnchored) {
+                    // When scrolling back to the landing page, UN-ANCHOR it
                     navbar.classList.remove('navbar--anchored');
+                    originalNavbarParent.appendChild(navbar); // Move it back to its original home
                     scrollToTopBtn.classList.remove('raised');
                 }
             });
         },
         {
-            // This shrinks the detection area by 150px from the top.
-            // The navbar will anchor 150px BEFORE the landing page fully leaves the screen.
-            rootMargin: "0px 0px -20px 0px"
+            rootMargin: "0px 0px -20px 0px",
+            threshold: 0
         }
     );
 
-    // Start observing the landing page
     observer.observe(landingPageContainer);
 });
 </script>
