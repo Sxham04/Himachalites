@@ -1046,6 +1046,11 @@ header {
         font-weight: bold;
         font-size: 1.2rem;
     }
+    .main-nav a.active {
+    opacity: 0.5;         /* Makes it look faded and disabled */
+    pointer-events: none; /* This is the magic property that disables all clicks/touches */
+    cursor: default;      /* Shows the default mouse cursor instead of a pointer */
+    }
 
     .nav-left,
     .nav-right {
