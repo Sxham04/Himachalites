@@ -93,7 +93,7 @@ body.noscroll {
 }
 
 #Line {
-    stroke-dasharray: 13;
+    stroke-dasharray: 20;
 }
 
 .dashed-line-center {
