@@ -498,6 +498,12 @@ header {
     }
 }
 
+/* Add this new rule */
+.main-image-container {
+    /* This negative margin counteracts the parent padding, moving the image up */
+    margin-top: -3rem; 
+}
+
 /* ==============================================
    TOP-ANCHORED NAVBAR STYLES
 ============================================== */
