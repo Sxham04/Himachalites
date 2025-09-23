@@ -1038,6 +1038,10 @@ header {
         display: none;
     }
 
+    .navbar.nav-open a.active{
+        pointer-events: none;
+    }
+
     .main-nav a {
         padding: 1rem;
         display: block;
