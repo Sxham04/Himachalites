@@ -279,6 +279,7 @@ header {
 
 .main-nav a.active {
     color: #7d7d7d;
+    pointer-events: none;
 }
 
 .mobile-menu-button {
