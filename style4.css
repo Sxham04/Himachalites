@@ -1,7 +1,6 @@
 /* 1. Core Layout & Fonts */
 
 /* --- Splash Screen Styles - Dark Grey Background --- */
-/* New CSS to block scrolling */
 body.loading-active {
     overflow: hidden !important;
     height: 100vh !important;
@@ -13,8 +12,7 @@ body.loading-active {
     left: 0;
     width: 100%;
     height: 100vh;
-    /* CHANGED: Set background to dark grey */
-    background-color: #222222; 
+    background-color: #222222;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,13 +33,9 @@ body.loading-active {
 /* ---------------------------------------------------- */
 
 #splash-image {
-    /* Set color to white to ensure the image (if it's a solid PNG/SVG) is visible against the dark background */
-    /* If your image is a photographic PNG, this won't change its colors, but is good practice. */
-    filter: brightness(1.2); 
-    
-    /* DEFAULT (Large Screens: Desktop/Tablet Landscape) */
-    max-width: 40vw; 
-    max-height: 50vh; 
+    filter: brightness(1.2);
+    max-width: 40vw;
+    max-height: 50vh;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -51,7 +45,7 @@ body.loading-active {
 /* --- Media Query for Tablets (Portrait) --- */
 @media (max-width: 1024px) {
     #splash-image {
-        max-width: 55vw; 
+        max-width: 55vw;
         max-height: 55vh;
         margin-bottom: 40px;
     }
@@ -60,16 +54,16 @@ body.loading-active {
 /* --- Media Query for Mobile Devices (Small Screens) --- */
 @media (max-width: 600px) {
     #splash-image {
-        max-width: 75vw; 
-        max-height: 40vh; 
+        max-width: 75vw;
+        max-height: 40vh;
         margin-bottom: 30px;
     }
 }
 
 /* --- Rotating Loader Animation (UNCHANGED, but visible against dark background) --- */
 .loader {
-    border: 5px solid #444; /* Slightly darker grey for contrast against background */
-    border-top: 5px solid #0EA63C; /* Green/Accent color */
+    border: 5px solid #444;
+    border-top: 5px solid #0EA63C;
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -88,12 +82,11 @@ html, body {
     scroll-behavior: smooth;
 }
 
-/* Promote SVG elements to their own compositing layer for hardware acceleration */
 .dashed-line,
 #mobile-line-svg,
 #tablet-line-svg {
     will-change: transform, opacity;
-    transform: translateZ(0); /* A common trick to force GPU rendering */
+    transform: translateZ(0);
 }
 
 html.noscroll,
@@ -142,24 +135,24 @@ body.noscroll {
 }
 
 .top-content-wrapper {
-    position: relative; 
+    position: relative;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     width: 100%;
-    min-height: auto; 
+    min-height: auto;
 }
 
 .state-content-sections {
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    padding-top: 50px; 
-    flex-grow: 1; 
-    background-color: transparent; 
+    align-items: center;
+    padding-top: 50px;
+    flex-grow: 1;
+    background-color: transparent;
 }
 
 .content-section-spacer {
-    height: 10vh; 
+    height: 10vh;
     width: 100%;
 }
 
@@ -169,7 +162,7 @@ body.noscroll {
     transform: translateX(-50%);
     width: 100%;
     max-width: 1693px;
-    height: auto; 
+    height: auto;
     z-index: 0;
 }
 
@@ -178,8 +171,8 @@ body.noscroll {
 }
 
 .dashed-line-center {
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     display: block;
 }
 
@@ -199,15 +192,15 @@ body.noscroll {
     #mobile-line-svg {
         display: block;
     }
-    
+
     #mobile-line-path {
         stroke-dasharray: 15;
         stroke-dashoffset: 1;
     }
-    
+
     #svg-tip-counter {
-        transition: top 0.05s linear, 
-                    opacity 0.3s ease, 
+        transition: top 0.05s linear,
+                    opacity 0.3s ease,
                     transform 0.1s linear;
     }
 }
@@ -244,7 +237,7 @@ body.noscroll {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10; 
+    z-index: 10;
 }
 
 
@@ -273,7 +266,7 @@ body.noscroll {
     transform: translateX(-50%);
     height: 1px;
     background-color: #333;
-    width: 0; 
+    width: 0;
     transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -300,7 +293,7 @@ body.noscroll {
 
 @media (max-width: 2000px) {
     .footer-main-content {
-        top: 18%; 
+        top: 18%;
     }
 }
 
@@ -309,8 +302,6 @@ body.noscroll {
     margin-bottom: 25px;
     padding-bottom: 10px;
     position: relative;
-    font-weight: 600;
-    letter-spacing: 0.5px;
 }
 
 .footer-column a i {
@@ -328,7 +319,7 @@ body.noscroll {
     bottom: 0;
     left: 0;
     height: 3px;
-    width: 200%; 
+    width: 200%;
     background-color: #ffffff;
     background-image: linear-gradient(#262626, #262626);
     background-repeat: no-repeat;
@@ -341,9 +332,9 @@ body.noscroll {
 
     .footer {
         height: auto;
-        padding-top: 13rem; 
-        padding-bottom: 8rem; 
-        justify-content: flex-start; 
+        padding-top: 13rem;
+        padding-bottom: 8rem;
+        justify-content: flex-start;
     }
 
     .footer-main-content {
@@ -354,7 +345,7 @@ body.noscroll {
         flex-direction: column-reverse;
         align-items: flex-start;
         width: 85%;
-        padding-left: 5%; 
+        padding-left: 5%;
         gap: 20px;
     }
 
@@ -542,7 +533,7 @@ body.noscroll {
     left: 0;
     width: 100%;
     height: 75%;
-    z-index: -1; 
+    z-index: -1;
     background-image: url('img/header.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -675,7 +666,7 @@ header {
     align-items: flex-start;
     background-color: transparent;
     padding-top: 30vh;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 .overlay-content {
@@ -691,9 +682,9 @@ header {
     max-width: 400px;
     min-width: 180px;
 }
-/* 1. Prepare the Parent Container */
+
 .content-area {
-    position: relative; 
+    position: relative;
 }
 
 /* --- NEW OVERLAY BUTTON STYLES WITH BOUNCE ANIMATION --- */
@@ -767,38 +758,30 @@ header {
 .overlay-button:hover::after {
     width: 100%;
 }
-/* This new wrapper now handles all the positioning */
+
 .button-wrapper {
     position: absolute;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10; /* Ensures it's on top of other content */
+    z-index: 10;
 }
 
-/* The blur effect is now a pseudo-element of the wrapper */
 .button-wrapper::before {
     content: '';
     position: absolute;
-
-    /* This is how you control the blur size! */
-    /* A value of 0 makes it the same size as the button. */
-    /* Use negative values to make it bigger (e.g., inset: -10px;) */
-    inset: 0px; /* Makes the background 8px larger on all sides */
-
+    inset: 0px;
     background-color: rgba(255, 255, 255, 0);
-    /* backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px); */
     border-radius: 30px;
-    z-index: -1; /* Places the blur behind the button */
+    z-index: -1;
 }
 /* 3. States Section */
 .state-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
     box-sizing: border-box;
-    position: relative; 
+    position: relative;
     width: 100%;
     max-width: 1610px;
     margin: 0 auto 40px;
@@ -818,7 +801,7 @@ header {
         font-size: 3rem;
         padding: 4rem 6rem 1rem 1rem;
     }
-    
+
     .header-12 {
         padding: 4rem 10rem 1rem 1rem;
     }
@@ -839,13 +822,13 @@ header {
     flex-direction: column;
     align-items: flex-start;
     padding: 2rem 0 3rem 0;
-    position: relative; 
+    position: relative;
 }
 
 .h2-popup {
     position: absolute;
-    top: 3.6rem; 
-    left: 8vw; 
+    top: 3.6rem;
+    left: 8vw;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -865,9 +848,9 @@ header {
 }
 
 .h2-popup span {
-    font-weight: bold; 
+    font-weight: bold;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    position: relative; 
+    position: relative;
     top: 8px;
 }
 
@@ -1006,7 +989,6 @@ header {
 
 
 /* 5. Responsive Layout Rules */
-/* MODIFIED: Breakpoint changed from 1024px to 600px */
 @media (max-width: 600px) {
     #landing-page-container {
         min-height: 90vh;
@@ -1018,19 +1000,19 @@ header {
     }
 
     .top-content-wrapper {
-        position: static; 
+        position: static;
         width: 100%;
     }
-    
+
     .state-container {
         position: static;
-        margin-bottom: 5rem; 
+        margin-bottom: 5rem;
         padding: 0;
         max-height: none;
     }
 
     header { height: auto; padding-bottom: 1rem; }
-    
+
     .top-bar {
         flex-direction: column;
         padding: 1rem;
@@ -1040,15 +1022,15 @@ header {
         box-sizing: border-box;
     }
     .top-bar::after { left: 5%; right: 5%; }
-    
+
     .navbar {
         flex-wrap: wrap;
         padding: 0 1.5rem;
         min-height: 12vh;
         box-sizing: border-box;
-        background: white; 
+        background: white;
     }
-    
+
     .logo {
         order: -1;
     }
@@ -1063,7 +1045,7 @@ header {
         font-size: 1rem;
         font-family: Arial, Helvetica, sans-serif;
     }
-    
+
     .main-nav {
         display: none;
         flex-direction: column;
@@ -1073,7 +1055,7 @@ header {
         flex: none;
         padding: 0;
     }
-    
+
     .navbar.nav-open {
         position: fixed;
         top: 0;
@@ -1094,7 +1076,7 @@ header {
     .navbar.nav-open .main-nav {
         display: flex;
     }
-    
+
     .navbar.nav-open .main-nav li {
         opacity: 0;
         transform: translateY(-20px);
@@ -1114,7 +1096,7 @@ header {
         top: 2rem;
         right: 1.5rem;
     }
-    
+
     .navbar.nav-open .logo {
         display: none;
     }
@@ -1133,16 +1115,16 @@ header {
         font-size: 1.2rem;
     }
     .main-nav a.active {
-    opacity: 0.5;         /* Makes it look faded and disabled */
-    pointer-events: none; /* This is the magic property that disables all clicks/touches */
-    cursor: default;      /* Shows the default mouse cursor instead of a pointer */
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
     }
 
     .nav-left,
     .nav-right {
         width: 100%;
     }
-    
+
     .main-nav li:last-child a {
         border-bottom: none;
     }
@@ -1158,9 +1140,9 @@ header {
         flex-basis: auto;
         padding: 0;
     }
-    
+
     .h2-popup {
-        position: static; 
+        position: static;
         transform: none;
         opacity: 1;
         justify-content: center;
@@ -1173,29 +1155,29 @@ header {
         margin-bottom: -20vh;
         width: 100vw;
     }
-    
+
     .image-column img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .info-column { 
+    .info-column {
         min-height: 35vh;
         margin-left: -3vw;
-        padding: 0 2rem 2rem 2rem; 
+        padding: 0 2rem 2rem 2rem;
         align-items: flex-start;
         text-align: left;
         position: static;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-    } 
+    }
 
     .info-column h2 {
-        font-size: 3rem; 
+        font-size: 3rem;
         text-align: left;
-        margin-top: 0; 
+        margin-top: 0;
         margin-bottom: 1.5rem;
         width: 100%;
         box-sizing: border-box;
@@ -1203,12 +1185,12 @@ header {
         border-radius: 0;
         background-size: cover;
         background-position: center center;
-        padding: 2.5rem 1rem 1rem 0; 
+        padding: 2.5rem 1rem 1rem 0;
     }
 
     .info-column p { padding-left: 0; max-width: 90%; }
     .info-button { margin-left: 0; }
-    
+
     .navbar.navbar--anchored {
         position: fixed;
         bottom: 0;
@@ -1220,7 +1202,7 @@ header {
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
-        z-index: 1050; 
+        z-index: 1050;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1229,33 +1211,31 @@ header {
         animation: popUpFromBottom 0.5s ease-out;
         flex-wrap: nowrap;
         transform: translateZ(0);
-
-        /* REMOVED the border-bottom line from here */
     }
 
     .navbar.navbar--anchored .main-nav {
-        display: none; 
+        display: none;
     }
 
     .navbar.navbar--anchored .logo,
     .navbar.navbar--anchored .mobile-menu-button {
-        display: block; 
+        display: block;
     }
 
     .navbar.navbar--anchored .logo img {
         height: 10vh;
         max-height: 60px;
-        padding: 0; 
+        padding: 0;
     }
-    
+
     .navbar.navbar--anchored.nav-open {
         height: 100vh;
         top: 0;
-        bottom: auto; 
+        bottom: auto;
         flex-direction: column;
         justify-content: center;
     }
-    
+
     .navbar.navbar--anchored.nav-open .logo {
         display: none;
     }
@@ -1269,9 +1249,9 @@ header {
     .navbar.navbar--anchored.nav-open .main-nav {
         display: flex;
         width: 100%;
-        margin: auto 0; 
+        margin: auto 0;
     }
-    
+
     #scrollToBottomBtn {
         width: 45px;
         height: 45px;
@@ -1294,7 +1274,7 @@ header {
     .image-column {
         overflow: hidden;
     }
-    
+
     .image-column img {
         transform: scale(1.10);
     }
@@ -1329,7 +1309,7 @@ header {
     .state-container--split {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important; /* Prevent columns from stacking */
+        flex-wrap: nowrap !important;
         align-items: center !important;
         gap: 1.5rem;
         padding: 1rem;
@@ -1346,14 +1326,14 @@ header {
     /* Define column widths and reset mobile styles */
     .state-container--split .info-column,
     .state-container--split .image-column {
-        flex: 1 1 50%; /* Set width to 50% */
+        flex: 1 1 50%;
         max-width: 50%;
-        position: relative; /* For positioning child elements */
+        position: relative;
         margin: 0;
         padding: 0;
         min-height: unset;
     }
-    
+
     .image-column img {
        width: 100%;
        height: auto;
@@ -1370,7 +1350,7 @@ header {
         opacity: 1;
         transform: none;
     }
-    
+
     .info-column h2 {
         font-size: 2.5rem;
         padding: 5rem 3rem 1rem 1rem;
@@ -1387,32 +1367,32 @@ header {
     }
 
     .footer-main-content {
-        width: 70%; /* Makes the content block narrower */
-        top: 25%;   /* Adjusts vertical position */
+        width: 70%;
+        top: 25%;
     }
 
     .footer-column h4 {
-        font-size: 0.9rem; /* Reduces heading size */
+        font-size: 0.9rem;
         margin-bottom: 15px;
     }
 
     .footer-column ul li {
-        font-size: 0.8rem; /* Reduces link size */
+        font-size: 0.8rem;
     }
 
     .footer-column ul {
-        gap: 10px; /* Reduces spacing between links */
+        gap: 10px;
     }
 
 /* Move parallax layers down */
     .layer-3 img,
     .layer-4 .figure-left,
     .layer-4 .figure-right {
-        bottom: -5%; /* Original was 15% */
+        bottom: -5%;
     }
 
     .layer-5 img {
-        bottom: -10%; /* Original was 10% */
+        bottom: -10%;
     }
 
     .overlay-button {
@@ -1426,7 +1406,7 @@ header {
     left: 0;
     width: 100%;
     height: 9vh;
-    max-height: 70px; /* Set a max height */
+    max-height: 70px;
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -1435,7 +1415,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem; /* Reduced horizontal padding */
+    padding: 0 1rem;
     animation: popUpFromBottom 0.5s ease-out;
 }
 
@@ -1445,7 +1425,7 @@ header {
     flex: 1;
     padding: 0;
     margin: 0;
-    gap: 15px; /* Reduced gap between nav items */
+    gap: 15px;
 }
 
 .navbar.navbar--anchored .nav-left {
@@ -1458,14 +1438,14 @@ header {
 
 /* Adjust nav link font size and padding */
 .navbar.navbar--anchored .main-nav a {
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 0.9em;
     padding: 1rem;
 }
 
 /* Adjust logo size */
 .navbar.navbar--anchored .logo img {
     height: 7vh;
-    max-height: 55px; /* Reduced logo size */
+    max-height: 55px;
     padding: 0 10px;
 }
 
@@ -1527,11 +1507,11 @@ header {
 @keyframes popUpFromBottom {
     from {
         opacity: 0;
-        transform: translateY(100%); 
+        transform: translateY(100%);
     }
     to {
         opacity: 1;
-        transform: translateY(0); 
+        transform: translateY(0);
     }
 }
 
@@ -1560,9 +1540,9 @@ header {
 
     .navbar.navbar--anchored .main-nav {
         gap: 25px;
-        flex: 1; 
+        flex: 1;
     }
-    
+
     .navbar.navbar--anchored .nav-left {
         justify-content: flex-end;
     }
