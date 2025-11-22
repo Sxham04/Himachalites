@@ -534,7 +534,7 @@ body.noscroll {
     width: 100%;
     height: 75%;
     z-index: -1;
-    background-image: url('img/header.jpg');
+    background-image: url('img/header.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
