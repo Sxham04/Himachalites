@@ -18,9 +18,9 @@ body {
 }
 
 main {
-    flex-grow: 1; /* Pushes the footer down */
+    flex-grow: 1; 
     width: 100%;
-    max-width: 1450px; /* MODIFIED */
+    max-width: 1450px; 
     margin: 0 auto;
     padding: 4rem 2rem;
     box-sizing: border-box;
@@ -28,204 +28,21 @@ main {
 
 /* --- NEW STYLES FOR MAIN CONTENT --- */
 
-/* This targets the main heading you already had */
 main.main-content h1 {
     text-align: center;
 }
 
-/* 1. Image Container */
 .main-image-container {
-    width: 100%; /* Takes the full width of the main content area */
-    margin-bottom: 3rem; /* Adds space between the image and the text below */
+    width: 100%; 
+    margin-bottom: 3rem; 
     border-radius: 8px;
     overflow: hidden;
+    margin-top: -3rem;
 }
 
 .main-image-container img {
     width: 100%;
-    display: block; /* Removes any extra space below the image */
-}
-
-/* ==============================================
-STYLES FOR THE NEW TWO-SIDED CONTAINER
-============================================== */
-
-/* Main container for the two-sided layout */
-.two-sided-container {
-    display: flex;           /* Aligns children (left and right sides) in a row */
-    align-items: center;     /* Vertically centers the content on each side */
-    gap: 2.5rem;             /* Creates space between the image and the text */
-    margin-bottom: 3rem;     /* Adds space below this entire section */
-    margin-top: 15vh;
-}
-
-.two-sided-container-t {
-    display: flex;           /* Aligns children (left and right sides) in a row */
-    align-items: flex-start;     /* Vertically centers the content on each side */
-    gap: 2.5rem;             /* Creates space between the image and the text */
-    margin-bottom: 3rem;     /* Adds space below this entire section */
-    margin-top: 15vh;
-}
-
-/* This applies to both the left and right side divs */
-.left-side, .right-side {
-    flex: 1; /* This makes both sides take up an equal amount of space */
-}
-
-/* --- Left Side Image --- */
-/* Use this class to alter your image properties */
-.side-image {
-    width: 100%;             /* Makes the image fill the container */
-    height: auto;            /* Maintains the image's original aspect ratio */
-    display: block;          /* Removes any default bottom spacing on images */
-    border-radius: 8px;      /* Adds slightly rounded corners to the image */
-}
-
-/* --- Right Side Content --- */
-/* Style for the header element */
-.right-side h2, 
-.left-side h2{
-    /* Uses the same font as the main h1 for a consistent look */
-    font-family: "Shadows Into Light Two", cursive;
-    font-size: 2.8rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-/* Target all list items inside an unordered or ordered list */
-ul li, 
-ol li {
-    margin-bottom: 0.8em; /* Adjust this value (e.g., 5px, 0.75rem, 10%) */
-}
-
-/* Style for the paragraph element */
-.right-side p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.7; /* Adds vertical space between lines of text */
-    color: #555;
-}
-
-
-/* ==============================================
-RESPONSIVE STYLES FOR THE TWO-SIDED CONTAINER
-============================================== */
-@media (max-width: 1024px) {
-    .two-sided-container {
-        /* On smaller screens, stack the items on top of each other */
-        flex-direction: column;
-        text-align: left; /* Center-aligns the text for a better mobile view */
-        font-size: 0.9rem;
-    }
-
-    .right-side h2 {
-        font-size: 2.2rem; /* Slightly smaller font size for mobile */
-    }
-
-    .right-side p {
-        line-height: 1.3;
-    }
-}
-
-/* ==============================================
-STYLES FOR THE NEW IMAGE GALLERY CONTAINER
-============================================== */
-
-.image-gallery-container {
-    margin-top: 10vh;        /* Adds space above this section */
-    margin-bottom: 10vh;     /* Adds space below this section */
-    text-align: center;      /* Centers the header */
-}
-
-.image-gallery-container h2 {
-    font-family: "Shadows Into Light Two", cursive;
-    font-size: 3rem;
-    margin-bottom: 2.5rem;
-    color: #333;
-}
-
-.gallery-images {
-    display: flex;
-    justify-content: center; /* Centers the image items */
-    gap: 3rem;               /* Space between the two image items */
-    flex-wrap: wrap;         /* Allows items to wrap on smaller screens */
-}
-
-.gallery-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 450px;        /* Limits the width of each item */
-    text-align: center;
-}
-
-.gallery-image {
-    width: 100%;             /* Images fill their container */
-    height: auto;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: transform 0.3s ease-in-out;      /* Smooth transition for hover effect */
-}
-
-/* Specific rotation for each image */
-.gallery-item:first-child .gallery-image {
-    transform: rotate(-5deg); /* Rotates the first image slightly left */
-}
-
-.gallery-item:last-child .gallery-image {
-    transform: rotate(5deg);  /* Rotates the second image slightly right */
-}
-
-/* Hover effect for images */
-.gallery-image:hover {
-    transform: scale(1.03) rotate(0deg); /* Slightly enlarges and straightens on hover */
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
-.gallery-item p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #666;
-    max-width: 350px; /* Limits paragraph width for readability */
-}
-
-/* ==============================================
-RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
-============================================== */
-/* ==============================================
-RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
-============================================== */
-@media (max-width: 1024px) {
-    .image-gallery-container h2 {
-        font-size: 2.5rem; /* Smaller header font for mobile */
-    }
-
-    .gallery-images {
-        /* Items are now side-by-side by default, removed flex-direction: column */
-        gap: 1rem; /* Reduced the gap to better fit content on small screens */
-    }
-
-    .gallery-item {
-        /* Each item will now flex to share the available space */
-        flex: 1;
-        min-width: 150px; /* Prevents items from becoming too narrow */
-    }
-
-    .gallery-item p {
-        font-size: 0.9rem; /* Slightly smaller font for the text below the images */
-    }
-
-    .gallery-item:first-child .gallery-image,
-    .gallery-item:last-child .gallery-image {
-        transform: rotate(0deg); /* Keep rotation off for mobile for a cleaner look */
-    }
-
-    .gallery-image:hover {
-        transform: scale(1.0); /* Disable scale on hover for mobile */
-    }
+    display: block; 
 }
 
 /* 2. Info Container */
@@ -494,12 +311,203 @@ header {
 
 
 /* ==============================================
-DEFINITIVE MOBILE RESPONSIVE STYLES
+STYLES FOR THE NEW TWO-SIDED CONTAINER
 ============================================== */
 
-/* --- 1. Animation Definition --- */
+.two-sided-container {
+    display: flex; 
+    align-items: center; 
+    gap: 2.5rem; 
+    margin-bottom: 3rem; 
+    margin-top: 15vh;
+}
+
+.two-sided-container-t {
+    display: flex; 
+    align-items: flex-start; 
+    gap: 2.5rem; 
+    margin-bottom: 3rem; 
+    margin-top: 15vh;
+}
+
+.centered-info-block {
+    max-width: 800px; 
+    margin: 4rem auto 4rem auto; 
+    text-align: center;
+}
+
+.centered-info-block p{
+    text-align: left;
+}
+
+.centered-info-block h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.centered-info-block ul {
+    display: inline-block;
+    padding-left: 0;
+    text-align: left; 
+}
+
+.two-sided-container.reverse-order {
+    flex-direction: row-reverse;
+}
+.left-side, .right-side {
+    flex: 1; 
+}
+
+/* --- Left Side Image --- */
+.side-image {
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    border-radius: 8px; 
+}
+
+/* --- Right Side Content --- */
+.right-side h2, 
+.left-side h2{
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.two-sided-container ul li,
+.two-sided-container-t ul li,
+.two-sided-container.reverse-order ul li,
+.centered-info-block ul li {
+    margin-bottom: 0.8em; 
+}
+
+.right-side p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7; 
+    color: #555;
+}
+
+
 /* ==============================================
-DEFINITIVE MOBILE RESPONSIVE STYLES (CORRECTED)
+RESPONSIVE STYLES FOR THE TWO-SIDED CONTAINER
+============================================== */
+@media (max-width: 1024px) {
+    .two-sided-container {
+        flex-direction: column;
+        text-align: left; 
+        font-size: 0.9rem;
+    }
+
+    .right-side h2 {
+        font-size: 2.2rem; 
+    }
+
+    .right-side p {
+        line-height: 1.3;
+    }
+}
+
+/* ==============================================
+STYLES FOR THE NEW IMAGE GALLERY CONTAINER
+============================================== */
+
+.image-gallery-container {
+    margin-top: 10vh; 
+    margin-bottom: 10vh; 
+    text-align: center; 
+}
+
+.image-gallery-container h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+}
+
+.gallery-images {
+    display: flex;
+    justify-content: center; 
+    gap: 3rem; 
+    flex-wrap: wrap; 
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 450px; 
+    text-align: center;
+}
+
+.gallery-image {
+    width: 100%; 
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease-in-out; 
+}
+
+.gallery-item:first-child .gallery-image {
+    transform: rotate(-5deg); 
+}
+
+.gallery-item:last-child .gallery-image {
+    transform: rotate(5deg); 
+}
+
+.gallery-image:hover {
+    transform: scale(1.03) rotate(0deg); 
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    max-width: 350px; 
+}
+
+/* ==============================================
+RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
+============================================== */
+@media (max-width: 1024px) {
+    .image-gallery-container h2 {
+        font-size: 2.5rem; 
+    }
+
+    .gallery-images {
+        gap: 1rem; 
+    }
+
+    .gallery-item {
+        flex: 1;
+        min-width: 150px; 
+    }
+
+    .gallery-item p {
+        font-size: 0.9rem; 
+    }
+
+    .gallery-item:first-child .gallery-image,
+    .gallery-item:last-child .gallery-image {
+        transform: rotate(0deg); 
+    }
+
+    .gallery-image:hover {
+        transform: scale(1.0); 
+    }
+}
+
+/* ==============================================
+DEFINITIVE MOBILE RESPONSIVE STYLES
 ============================================== */
 
 /* --- 1. Animation Definition --- */
@@ -575,7 +583,6 @@ DEFINITIVE MOBILE RESPONSIVE STYLES (CORRECTED)
         align-items: center;
         z-index: 1099;
         flex-wrap: nowrap;
-        /* THIS IS THE FIX for the navbar shifting right */
         padding: 0;
         box-sizing: border-box;
     }
@@ -646,7 +653,6 @@ DEFINITIVE MOBILE RESPONSIVE STYLES (CORRECTED)
     .parallax-backgrounds {
         display: none;
     }
-    /* THIS IS THE FIX for the footer alignment */
     .footer-main-content {
         position: relative;
         top: auto;
@@ -713,13 +719,13 @@ TOP-ANCHORED NAVBAR STYLES
 /* 2. Styles for the top-anchored bar */
 .navbar.navbar--anchored {
     position: fixed;
-    top: 0; /* ANCHORS TO THE TOP */
+    top: 0; 
     left: 0;
     width: 100%;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Shadow points down */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
     z-index: 9999;
     animation: slideDown 0.5s ease-out;
     box-sizing: border-box;
@@ -729,7 +735,7 @@ TOP-ANCHORED NAVBAR STYLES
 @media (min-width: 1025px) {
     .navbar.navbar--anchored {
         height: 8vh;
-        min-height: 65px; /* Ensures a minimum height */
+        min-height: 65px; 
         padding: 0;
         align-items: center;
     }
@@ -748,7 +754,7 @@ TOP-ANCHORED NAVBAR STYLES
         max-height: 60px;
     }
     .navbar.navbar--anchored .main-nav a {
-        padding: 1.5rem; /* Slightly adjusted padding for vertical alignment */
+        padding: 1.5rem; 
         font-size: 1em;
     }
 }
@@ -756,23 +762,15 @@ TOP-ANCHORED NAVBAR STYLES
 /* 4. Mobile-specific layout for the anchored bar */
 @media (max-width: 1024px) {
     .navbar.navbar--anchored {
-        padding: 0 1.5rem; /* Re-apply horizontal padding */
+        padding: 0 1.5rem; 
     }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
-    /* Hide scroll path elements */
-    .dashed-line,
-    #mobile-line-svg,
-    #svg-tip-counter {
-        display: none !important;
-    }
-
-    /* Forcefully apply side-by-side layout to the specific containers */
     .state-container--split {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important; /* Prevent columns from stacking */
+        flex-wrap: nowrap !important; 
         align-items: center !important;
         gap: 1.5rem;
         padding: 1rem;
@@ -781,17 +779,15 @@ TOP-ANCHORED NAVBAR STYLES
         box-sizing: border-box;
     }
 
-    /* Apply the reverse layout for relevant containers */
     .state-container--split.reverse {
         flex-direction: row-reverse !important;
     }
 
-    /* Define column widths and reset mobile styles */
     .state-container--split .info-column,
     .state-container--split .image-column {
-        flex: 1 1 50%; /* Set width to 50% */
+        flex: 1 1 50%; 
         max-width: 50%;
-        position: relative; /* For positioning child elements */
+        position: relative; 
         margin: 0;
         padding: 0;
         min-height: unset;
@@ -805,7 +801,6 @@ TOP-ANCHORED NAVBAR STYLES
         display: block;
     }
 
-    /* Adjust the popup and text elements */
     .h2-popup {
         position: absolute;
         top: 0;
@@ -830,32 +825,31 @@ TOP-ANCHORED NAVBAR STYLES
     }
 
     .footer-main-content {
-        width: 70%; /* Makes the content block narrower */
-        top: 28%;  /* Adjusts vertical position */
+        width: 70%; 
+        top: 28%; 
     }
 
     .footer-column h4 {
-        font-size: 0.9rem; /* Reduces heading size */
+        font-size: 0.9rem; 
         margin-bottom: 15px;
     }
 
     .footer-column ul li {
-        font-size: 0.8rem; /* Reduces link size */
+        font-size: 0.8rem; 
     }
 
     .footer-column ul {
-        gap: 10px; /* Reduces spacing between links */
+        gap: 10px; 
     }
 
-/* Move parallax layers down */
     .layer-3 img,
     .layer-4 .figure-left,
     .layer-4 .figure-right {
-        bottom: -5%; /* Original was 15% */
+        bottom: -5%; 
     }
 
     .layer-5 img {
-        bottom: -10%; /* Original was 10% */
+        bottom: -10%; 
     }
 
     .layer-2 img {
