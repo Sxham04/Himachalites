@@ -1,8 +1,7 @@
 /* ==============================================
-COMPLETE CSS FOR STATIC WEBPAGES
+CORE LAYOUT & GLOBAL STYLES (Applies to all devices)
 ============================================== */
 
-/* --- 1. CORE LAYOUT & FONTS --- */
 html, body {
     margin: 0;
     padding: 0;
@@ -18,23 +17,19 @@ body {
 }
 
 main {
-    flex-grow: 1; 
+    flex-grow: 1;
     width: 100%;
-    max-width: 1450px; 
+    max-width: 1450px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 3rem 1.5rem;
     box-sizing: border-box;
 }
 
-/* --- NEW STYLES FOR MAIN CONTENT --- */
-
-main.main-content h1 {
-    text-align: center;
-}
+/* --- Main Header Top Elements --- */
 
 .main-image-container {
-    width: 100%; 
-    margin-bottom: 3rem; 
+    width: 100%;
+    margin-bottom: 3rem;
     border-radius: 8px;
     overflow: hidden;
     margin-top: -3rem;
@@ -42,10 +37,11 @@ main.main-content h1 {
 
 .main-image-container img {
     width: 100%;
-    display: block; 
+    display: block;
 }
 
-/* 2. Info Container */
+/* --- Info Container Styles --- */
+
 .info-container h1 {
     font-family: "Shadows Into Light Two", cursive;
     text-align: left;
@@ -78,7 +74,10 @@ main h1::after {
     background-size: 40% 100%;
 }
 
-/* --- 2. HEADER & NAVIGATION --- */
+/* ==============================================
+HEADER & NAVIGATION (DESKTOP STYLES)
+============================================== */
+
 header {
     width: 100%;
     display: flex;
@@ -87,7 +86,6 @@ header {
     flex-shrink: 0;
     background-color: transparent;
     position: relative;
-    /* z-index: 2; */
 }
 
 .top-bar {
@@ -184,8 +182,147 @@ header {
     display: none;
 }
 
+/* ==============================================
+MAIN CONTENT CONTAINERS (DESKTOP STYLES)
+============================================== */
 
-/* --- 3. FOOTER --- */
+/* --- Two-Sided Container (Normal and Text-only) --- */
+.two-sided-container,
+.two-sided-container-t {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    margin-top: 10vh;
+}
+
+.two-sided-container:first-of-type {
+    align-items: center;
+}
+
+.two-sided-container.reverse-order {
+    flex-direction: row-reverse;
+}
+
+.left-side, 
+.right-side {
+    flex: 1;
+}
+
+/* --- Left Side Image --- */
+.side-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* --- Section Headings (H2) --- */
+.right-side h2,
+.left-side h2,
+.centered-info-block h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+/* --- Desktop Content Font Sizes --- */
+.right-side p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1rem; 
+    line-height: 1.7;
+    color: #555;
+}
+
+.two-sided-container ul li,
+.two-sided-container-t ul li,
+.centered-info-block ul li {
+    font-size: 1rem; 
+    margin-bottom: 0.8em;
+}
+
+/* --- Centered Info Block --- */
+.centered-info-block {
+    max-width: 800px;
+    margin: 4rem auto 4rem auto;
+    text-align: center;
+}
+
+.centered-info-block p{
+    text-align: left;
+}
+
+.centered-info-block ul {
+    display: inline-block;
+    padding-left: 0;
+    text-align: left;
+}
+
+/* --- Image Gallery Container --- */
+.image-gallery-container {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    text-align: center;
+}
+
+.image-gallery-container h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+}
+
+.gallery-images {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 450px;
+    text-align: center;
+}
+
+.gallery-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:first-child .gallery-image {
+    transform: rotate(-5deg);
+}
+
+.gallery-item:last-child .gallery-image {
+    transform: rotate(5deg);
+}
+
+.gallery-image:hover {
+    transform: scale(1.03) rotate(0deg);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    max-width: 350px;
+}
+
+/* ==============================================
+FOOTER (DESKTOP STYLES)
+============================================== */
+
 .footer {
     position: relative;
     width: 100%;
@@ -309,433 +446,39 @@ header {
 .layer-4 .figure-right { right: 0; }
 .layer-5 img { position: absolute; width: 100%; height: 40%; bottom: -10%; left: 0; object-fit: cover; }
 
-
-/* ==============================================
-STYLES FOR THE NEW TWO-SIDED CONTAINER
-============================================== */
-
-.two-sided-container {
-    display: flex; 
-    align-items: center; 
-    gap: 2.5rem; 
-    margin-bottom: 3rem; 
-    margin-top: 15vh;
-}
-
-.two-sided-container-t {
-    display: flex; 
-    align-items: flex-start; 
-    gap: 2.5rem; 
-    margin-bottom: 3rem; 
-    margin-top: 15vh;
-}
-
-.centered-info-block {
-    max-width: 800px; 
-    margin: 4rem auto 4rem auto; 
-    text-align: center;
-}
-
-.centered-info-block p{
-    text-align: left;
-}
-
-.centered-info-block h2 {
-    font-family: "Shadows Into Light Two", cursive;
-    font-size: 2.8rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-.centered-info-block ul {
-    display: inline-block;
-    padding-left: 0;
-    text-align: left; 
-}
-
-.two-sided-container.reverse-order {
-    flex-direction: row-reverse;
-}
-.left-side, .right-side {
-    flex: 1; 
-}
-
-/* --- Left Side Image --- */
-.side-image {
-    width: 100%; 
-    height: auto; 
-    display: block; 
-    border-radius: 8px; 
-}
-
-/* --- Right Side Content --- */
-.right-side h2, 
-.left-side h2{
-    font-family: "Shadows Into Light Two", cursive;
-    font-size: 2.8rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-.two-sided-container ul li,
-.two-sided-container-t ul li,
-.two-sided-container.reverse-order ul li,
-.centered-info-block ul li {
-    margin-bottom: 0.8em; 
-}
-
-.right-side p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.7; 
-    color: #555;
-}
-
-
-/* ==============================================
-RESPONSIVE STYLES FOR THE TWO-SIDED CONTAINER
-============================================== */
-@media (max-width: 1024px) {
-    .two-sided-container {
-        flex-direction: column;
-        text-align: left; 
-        font-size: 0.9rem;
-    }
-
-    .right-side h2 {
-        font-size: 2.2rem; 
-    }
-
-    .right-side p {
-        line-height: 1.3;
-    }
-}
-
-/* ==============================================
-STYLES FOR THE NEW IMAGE GALLERY CONTAINER
-============================================== */
-
-.image-gallery-container {
-    margin-top: 10vh; 
-    margin-bottom: 10vh; 
-    text-align: center; 
-}
-
-.image-gallery-container h2 {
-    font-family: "Shadows Into Light Two", cursive;
-    font-size: 3rem;
-    margin-bottom: 2.5rem;
-    color: #333;
-}
-
-.gallery-images {
-    display: flex;
-    justify-content: center; 
-    gap: 3rem; 
-    flex-wrap: wrap; 
-}
-
-.gallery-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 450px; 
-    text-align: center;
-}
-
-.gallery-image {
-    width: 100%; 
-    height: auto;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease-in-out; 
-}
-
-.gallery-item:first-child .gallery-image {
-    transform: rotate(-5deg); 
-}
-
-.gallery-item:last-child .gallery-image {
-    transform: rotate(5deg); 
-}
-
-.gallery-image:hover {
-    transform: scale(1.03) rotate(0deg); 
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
-.gallery-item p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #666;
-    max-width: 350px; 
-}
-
-/* ==============================================
-RESPONSIVE STYLES FOR THE IMAGE GALLERY CONTAINER
-============================================== */
-@media (max-width: 1024px) {
-    .image-gallery-container h2 {
-        font-size: 2.5rem; 
-    }
-
-    .gallery-images {
-        gap: 1rem; 
-    }
-
-    .gallery-item {
-        flex: 1;
-        min-width: 150px; 
-    }
-
-    .gallery-item p {
-        font-size: 0.9rem; 
-    }
-
-    .gallery-item:first-child .gallery-image,
-    .gallery-item:last-child .gallery-image {
-        transform: rotate(0deg); 
-    }
-
-    .gallery-image:hover {
-        transform: scale(1.0); 
-    }
-}
-
-/* ==============================================
-DEFINITIVE MOBILE RESPONSIVE STYLES
-============================================== */
-
-/* --- 1. Animation Definition --- */
-@keyframes dropDownItem {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* --- 2. Mobile Layout & Fixes (Tablets & Below) --- */
-@media (max-width: 1024px) {
-    /* --- Main Header & Nav Structure --- */
-    header {
-        height: auto;
-        padding-bottom: 1rem;
-    }
-    .top-bar {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 10px;
-        text-align: center;
-    }
-    .navbar {
-        flex-wrap: wrap;
-        padding: 0 1.5rem;
-    }
-    .logo {
-        order: -1;
-    }
-    .logo img {
-        height: 80px;
-        padding: 0;
-    }
-    .mobile-menu-button {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 1.8rem;
-        cursor: pointer;
-        color: #333;
-        padding: 10px;
-        z-index: 1100;
-    }
-    .main-nav {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        order: 3;
-        flex: none;
-    }
-    .nav-left,
-    .nav-right {
-        width: 100%;
-    }
-
-    /* --- Styles for the OPEN Mobile Menu --- */
-    .navbar.nav-open {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1099;
-        flex-wrap: nowrap;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    .navbar.nav-open .logo {
-        display: none;
-    }
-    .navbar.nav-open .mobile-menu-button {
-        position: absolute;
-        top: 2rem;
-        right: 1.5rem;
-    }
-    .navbar.nav-open .main-nav {
-        display: flex;
-        padding: 0;
-        gap: 0;
-    }
-
-    /* --- Styling for Individual Links & Animation --- */
-    .main-nav a {
-        padding: 1rem;
-        display: block;
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-    .main-nav li:last-child a {
-        border-bottom: none;
-    }
-
-    .navbar.nav-open .main-nav li {
-        opacity: 0;
-        transform: translateY(-20px);
-        animation: dropDownItem 0.5s ease-out forwards;
-    }
-
-    /* Animation delays */
-    .navbar.nav-open .main-nav li:nth-child(1) { animation-delay: 0.1s; }
-    .navbar.nav-open .main-nav li:nth-child(2) { animation-delay: 0.2s; }
-    .navbar.nav-open .main-nav li:nth-child(3) { animation-delay: 0.3s; }
-    .navbar.nav-open .main-nav li:nth-child(4) { animation-delay: 0.4s; }
-}
-
-/* --- Specific Mobile Layout (Phones) --- */
-@media (max-width: 1440px) {
-    .pill-nav-items {
-        width: 95%;
-        gap: 5px;
-        padding: 5px;
-        flex-wrap: wrap;
-    }
-    .pill {
-        padding: 0.8rem 1rem;
-    }
-    .pill-nav-items {
-        --nav-font-size: 14px;
-    }
-}
-
-@media (max-width: 768px) {
-    /* --- Mobile Footer --- */
-    .footer {
-        height: auto;
-        padding: 8rem 1rem 4rem 1rem;
-        background-image: none;
-    }
-    .parallax-backgrounds {
-        display: none;
-    }
-    .footer-main-content {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        width: 85%;
-        padding-left: 5%;
-        gap: 20px;
-    }
-    .footer-column {
-        text-align: left;
-        width: 100%;
-    }
-    .footer-column h4 {
-        font-size: 0.9rem;
-        margin-bottom: 15px;
-    }
-    .footer-column ul li {
-        font-size: 0.8rem;
-    }
-    .footer-column ul {
-        gap: 10px;
-    }
-
-    /* --- Mobile Pill Nav --- */
-    .pill-nav-items {
-        width: 95%;
-        gap: 5px;
-        padding: 5px;
-        flex-wrap: wrap;
-    }
-    .pill {
-        padding: 0.8rem 1rem;
-    }
-    .pill-nav-items {
-        --nav-font-size: 14px;
-    }
-
-    /* --- Mobile Content Font Size --- */
-    .info-container p {
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-}
-
 /* ==============================================
 TOP-ANCHORED NAVBAR STYLES
 ============================================== */
 
-/* 1. Defines the new slide-down animation */
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-100%);
+    from { 
+        opacity: 0; 
+        transform: translateY(-100%); 
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
     }
 }
 
-/* 2. Styles for the top-anchored bar */
 .navbar.navbar--anchored {
     position: fixed;
-    top: 0; 
+    top: 0;
     left: 0;
     width: 100%;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     z-index: 9999;
     animation: slideDown 0.5s ease-out;
     box-sizing: border-box;
 }
 
-/* 3. Desktop-specific layout for the anchored bar */
 @media (min-width: 1025px) {
     .navbar.navbar--anchored {
         height: 8vh;
-        min-height: 65px; 
+        min-height: 65px;
         padding: 0;
         align-items: center;
     }
@@ -754,113 +497,242 @@ TOP-ANCHORED NAVBAR STYLES
         max-height: 60px;
     }
     .navbar.navbar--anchored .main-nav a {
-        padding: 1.5rem; 
+        padding: 1.5rem;
         font-size: 1em;
     }
 }
 
-/* 4. Mobile-specific layout for the anchored bar */
 @media (max-width: 1024px) {
     .navbar.navbar--anchored {
-        padding: 0 1.5rem; 
+        padding: 0 1.5rem;
     }
 }
 
-@media (min-width: 601px) and (max-width: 1024px) {
-    .state-container--split {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important; 
-        align-items: center !important;
-        gap: 1.5rem;
-        padding: 1rem;
-        min-height: 420px;
+/* ==============================================
+RESPONSIVE STYLES (TABLET/MOBILE)
+============================================== */
+
+/* --- Mobile Menu Styles --- */
+@keyframes dropDownItem {
+    from { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@media (max-width: 1024px) {
+    header { 
+        height: auto; 
+        padding-bottom: 1rem; 
+    }
+    .top-bar { 
+        flex-direction: column; 
+        padding: 1rem; 
+        gap: 10px; 
+        text-align: center; 
+    }
+    .navbar { 
+        flex-wrap: wrap; 
+        padding: 0 1.5rem; 
+    }
+    .logo { 
+        order: -1; 
+    }
+    .logo img { 
+        height: 80px; 
+        padding: 0; 
+    }
+    .mobile-menu-button { 
+        display: block; 
+        background: none; 
+        border: none; 
+        font-size: 1.8rem; 
+        cursor: pointer; 
+        color: #333; 
+        padding: 10px; 
+        z-index: 1100; 
+    }
+    .main-nav { 
+        display: none; 
+        flex-direction: column; 
+        width: 100%; 
+        order: 3; 
+        flex: none; 
+    }
+    .nav-left, 
+    .nav-right { 
+        width: 100%; 
+    }
+    .navbar.nav-open { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100vh; 
+        background: rgba(255, 255, 255, 0.98); 
+        backdrop-filter: blur(10px); 
+        -webkit-backdrop-filter: blur(10px); 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        z-index: 1099; 
+        flex-wrap: nowrap; 
+        padding: 0; 
+        box-sizing: border-box; 
+    }
+    .navbar.nav-open .logo { 
+        display: none; 
+    }
+    .navbar.nav-open .mobile-menu-button { 
+        position: absolute; 
+        top: 2rem; 
+        right: 1.5rem; 
+    }
+    .navbar.nav-open .main-nav { 
+        display: flex; 
+        padding: 0; 
+        gap: 0; 
+    }
+    .main-nav a { 
+        padding: 1rem; 
+        display: block; 
+        width: 100%; 
+        text-align: center; 
+        border-bottom: 1px solid #eee; 
+        font-weight: bold; 
+        font-size: 1.2rem; 
+    }
+    .main-nav li:last-child a { 
+        border-bottom: none; 
+    }
+    .navbar.nav-open .main-nav li { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+        animation: dropDownItem 0.5s ease-out forwards; 
+    }
+    .navbar.nav-open .main-nav li:nth-child(1) { 
+        animation-delay: 0.1s; 
+    }
+    .navbar.nav-open .main-nav li:nth-child(2) { 
+        animation-delay: 0.2s; 
+    }
+    .navbar.nav-open .main-nav li:nth-child(3) { 
+        animation-delay: 0.3s; 
+    }
+    .navbar.nav-open .main-nav li:nth-child(4) { 
+        animation-delay: 0.4s; 
+    }
+
+    /* Tablet/Mobile Heading Size */
+    .right-side h2,
+    .left-side h2,
+    .centered-info-block h2 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Adjust Main Padding for Mobile */
+    main {
+        padding: 2rem 1rem;
+    }
+
+    /* --- Key Emphasis: TWO-SIDED CONTAINERS STACK VERTICALLY --- */
+    .two-sided-container,
+    .two-sided-container-t {
+        /* Stack children vertically */
+        flex-direction: column;
+        margin-top: 2rem;
         margin-bottom: 2rem;
+    }
+
+    .left-side, 
+    .right-side {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+    
+    /* --- Centered Info Block Fix --- */
+    .centered-info-block {
+        /* Remove max-width constraint which was causing cutoff on small screens */
+        max-width: 100%;
+        padding: 0 1rem; /* Add horizontal padding to prevent edge cutoff */
         box-sizing: border-box;
     }
 
-    .state-container--split.reverse {
-        flex-direction: row-reverse !important;
+    /* --- Image Gallery Stacking --- */
+    .gallery-images {
+        gap: 2rem;
+        flex-direction: column;
     }
 
-    .state-container--split .info-column,
-    .state-container--split .image-column {
-        flex: 1 1 50%; 
-        max-width: 50%;
-        position: relative; 
-        margin: 0;
-        padding: 0;
-        min-height: unset;
-    }
-
-    .image-column img {
+    .gallery-item {
+        max-width: 100%;
         width: 100%;
-        height: auto;
-        max-height: 400px;
-        object-fit: contain;
-        display: block;
     }
 
-    .h2-popup {
-        position: absolute;
-        top: 0;
-        left: 1rem;
-        opacity: 1;
-        transform: none;
+    .gallery-item:first-child .gallery-image,
+    .gallery-item:last-child .gallery-image {
+        transform: rotate(0deg); 
     }
 
-    .info-column h2 {
-        font-size: 2.5rem;
-        padding: 5rem 3rem 1rem 1rem;
-        margin: 0;
+    /* --- Font Size Reduction (0.9rem to 0.85rem) --- */
+    .right-side h2,
+    .left-side h2,
+    .centered-info-block h2 {
+        font-size: 2rem;
     }
 
-    .info-column p {
+    .right-side p,
+    .centered-info-block p,
+    .gallery-item p {
         font-size: 0.9rem;
-        padding-left: 1rem;
+        line-height: 1.5;
     }
 
-    .info-button {
-        margin-left: 1rem;
+    .two-sided-container ul li,
+    .two-sided-container-t ul li,
+    .centered-info-block ul li {
+        font-size: 0.85rem;
+        margin-bottom: 0.5em;
     }
 
-    .footer-main-content {
-        width: 70%; 
-        top: 28%; 
+    /* Footer responsiveness */
+    .footer { 
+        height: auto; 
+        padding: 8rem 1rem 4rem 1rem; 
+        background-image: none; 
     }
-
-    .footer-column h4 {
+    .parallax-backgrounds { 
+        display: none; 
+    }
+    .footer-main-content { 
+        position: relative; 
+        top: auto; 
+        left: auto; 
+        transform: none; 
+        flex-direction: column-reverse; 
+        align-items: flex-start; 
+        width: 85%; 
+        padding-left: 5%; 
+        gap: 20px; 
+    }
+    .footer-column { 
+        text-align: left; 
+        width: 100%; 
+    }
+    .footer-column h4 { 
         font-size: 0.9rem; 
-        margin-bottom: 15px;
+        margin-bottom: 15px; 
     }
-
-    .footer-column ul li {
+    .footer-column ul li { 
         font-size: 0.8rem; 
     }
-
-    .footer-column ul {
+    .footer-column ul { 
         gap: 10px; 
-    }
-
-    .layer-3 img,
-    .layer-4 .figure-left,
-    .layer-4 .figure-right {
-        bottom: -5%; 
-    }
-
-    .layer-5 img {
-        bottom: -10%; 
-    }
-
-    .layer-2 img {
-        bottom: 20%;
-    }
-
-    .layer-1 img {
-        bottom: 62% !important;
-    }
-
-    .overlay-button {
-        bottom: 35%;
     }
 }
