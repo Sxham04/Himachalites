@@ -94,6 +94,50 @@ body.noscroll {
     overflow: hidden;
 }
 
+/*background colors*/
+body {
+    margin: 0;
+    /* We use 'linear-gradient' on the body to ensure zero gaps */
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,     /* TOP: Summit Group */
+        #ffffff 20%,    /* Solid White for first 20% of page */
+        
+        #e4effe 35%,    /* High Peaks Group Starts */
+        #e4effe 45%,    /* Solid Blue in the middle of that group */
+        
+        #f4ffe8 60%,    /* Mid-Range Group Starts */
+        #f4ffe8 75%,    /* Solid Green stretching through the mid-bottom */
+        
+        #fbf0de 88%,    /* Base Group Starts (Una / Landing) */
+        #fbf0de 100%    /* Solid Cream at the bottom */
+    );
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+}
+
+/* IMPORTANT: Ensure there are NO other backgrounds blocking the body */
+#landing-page-container,
+.top-content-wrapper,
+.state-content-sections,
+.state-container,
+.footer,
+.top-scroll-spacer {
+    background-color: transparent !important;
+}
+
+/* Remove any potential gaps between sections */
+.state-container {
+    margin-bottom: 0 !important;
+    padding-bottom: 80px !important; /* Use padding instead of margin for spacing */
+}
+
+/* Preserve your landing page image mask */
+#landing-page-container::before {
+    background-color: transparent !important;
+    z-index: -1; 
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -534,7 +578,7 @@ body.noscroll {
     width: 100%;
     height: 75%;
     z-index: -1;
-    background-image: url('img/header.webp');
+    background-image: url('img/Frame 15.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -890,19 +934,19 @@ header {
     background-position: 25% 50%;
 }
 
-.header-1 { background-image: url('img/lh bg.png'); }
-.header-2 { background-image: url('img/Kin bg.png'); }
-.header-3 { background-image: url('img/cha bg.png'); }
-.header-4 { background-image: url('img/Kul bg.png'); }
-.header-5 { background-image: url('img/Shm bg.png'); }
-.header-6 { background-image: url('img/Kang bg.png'); }
-.header-7 { background-image: url('img/Sir bg.png'); }
-.header-8 { background-image: url('img/Man bg.png'); }
-.header-9 { background-image: url('img/Sol bg.png'); }
-.header-10 { background-image: url('img/Bil bg.png'); }
-.header-11 { background-image: url('img/Hamir bg.png'); }
+.header-1 { background-image: url('img/lh bg.webp'); }
+.header-2 { background-image: url('img/Kin bg.webp'); }
+.header-3 { background-image: url('img/cha bg.webp'); }
+.header-4 { background-image: url('img/Kul bg.webp'); }
+.header-5 { background-image: url('img/Shm bg.webp'); }
+.header-6 { background-image: url('img/Kang bg.webp'); }
+.header-7 { background-image: url('img/Sir bg.webp'); }
+.header-8 { background-image: url('img/Man bg.webp'); }
+.header-9 { background-image: url('img/Sol bg.webp'); }
+.header-10 { background-image: url('img/Bil bg.webp'); }
+.header-11 { background-image: url('img/Hamir bg.webp'); }
 .header-12 {
-    background-image: url('img/image 3.png');
+    background-image: url('img/image 3.webp');
     padding: 6rem 20rem 1rem 1.5rem;
 }
 
@@ -1028,7 +1072,7 @@ header {
         padding: 0 1.5rem;
         min-height: 12vh;
         box-sizing: border-box;
-        background: white;
+        background: transparent;
     }
 
     .logo {
