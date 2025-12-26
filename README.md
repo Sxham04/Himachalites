@@ -9,4 +9,3 @@ An unconventional, immersive tourism platform that reimagines web navigation thr
 
 ---
 
-Would you like me to generate a "Getting Started" section with installation steps for your specific framework?
