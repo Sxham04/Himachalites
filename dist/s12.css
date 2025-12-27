@@ -893,8 +893,6 @@ html, body {
     width: 100%;
     height: 100%;
     display: block;
-    /* This ensures the 'teeth' of the rugged edge stay sharp and don't squash */
-    preserveAspectRatio: xMidYMid slice; 
 }
 
 /* --- Responsive Adjustments for Mobile --- */
