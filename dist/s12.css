@@ -8,6 +8,7 @@ html, body {
     overflow-x: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #333;
+    width: 100%;
 }
 
 body {
@@ -187,6 +188,10 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
 ============================================== */
 
 /* --- Two-Sided Container (Normal and Text-only) --- */
+.two-sided-container{
+    align-items: center !important;
+}
+
 .two-sided-container,
 .two-sided-container-t {
     display: flex;
@@ -340,7 +345,7 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
 }
 
 .decorative-svg-wrapper svg path {
-    stroke-width: 2px; 
+    stroke-width: 1.5px; 
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
 }
@@ -354,8 +359,15 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
 }
 
 .svg-bottom {
-    margin-top: 8rem;
-    margin-bottom: 0rem;
+    position: relative;
+    /* PULL ENTIRE GROUP UP: Increase this negative value to move everything higher */
+    margin-top: -2rem; 
+    
+    /* PIN TO H1: This negative margin pulls the H1 up into the SVG space */
+    margin-bottom: -15vw; 
+    
+    z-index: 15; 
+    line-height: 0;
 }
 
 /* Responsive adjustment for SVGs */
@@ -374,25 +386,27 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
     justify-content: center;
     position: relative;
     z-index: 20; 
-    margin-top: -18rem;
 
-    /* Fluid Y-Position: Scales automatically with screen size */
-    transform: translateY(clamp(30px, 10vw, 180px)); 
+    /* Remove the old margin-top: -18rem; we are using the SVG's margin now */
+    margin-top: 0; 
+
+    /* FINE-TUNE H1 POSITION: 
+       Decrease the first number in clamp to move the H1 strictly toward the SVG top. */
+    transform: translateY(clamp(20px, 5vw, 100px)); 
     
-    /* Fluid margin to keep the section below tucked in */
-    margin-bottom: -4vw; 
+    /* Pull the rugged container closer */
+    margin-bottom: -6vw; 
 }
 
 .blended-h1-wrapper h1 {
     font-family: "Shadows Into Light Two", cursive;
-    /* Fluid Font Size: Never smaller than 2.5rem, grows with screen */
-    font-size: clamp(20rem, 5vw, 6rem); 
+    font-size: clamp(4.5rem, 18vw, 18rem);
     color: #382F30;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
     font-weight: 350;
+    text-align: center;
     margin: 0;
     text-decoration: none !important;
-    border-bottom: none !important;
 }
 
 .blended-h1-wrapper h1::after {
@@ -737,6 +751,244 @@ STYLES FOR INSTAGRAM REEL CONTAINER
     }
     .instagram-reel-link:hover {
         transform: scale(1.02); /* Less dramatic zoom on mobile */
+    }
+}
+
+/*RESPONSIVE FIX*/
+/* --- Global Fix --- */
+html, body {
+    /* Prevent horizontal scrolling caused by breakout elements */
+    overflow-x: hidden; 
+    width: 100%;
+}
+
+/* --- Rugged Container Responsive Fix --- */
+.rugged-section-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    /* Use fluid margins instead of fixed px */
+    margin-top: clamp(2rem, 8vw, 5rem);
+    margin-bottom: clamp(2rem, 8vw, 5rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.rugged-content-middle {
+    background-color: #382F30;
+    width: 100%;
+    position: relative;
+    /* Fluid padding so text has breathing room on mobile */
+    padding: clamp(60px, 12vw, 150px) 0; 
+    z-index: 1;
+}
+
+/* Fix for SVG Ridges on Mobile */
+.rugged-edge {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    /* Keep a consistent height so ridges don't look like needles on mobile */
+    height: clamp(40px, 6vw, 100px); 
+    line-height: 0;
+    z-index: 10;
+}
+
+.rugged-edge svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* preserveAspectRatio="none" is handled in HTML to allow stretching */
+}
+
+/* --- H1 Blended Heading Fluid Fix --- */
+.blended-h1-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 20; 
+    /* Remove the static -18rem. Use a fluid calc or clamp */
+    margin-top: clamp(-10rem, -15vw, -18rem);
+    transform: translateY(clamp(10px, 8vw, 150px));
+    margin-bottom: -5vw; 
+}
+
+.blended-h1-wrapper h1 {
+    font-family: "Shadows Into Light Two", cursive;
+    /* Font size scales smoothly from 2.5rem to 6rem */
+    font-size: clamp(4.5rem, 18vw, 18rem);
+    color: #382F30;
+    letter-spacing: 0.05em;
+    font-weight: 350;
+    text-align: center;
+}
+
+/* --- Two-Sided Container Mobile Stacking --- */
+@media (max-width: 768px) {
+    .two-sided-container {
+        flex-direction: column; /* Stack image on top, text below */
+        gap: 2rem;
+        margin-top: 5vh;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+    }
+
+    .right-side h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .right-side p {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    /* Adjust Rugged Section for Mobile */
+    .split-feature-inner {
+        flex-direction: column; /* Image top, text bottom */
+        text-align: center;
+        gap: 2.5rem;
+    }
+
+    .feature-img {
+        width: 90% !important; /* Larger on mobile for visibility */
+        margin: 0 auto;
+    }
+
+    .text-col h2 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .text-col ul li {
+        font-size: 0.95rem;
+        text-align: left; /* Keep list readable */
+        justify-content: flex-start;
+    }
+}
+
+/* --- Decorative Lines Breakout Fix --- */
+.decorative-svg-wrapper {
+    width: 100vw;
+    margin-left: -50vw;
+    left: 50%;
+    position: relative;
+}
+
+@media (max-width: 480px) {
+    /* Scale decorative lines up so they don't look like dots on tiny screens */
+    .decorative-svg-wrapper svg {
+        width: 200%;
+        margin-left: -50%;
+    }
+}
+
+/* --- Fix for the Rugged Edge "Shrink" Bug --- */
+.rugged-edge svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* This ensures the 'teeth' of the rugged edge stay sharp and don't squash */
+    preserveAspectRatio: xMidYMid slice; 
+}
+
+/* --- Responsive Adjustments for Mobile --- */
+@media (max-width: 768px) {
+    
+    /* 1. Prevent SVG-Bottom from overlapping the content above it */
+    .svg-bottom {
+        margin-top: 0; 
+        /* Reduce the pull-up so the H1 doesn't hide the text above */
+        margin-bottom: -10vw; 
+    }
+
+    /* 2. Fix H1 Wrapper Overlap */
+    .blended-h1-wrapper {
+        /* Reset the massive negative margin that causes text overlap on mobile */
+        margin-top: -5rem; 
+        /* Adjust the vertical position so it sits nicely under the decorative line */
+        transform: translateY(20px);
+        /* Ensure it doesn't overlap the rugged section below */
+        margin-bottom: -4.5rem; 
+    }
+
+    .blended-h1-wrapper h1 {
+        /* Scale font size down slightly more for very small screens */
+        font-size: clamp(4.5rem, 15vw, 6rem);
+    }
+
+    /* 3. Ensure the container above (two-sided) has enough space */
+    .two-sided-container {
+        margin-bottom: 5rem;
+        z-index: 5;
+        position: relative;
+    }
+
+    /* 4. Fix Rugged Section visuals on mobile */
+    .rugged-edge {
+        /* Increase height on mobile so the "rugged" look is visible and not flat */
+        height: 60px; 
+    }
+    
+    .rugged-content-middle {
+        /* Add more padding so text inside dark box doesn't hit the ridges */
+        padding: 80px 20px;
+    }
+}
+
+/* Specific fix for very small devices */
+@media (max-width: 480px) {
+    .blended-h1-wrapper {
+        margin-top: -3rem;
+    }
+    .svg-bottom {
+        margin-bottom: -15vw;
+    }
+}
+
+/* --- Dedicated Tablet/iPad Fix (768px - 1180px) --- */
+@media screen and (min-width: 768px) and (max-width: 1180px) {
+    .two-sided-container {
+        display: flex !important;
+        flex-direction: row !important; /* Force side-by-side, no stacking */
+        align-items: center; 
+        gap: 40px;
+        padding: 0 20px;
+    }
+
+    .left-side {
+        /* This forces the image side to take up 50% of the width and no less */
+        flex: 0 0 50% !important; 
+        min-width: 350px; 
+    }
+
+    .right-side {
+        /* This allows the text side to take the remaining 50% */
+        flex: 1 1 50% !important;
+    }
+
+    .side-image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 12px;
+        /* Ensures the image doesn't look tiny if the text side is long */
+        min-height: 300px; 
+    }
+
+    /* Adjusting the text size for tablet so it doesn't look cramped */
+    .right-side h2 {
+        font-size: 2.2rem !important;
+    }
+
+    .right-side p, .right-side ul li {
+        font-size: 1rem !important;
+        line-height: 1.5;
     }
 }
 
