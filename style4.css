@@ -932,12 +932,12 @@ header {
 }
 
 /* --- Hide Altitude Values without removing from DOM --- */
-.altitude-value, 
+/* .altitude-value, 
 .altitude-unit {
     opacity: 0 !important;
-    pointer-events: none;  /* Makes it unselectable */
-    visibility: visible;   /* Stays in DOM and affects layout if needed */
-}
+    pointer-events: none;  
+    visibility: visible;
+} */
 
 /* Responsive adjustment for Mobile */
 @media (max-width: 600px) {
