@@ -721,7 +721,7 @@ header {
 }
 
 .overlay-image {
-    width: 20vw;
+    width: 15vw;
     height: auto;
     max-width: 400px;
     min-width: 180px;
@@ -961,6 +961,13 @@ header {
         margin-left: 0;         /* Ensures it starts at the left edge */
         margin-bottom: 15px;    /* Space between the image and the paragraph (p) */
         display: block;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 601px){
+    .thin-content-image {
+        margin-left: -3rem !important;
+        height: 15px !important;
     }
 }
 
