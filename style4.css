@@ -915,6 +915,23 @@ header {
     border-radius: 8px;
 }
 
+/* Update the selector to include the wrapper so both animate together */
+.state-container .info-column .header-wrapper,
+.state-container .info-column > p,
+.state-container .info-column > .info-button {
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.6s ease-out, filter 0.6s ease-out;
+}
+
+/* Final state */
+.state-container.is-visible .info-column .header-wrapper,
+.state-container.is-visible .info-column > p,
+.state-container.is-visible .info-column > .info-button {
+    opacity: 1;
+    filter: blur(0px);
+}
+
 /* --- New Header Image & Alignment Logic --- */
 .header-wrapper {
     display: flex;
@@ -1365,6 +1382,25 @@ header {
 
     .image-column img {
         margin: 0;
+    }
+    .content-area {
+        /* Change from flex-start to center */
+        align-items: center !important; 
+        /* Reset the fixed top padding */
+        padding-top: 0 !important; 
+        /* Ensure it takes up the available space between header and bottom */
+        height: 70vh; 
+        display: flex;
+        justify-content: center;
+    }
+
+    .overlay-content {
+        /* This ensures the image stays centered within the content area */
+        margin-top: -20vh; /* Optional: nudge slightly up to account for visual weight */
+    }
+
+    .overlay-image {
+        width: 50vw; /* Make it slightly larger on mobile for better visibility */
     }
 }
 
