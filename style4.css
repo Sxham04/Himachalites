@@ -928,9 +928,9 @@ header {
 }
 
 /* Individual Cloud Variations */
-.cloud-1 { top: 10%; left: 5%; animation-duration: 10s; width: 150px; }
-.cloud-2 { top: 25%; right: 10%; animation-duration: 12s; animation-delay: -2s; }
-.cloud-3 { top: 10%; left: 7%; animation-duration: 9s; animation-delay: -4s; width: 120px;}
+.cloud-1 { top: 10%; left: 5%; animation-duration: 15s; width: 150px; }
+.cloud-2 { top: 25%; right: 10%; animation-duration: 8s; animation-delay: -2s; width: 100px;}
+.cloud-3 { top: 10%; left: 1%; animation-duration: 9s; animation-delay: -4s; width: 120px;}
 .cloud-4 { top: 65%; right: 5%; animation-duration: 14s; width: 200px; }
 .cloud-5 { top: 15%; left: 40%; animation-duration: 11s; opacity: 0.4; }
 
