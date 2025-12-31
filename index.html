@@ -808,29 +808,46 @@ document.addEventListener("DOMContentLoaded", () => {
                 return false;
             }
 
-            desktopPathCache = data.desktop;
-            mobilePathCache = data.mobile;
-            tabletPathCache = data.tablet;
+            // Restore available data
+            desktopPathCache = data.desktop || [];
+            mobilePathCache = data.mobile || [];
+            tabletPathCache = data.tablet || [];
 
-            pathTotalLength = desktopPathCache.length * CACHE_STEP;
-            mobilePathTotalLength = mobilePathCache.length * CACHE_STEP;
-            tabletPathTotalLength = tabletPathCache.length * CACHE_STEP;
-
-            const maskPath = document.getElementById('mask-path');
-            const mobileMaskPath = document.getElementById('mobile-mask-path');
-            const tabletMaskPath = document.getElementById('tablet-mask-path');
-
-            if (maskPath) maskPath.style.strokeDasharray = pathTotalLength;
-            if (mobileMaskPath) mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
-            if (tabletMaskPath) tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
-
-            return true;
-        } catch (e) {
-            console.error('Error loading cache:', e);
-            localStorage.removeItem(CACHE_KEY);
-            return false;
-        }
+            const width = window.innerWidth;
+            // VALIDATION: Only return true if the specific path needed for THIS device is ready
+            if (width > 1024 && desktopPathCache.length > 0) {
+                pathTotalLength = desktopPathCache.length * CACHE_STEP;
+                return true;
+            } 
+            if (width <= 1024 && width > 600 && tabletPathCache.length > 0) {
+                tabletPathTotalLength = tabletPathCache.length * CACHE_STEP;
+                return true;
+            }
+            if (width <= 600 && mobilePathCache.length > 0) {
+                mobilePathTotalLength = mobilePathCache.length * CACHE_STEP;
+                return true;
+            }
+            return false; 
+        } catch (e) { return false; }
     }
+
+    // --- NEW: BACKGROUND CALCULATION FOR REMAINING DEVICES ---
+    // function calculateMissingCaches() {
+    //     const width = window.innerWidth;
+    //     // Calculate Desktop if missing and not on desktop
+    //     if (width <= 1024 && desktopPathCache.length === 0) {
+    //         desktopPathCache = buildPathCache(pathElement, pathElement.getTotalLength());
+    //     }
+    //     // Calculate Tablet if missing and not on tablet
+    //     if ((width > 1024 || width <= 600) && tabletPathCache.length === 0) {
+    //         tabletPathCache = buildPathCache(tabletPathElement, tabletPathElement.getTotalLength());
+    //     }
+    //     // Calculate Mobile if missing and not on mobile
+    //     if (width > 600 && mobilePathCache.length === 0) {
+    //         mobilePathCache = buildPathCache(mobilePathElement, mobilePathElement.getTotalLength());
+    //     }
+    //     savePathCacheToLocalStorage(); // Final save of all three versions
+    // }
 
     function savePathCacheToLocalStorage() {
         const data = {
@@ -1155,77 +1172,68 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- CRITICAL FIX: Asynchronous Initialization ---
     // ----------------------------------------------------
     function initializeHeavyContent(startTime) {
-        let isCacheLoaded = loadPathCacheFromLocalStorage();
-        const maskPath = document.getElementById('mask-path');
-        const mobileMaskPath = document.getElementById('mobile-mask-path');
-        const tabletMaskPath = document.getElementById('tablet-mask-path');
+    const isCacheLoaded = loadPathCacheFromLocalStorage();
+    const width = window.innerWidth;
 
-        if (!isCacheLoaded) {
-            // --- HEAVY COMPUTATION: Build caches if not loaded ---
+    if (!isCacheLoaded) {
+        // Calculate ONLY the current view to minimize splash time
+        if (width > 1024) {
+            pathTotalLength = pathElement.getTotalLength();
             desktopPathCache = buildPathCache(pathElement, pathTotalLength);
-            mobilePathCache = buildPathCache(mobilePathElement, mobilePathTotalLength);
+        } else if (width > 600) {
+            tabletPathTotalLength = tabletPathElement.getTotalLength();
             tabletPathCache = buildPathCache(tabletPathElement, tabletPathTotalLength);
-
-            pathTotalLength = desktopPathCache.length * CACHE_STEP;
-            mobilePathTotalLength = mobilePathCache.length * CACHE_STEP;
-            tabletPathTotalLength = tabletPathCache.length * CACHE_STEP;
-
-            if (maskPath) maskPath.style.strokeDasharray = pathTotalLength;
-            if (mobileMaskPath) mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
-            if (tabletMaskPath) tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
-
-            savePathCacheToLocalStorage(); // Save computed data
-        }
-
-        // 2. Setup Altitude Checkpoints
-        const allStateContainers = document.querySelectorAll('.state-container');
-        if (allStateContainers.length > 0) {
-            const lastContainer = allStateContainers[allStateContainers.length - 1];
-            checkpointsData.push({ y: lastContainer.offsetTop + lastContainer.offsetHeight, value: 0 });
-        }
-        allStateContainers.forEach(container => {
-            const valueElement = container.querySelector('.altitude-value');
-            if (valueElement && valueElement.dataset.finalValue) {
-                const value = parseInt(valueElement.dataset.finalValue, 10);
-                checkpointsData.push({ y: container.offsetTop, value: value });
-            }
-        });
-        checkpointsData.sort((a, b) => a.y - b.y);
-
-        // 3. Position Line, Run First Frame
-        if (window.innerWidth <= 1024) {
-            positionMobileDashedLine();
         } else {
-            positionDashedLine();
+            mobilePathTotalLength = mobilePathElement.getTotalLength();
+            mobilePathCache = buildPathCache(mobilePathElement, mobilePathTotalLength);
         }
-        runAnimations();
-        updateNavLayout();
-
-        // 4. Hide Splash Screen FINALLY (with minimum delay)
-        const elapsedTime = performance.now() - startTime;
-        const remainingDelay = Math.max(0, MIN_SPLASH_DURATION - elapsedTime);
-
-        setTimeout(() => {
-            if (splashScreen) {
-                splashScreen.classList.add('hidden');
-            }
-            scrollFinalize();
-        }, remainingDelay);
-
-        // 5. Setup Intersection Observer
-        const observerOptions = { root: null, rootMargin: '0px 0px -40% 0px', threshold: 0.25 };
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-        document.querySelectorAll('.state-container').forEach(container => scrollObserver.observe(container));
+        savePathCacheToLocalStorage(); // Save current immediately
     }
 
+    // Apply DashArrays (prioritizes cached length over expensive DOM measurement)
+    const m = document.getElementById('mask-path'), 
+          tm = document.getElementById('tablet-mask-path'), 
+          mm = document.getElementById('mobile-mask-path');
+    if(m) m.style.strokeDasharray = (desktopPathCache.length * CACHE_STEP) || pathElement.getTotalLength();
+    if(tm) tm.style.strokeDasharray = (tabletPathCache.length * CACHE_STEP) || tabletPathElement.getTotalLength();
+    if(mm) mm.style.strokeDasharray = (mobilePathCache.length * CACHE_STEP) || mobilePathElement.getTotalLength();
+
+    // Setup Checkpoints (Altitude mapping)
+    const containers = document.querySelectorAll('.state-container');
+    checkpointsData = [];
+    containers.forEach(c => {
+        const val = c.querySelector('.altitude-value');
+        if (val) checkpointsData.push({ y: c.offsetTop, value: parseInt(val.dataset.finalValue) });
+    });
+    if (containers.length > 0) {
+        const last = containers[containers.length-1];
+        checkpointsData.push({ y: last.offsetTop + last.offsetHeight, value: 0 });
+    }
+    checkpointsData.sort((a, b) => a.y - b.y);
+
+    if (width <= 1024) positionMobileDashedLine(); else positionDashedLine();
+    runAnimations();
+    updateNavLayout();
+
+    // FAST-EXIT: If cache exists, ignore the MIN_SPLASH_DURATION
+    const elapsed = performance.now() - startTime;
+    const delay = isCacheLoaded ? 0 : Math.max(0, MIN_SPLASH_DURATION - elapsed);
+
+    setTimeout(() => {
+        if (splashScreen) splashScreen.classList.add('hidden');
+        scrollFinalize();
+        // Run background calculations 1 second AFTER the site is interactive
+        if (!isCacheLoaded || desktopPathCache.length === 0 || mobilePathCache.length === 0 || tabletPathCache.length === 0) {
+            setTimeout(calculateMissingCaches, 1000);
+        }
+    }, delay);
+
+    // Setup Intersection Observers
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+    }, { threshold: 0.25 });
+    containers.forEach(c => observer.observe(c));
+}
     // --- EVENT LISTENERS & INITIALIZATION ---
     window.onload = () => {
         const startTime = performance.now(); // Start timer immediately on load
