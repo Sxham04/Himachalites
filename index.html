@@ -1229,9 +1229,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }, delay);
 
     // Setup Intersection Observers
+// Define specific options to delay the trigger
+    const observerOptions = { 
+        root: null, 
+        // Moves the trigger boundary 20% up from the bottom of the screen
+        rootMargin: '0px 0px -20% 0px', 
+        // Requires 50% of the section to be visible within that adjusted area
+        threshold: 0.7 
+    };
+
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
-    }, { threshold: 0.25 });
+        entries.forEach(e => { 
+            if (e.isIntersecting) { 
+                e.target.classList.add('is-visible'); 
+                // Important: stop observing once it's visible to save performance
+                observer.unobserve(e.target); 
+            } 
+        });
+    }, observerOptions);
+
     containers.forEach(c => observer.observe(c));
 }
     // --- EVENT LISTENERS & INITIALIZATION ---
