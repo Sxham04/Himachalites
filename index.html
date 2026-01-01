@@ -1228,21 +1228,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, delay);
 
-    // Setup Intersection Observers
-// Define specific options to delay the trigger
+    // fade-in animation control
+    const isMobile = window.innerWidth <= 600;
+
     const observerOptions = { 
         root: null, 
-        // Moves the trigger boundary 20% up from the bottom of the screen
-        rootMargin: '0px 0px -20% 0px', 
-        // Requires 50% of the section to be visible within that adjusted area
-        threshold: 0.7 
+        // For Mobile: Trigger much earlier (only 10% margin)
+        // For Desktop: Keep the late trigger (25% margin)
+        rootMargin: isMobile ? '0px 0px -10% 0px' : '0px 0px -25% 0px', 
+        
+        // For Mobile: Trigger when 20% is visible
+        // For Desktop: Trigger when 50% is visible
+        threshold: isMobile ? 0.2 : 0.6 
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { 
             if (e.isIntersecting) { 
                 e.target.classList.add('is-visible'); 
-                // Important: stop observing once it's visible to save performance
                 observer.unobserve(e.target); 
             } 
         });
