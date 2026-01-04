@@ -717,6 +717,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -5%;
     gap: 10vw;
 }
 
@@ -769,7 +770,7 @@ header {
 
 @media (max-width: 1024px){
     .button-wrapper{
-        bottom: 22% !important;
+        bottom: 16% !important;
     }
 }
 
@@ -1463,7 +1464,7 @@ header {
 
     .overlay-content {
         /* This ensures the image stays centered within the content area */
-        margin-top: -20vh; /* Optional: nudge slightly up to account for visual weight */
+        margin-top: -25vh; /* Optional: nudge slightly up to account for visual weight */
     }
 
     .overlay-image {
