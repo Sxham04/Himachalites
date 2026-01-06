@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <style>
 /* Hide mobile and tablet SVGs by default */
 #mobile-line-svg, #tablet-line-svg {
@@ -266,6 +267,7 @@
             </div>
         </div>
     </div>
+    <div id="scroll-container">
     <div class="top-content-wrapper">
         <div class="dashed-line">
             <div id="svg-tip-counter">
@@ -577,6 +579,7 @@ d="M242 11736c43-16 103-45 119-87 15-42 36-127 21-207-14-69-27-190-199-203-134-1
             </section>
         </div>
     </div>
+    </div>
     <div class="top-scroll-spacer"></div>
 <div id="landing-page-container">
         <header>
@@ -631,6 +634,15 @@ d="M242 11736c43-16 103-45 119-87 15-42 36-127 21-207-14-69-27-190-199-203-134-1
     <a href="#landing-page-container" id="scrollToBottomBtn" title="Go to Landing Page">
         <i class="fas fa-arrow-down"></i>
     </a>
+<div id="scroll-tutorial" class="tutorial-overlay">
+    <div class="tutorial-content">
+        <div class="mouse-icon">
+            <div class="wheel"></div>
+            <div class="arrow-up"></div>
+        </div>
+        <p class="tutorial-text">Scroll Up to Start Your Journey</p>
+    </div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const footerColumns = document.querySelectorAll('.footer-column');
@@ -759,6 +771,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     observer.observe(landingPageContainer);
 });
+</script>
+<script>
+// Initialize Lenis
+const lenis = new Lenis({
+    wrapper: window, // Controls the main scroll
+    content: document.documentElement,
+    duration: 2.2,   // Higher = smoother/slower
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 0.9, // This specifically tames high-sensitivity mice
+    touchMultiplier: 2,
+    infinite: false,
+})
+
+// Integration with your existing animation logic
+function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+}
+
+requestAnimationFrame(raf)
+
+// Force Lenis to trigger your existing scroll logic
+lenis.on('scroll', () => {
+    // This calls your existing function that moves the bus/counter
+    if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(runAnimations);
+    }
+})
 </script>
 <script>
     // --- GLOBAL VARIABLES & INITIAL SETUP ---
@@ -1166,6 +1209,68 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
         }, 10);
+    }
+
+    //function to display the scroll up prompt
+
+    function showScrollTutorial() {
+        const tutorial = document.getElementById('scroll-tutorial');
+        if (!tutorial) return;
+
+        // --- COOLDOWN LOGIC (30 Minutes) ---
+        const COOLDOWN_MS = 30 * 60 * 1000; // 30 mins in milliseconds
+        const lastSeen = localStorage.getItem('tutorialLastSeen');
+        const now = Date.now();
+
+        // If seen recently (less than 30 mins ago), hide and exit
+        if (lastSeen && (now - lastSeen < COOLDOWN_MS)) {
+            tutorial.style.display = 'none';
+            return;
+        }
+
+        // 1. Show the element
+        tutorial.style.display = 'flex';
+        
+        // 2. Force a reflow and fade in
+        setTimeout(() => {
+            tutorial.style.opacity = '1';
+        }, 100);
+
+        const dismissTutorial = () => {
+            tutorial.style.opacity = '0';
+            setTimeout(() => {
+                tutorial.style.display = 'none';
+                document.body.classList.remove('noscroll');
+                
+                // --- UPDATE TIMESTAMP ON DISMISS ---
+                localStorage.setItem('tutorialLastSeen', Date.now());
+            }, 800);
+
+            window.removeEventListener('wheel', dismissTutorial);
+            window.removeEventListener('touchstart', dismissTutorial);
+        };
+
+        // 3. Grace period before listening for scroll
+        setTimeout(() => {
+            window.addEventListener('wheel', dismissTutorial, { passive: true, once: true });
+            window.addEventListener('touchstart', dismissTutorial, { passive: true, once: true });
+        }, 1000);
+
+        // 4. Auto-dismiss after 4 seconds total
+        setTimeout(dismissTutorial, 3000);
+    }
+
+    function scrollFinalize() {
+        // Unlock body from splash screen state
+        document.body.classList.remove('loading-active');
+
+        if (landingPage) {
+            // Move to bottom instantly
+            landingPage.scrollIntoView({ behavior: 'instant' });
+            
+            // Wait for the "snap" to settle before showing tutorial
+            setTimeout(showScrollTutorial, 300);
+        }
     }
 
     // ----------------------------------------------------
