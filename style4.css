@@ -163,6 +163,47 @@ body.noscroll {
     50% { transform: translateX(-50%) rotate(45deg) translate(-10px, -10px); opacity: 1; }
 }
 
+/* --- MOBILE SPECIFIC FIXES --- */
+@media (max-width: 600px) {
+    .tutorial-overlay {
+        padding: 0; /* Reset overlay padding to prevent offset */
+        left: 0;
+        width: 100vw;
+    }
+
+    .tutorial-content {
+        width: 90%;      /* Take up 90% of screen width */
+        margin: 0 auto;  /* Force center horizontally */
+        left: 0;
+        right: 0;
+    }
+
+    .tutorial-text {
+        font-size: 0.85rem; 
+        letter-spacing: 1.5px; 
+        line-height: 1.6;
+        margin-top: 25px;
+        padding: 0 5%;   /* Internal breathing room */
+        display: block;
+    }
+
+    .mouse-icon {
+        height: 40px; 
+        width: 1px;   
+        display: block;
+        margin: 0 auto; /* Ensure the line is dead center */
+    }
+
+    .arrow-up {
+        width: 8px;   
+        height: 8px;
+        border-width: 1.5px; 
+        /* Ensure the absolute positioning centers correctly */
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg); 
+    }
+}
+
 /*background colors*/
 body {
     margin: 0;
