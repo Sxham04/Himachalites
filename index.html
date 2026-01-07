@@ -775,33 +775,71 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
 // Initialize Lenis
 const lenis = new Lenis({
-    wrapper: window, // Controls the main scroll
-    content: document.documentElement,
-    duration: 2.2,   // Higher = smoother/slower
+    duration: 2.2,   
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: 0.9, // This specifically tames high-sensitivity mice
+    wheelMultiplier: 0.5, 
     touchMultiplier: 2,
     infinite: false,
-})
+    syncTouch: true
+});
 
-// Integration with your existing animation logic
 function raf(time) {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
+    lenis.raf(time);
+    requestAnimationFrame(raf);
 }
+requestAnimationFrame(raf);
 
-requestAnimationFrame(raf)
-
-// Force Lenis to trigger your existing scroll logic
-lenis.on('scroll', () => {
-    // This calls your existing function that moves the bus/counter
-    if (!animationFrameId) {
+// Function to attach Lenis to your scroll logic
+lenis.on('scroll', (e) => {
+    if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
         animationFrameId = requestAnimationFrame(runAnimations);
     }
-})
+
+    // Handle Scroll-To-Top button visibility safely
+    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+    if (scrollToTopBtn) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
+        
+        if (scrollFraction < 0.5) {
+            scrollToTopBtn.classList.remove('is-hidden');
+        } else {
+            scrollToTopBtn.classList.add('is-hidden');
+        }
+    }
+});
+
+// SAFE EVENT BINDING: Wrap in DOMContentLoaded to ensure elements are defined
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Handle the "Take the Road Home" Overlay Button
+    const overlayButton = document.querySelector('.overlay-button');
+    const landingPage = document.getElementById('landing-page-container');
+    
+    if (overlayButton && landingPage) {
+        overlayButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            // Scroll to the landing page area using Lenis
+            lenis.scrollTo(landingPage, { 
+                duration: 2,
+                offset: -window.innerHeight // Adjusts based on your layout
+            });
+        });
+    }
+
+    // 2. Handle the Scroll-To-Top (Bottom) Circle Button
+    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+    if (scrollToTopBtn && landingPage) {
+        scrollToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            lenis.scrollTo(landingPage, { duration: 2 });
+        });
+    }
+});
 </script>
 <script>
     // --- GLOBAL VARIABLES & INITIAL SETUP ---

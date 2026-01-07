@@ -17,6 +17,24 @@ body.loading-active {
     height: 100vh !important;
 }
 
+html {
+    /* 'mandatory' is required to force a stop in both directions */
+    scroll-snap-type: y mandatory !important;
+    scroll-behavior: auto !important; /* Lenis handles smoothing; CSS smoothing must be off */
+}
+
+.state-container {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* This ensures the snap "anchor" is at the very top of the section */
+    scroll-margin-top: 0px; 
+}
+
+/* 3. Disable snapping for the Footer and Landing Page if you want free-scrolling there */
+#landing-page-container, .footer {
+    scroll-snap-align: none;
+}
+
 #splash-screen {
     position: fixed;
     top: 0;
@@ -874,7 +892,7 @@ header {
 
 @media (min-width: 2000px) {
     .button-wrapper{
-        bottom: 15% !important;
+        bottom: 12% !important;
     }
 }
 
