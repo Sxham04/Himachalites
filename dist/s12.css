@@ -252,16 +252,16 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
 .centered-info-block {
     max-width: 800px;
     margin: 4rem auto 4rem auto;
-    text-align: center;
+    text-align: left; /* Changed from center to left */
 }
 
-.centered-info-block p{
+.centered-info-block p {
     text-align: left;
 }
 
 .centered-info-block ul {
-    display: inline-block;
-    padding-left: 0;
+    display: block; /* Changed from inline-block to block */
+    padding-left: 20px; /* Provides room for bullets */
     text-align: left;
 }
 
@@ -496,9 +496,10 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
     margin-bottom: 1.5rem;
 }
 
+/* --- Text-Col List Fixed --- */
 .text-col ul {
-    list-style: none;
-    padding: 0;
+    list-style: disc; /* Ensures bullets appear */
+    padding-left: 20px; 
     margin: 0;
 }
 
@@ -506,15 +507,13 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
     font-size: 1rem;
     color: #f4f4f4;
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
+    display: list-item; /* Changed from flex to list-item */
+    line-height: 1.6;   /* Improves readability when text wraps */
 }
 
+/* Remove the ::before bullet if you are using standard list-style */
 .text-col ul li::before {
-    content: "•";
-    color: #ffffff;
-    font-weight: bold;
-    margin-right: 15px;
+    content: none; 
 }
 
 /* Image Styling inside the container */
@@ -539,8 +538,11 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
     }
 
     .text-col ul li {
-        justify-content: center;
-    }
+            font-size: 0.95rem;
+            text-align: left; 
+            display: list-item; /* Ensure flex is disabled here too */
+            list-style-position: outside;
+        }
 }
 
 /* ==============================================
