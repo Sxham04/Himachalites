@@ -174,10 +174,12 @@
     </style>
 </head>
 <body>
-    <div id="splash-screen">
+<div id="splash-screen">
+    <div class="splash-content">
         <img id="splash-image" src="img/splash.webp" alt="Splash Screen Image">
         <div class="loader"></div>
     </div>
+</div>
     <div class="footer">
         <div class="footer-copyright">
             <p>Copyright &copy; 2025. Swaggytoon. All Rights Reserved.</p>
@@ -773,73 +775,76 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-// Initialize Lenis
-const lenis = new Lenis({
-    duration: 2.2,   
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 0.5, 
-    touchMultiplier: 2,
-    infinite: false,
-    syncTouch: true
-});
+    // 1. DEFINE VARIABLES IN GLOBAL SCOPE
+    let lenis = null;
 
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Function to attach Lenis to your scroll logic
-lenis.on('scroll', (e) => {
-    if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
-        animationFrameId = requestAnimationFrame(runAnimations);
-    }
-
-    // Handle Scroll-To-Top button visibility safely
-    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-    if (scrollToTopBtn) {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
+    // 2. ONLY LOAD/RUN IF ON DESKTOP
+    // This prevents the script from even "thinking" on mobile
+    if (window.innerWidth > 1024) {
         
-        if (scrollFraction < 0.5) {
-            scrollToTopBtn.classList.remove('is-hidden');
-        } else {
-            scrollToTopBtn.classList.add('is-hidden');
+        // Initialize Lenis
+        lenis = new Lenis({
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 0.4,
+            infinite: false,
+        });
+
+        // The animation loop only runs on Desktop
+        function raf(time) {
+            if (lenis) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
         }
-    }
-});
+        requestAnimationFrame(raf);
 
-// SAFE EVENT BINDING: Wrap in DOMContentLoaded to ensure elements are defined
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Handle the "Take the Road Home" Overlay Button
-    const overlayButton = document.querySelector('.overlay-button');
-    const landingPage = document.getElementById('landing-page-container');
-    
-    if (overlayButton && landingPage) {
-        overlayButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            // Scroll to the landing page area using Lenis
-            lenis.scrollTo(landingPage, { 
-                duration: 2,
-                offset: -window.innerHeight // Adjusts based on your layout
+        // Sync with your existing animations
+        lenis.on('scroll', () => {
+            if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
+                animationFrameId = requestAnimationFrame(runAnimations);
+            }
+        });
+    } else {
+        // MOBILE FALLBACK: 
+        // Just use the standard native scroll for your Bus/Path animations
+        window.addEventListener('scroll', () => {
+            if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
+                animationFrameId = requestAnimationFrame(runAnimations);
+            }
+        }, { passive: true });
+    }
+
+    // 3. UNIFIED UI LOGIC (Safe for all devices)
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlayButton = document.querySelector('.overlay-button');
+        const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+        const landingPage = document.getElementById('landing-page-container');
+
+        // Scroll navigation that detects if Lenis is present
+        const safeScroll = (target) => {
+            if (lenis && window.innerWidth > 1024) {
+                lenis.scrollTo(target, { duration: 1.5 });
+            } else {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        if (overlayButton && landingPage) {
+            overlayButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                safeScroll(landingPage);
             });
-        });
-    }
+        }
 
-    // 2. Handle the Scroll-To-Top (Bottom) Circle Button
-    const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-    if (scrollToTopBtn && landingPage) {
-        scrollToTopBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            lenis.scrollTo(landingPage, { duration: 2 });
-        });
-    }
-});
+        if (scrollToTopBtn && landingPage) {
+            scrollToTopBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                safeScroll(landingPage);
+            });
+        }
+    });
 </script>
 <script>
     // --- GLOBAL VARIABLES & INITIAL SETUP ---
@@ -1251,52 +1256,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //function to display the scroll up prompt
 
-    function showScrollTutorial() {
-        const tutorial = document.getElementById('scroll-tutorial');
-        if (!tutorial) return;
+/* 
+function showScrollTutorial() {
+    const tutorial = document.getElementById('scroll-tutorial');
+    if (!tutorial) return;
 
-        // --- COOLDOWN LOGIC (30 Minutes) ---
-        const COOLDOWN_MS = 30 * 60 * 1000; // 30 mins in milliseconds
-        const lastSeen = localStorage.getItem('tutorialLastSeen');
-        const now = Date.now();
+    // --- COOLDOWN LOGIC (30 Minutes) ---
+    const COOLDOWN_MS = 30 * 60 * 1000; // 30 mins in milliseconds
+    const lastSeen = localStorage.getItem('tutorialLastSeen');
+    const now = Date.now();
 
-        // If seen recently (less than 30 mins ago), hide and exit
-        if (lastSeen && (now - lastSeen < COOLDOWN_MS)) {
-            tutorial.style.display = 'none';
-            return;
-        }
-
-        // 1. Show the element
-        tutorial.style.display = 'flex';
-        
-        // 2. Force a reflow and fade in
-        setTimeout(() => {
-            tutorial.style.opacity = '1';
-        }, 100);
-
-        const dismissTutorial = () => {
-            tutorial.style.opacity = '0';
-            setTimeout(() => {
-                tutorial.style.display = 'none';
-                document.body.classList.remove('noscroll');
-                
-                // --- UPDATE TIMESTAMP ON DISMISS ---
-                localStorage.setItem('tutorialLastSeen', Date.now());
-            }, 800);
-
-            window.removeEventListener('wheel', dismissTutorial);
-            window.removeEventListener('touchstart', dismissTutorial);
-        };
-
-        // 3. Grace period before listening for scroll
-        setTimeout(() => {
-            window.addEventListener('wheel', dismissTutorial, { passive: true, once: true });
-            window.addEventListener('touchstart', dismissTutorial, { passive: true, once: true });
-        }, 1000);
-
-        // 4. Auto-dismiss after 4 seconds total
-        setTimeout(dismissTutorial, 3000);
+    // If seen recently (less than 30 mins ago), hide and exit
+    if (lastSeen && (now - lastSeen < COOLDOWN_MS)) {
+        tutorial.style.display = 'none';
+        return;
     }
+
+    // 1. Show the element
+    tutorial.style.display = 'flex';
+    
+    // 2. Force a reflow and fade in
+    setTimeout(() => {
+        tutorial.style.opacity = '1';
+    }, 100);
+
+    const dismissTutorial = () => {
+        tutorial.style.opacity = '0';
+        setTimeout(() => {
+            tutorial.style.display = 'none';
+            document.body.classList.remove('noscroll');
+            
+            // --- UPDATE TIMESTAMP ON DISMISS ---
+            localStorage.setItem('tutorialLastSeen', Date.now());
+        }, 800);
+
+        window.removeEventListener('wheel', dismissTutorial);
+        window.removeEventListener('touchstart', dismissTutorial);
+    };
+
+    // 3. Grace period before listening for scroll
+    setTimeout(() => {
+        window.addEventListener('wheel', dismissTutorial, { passive: true, once: true });
+        window.addEventListener('touchstart', dismissTutorial, { passive: true, once: true });
+    }, 1000);
+
+    // 4. Auto-dismiss after 4 seconds total
+    setTimeout(dismissTutorial, 3000);
+}
+*/
 
     function scrollFinalize() {
         // Unlock body from splash screen state
@@ -1314,12 +1321,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
     // --- CRITICAL FIX: Asynchronous Initialization ---
     // ----------------------------------------------------
-    function initializeHeavyContent(startTime) {
+function initializeHeavyContent(startTime) {
     const isCacheLoaded = loadPathCacheFromLocalStorage();
     const width = window.innerWidth;
+    const splashImg = document.getElementById('splash-image');
 
+    // 1. Existing Path Calculation Logic
     if (!isCacheLoaded) {
-        // Calculate ONLY the current view to minimize splash time
         if (width > 1024) {
             pathTotalLength = pathElement.getTotalLength();
             desktopPathCache = buildPathCache(pathElement, pathTotalLength);
@@ -1330,18 +1338,16 @@ document.addEventListener('DOMContentLoaded', () => {
             mobilePathTotalLength = mobilePathElement.getTotalLength();
             mobilePathCache = buildPathCache(mobilePathElement, mobilePathTotalLength);
         }
-        savePathCacheToLocalStorage(); // Save current immediately
+        savePathCacheToLocalStorage();
     }
 
-    // Apply DashArrays (prioritizes cached length over expensive DOM measurement)
-    const m = document.getElementById('mask-path'), 
-          tm = document.getElementById('tablet-mask-path'), 
-          mm = document.getElementById('mobile-mask-path');
+    // Apply DashArrays
+    const m = document.getElementById('mask-path'), tm = document.getElementById('tablet-mask-path'), mm = document.getElementById('mobile-mask-path');
     if(m) m.style.strokeDasharray = (desktopPathCache.length * CACHE_STEP) || pathElement.getTotalLength();
     if(tm) tm.style.strokeDasharray = (tabletPathCache.length * CACHE_STEP) || tabletPathElement.getTotalLength();
     if(mm) mm.style.strokeDasharray = (mobilePathCache.length * CACHE_STEP) || mobilePathElement.getTotalLength();
 
-    // Setup Checkpoints (Altitude mapping)
+    // Setup Checkpoints
     const containers = document.querySelectorAll('.state-container');
     checkpointsData = [];
     containers.forEach(c => {
@@ -1358,33 +1364,45 @@ document.addEventListener('DOMContentLoaded', () => {
     runAnimations();
     updateNavLayout();
 
-    // FAST-EXIT: If cache exists, ignore the MIN_SPLASH_DURATION
+    // 2. PROGRESSIVE COLOR LOGIC
     const elapsed = performance.now() - startTime;
-    const delay = isCacheLoaded ? 0 : Math.max(0, MIN_SPLASH_DURATION - elapsed);
+    const delay = isCacheLoaded ? 800 : Math.max(1500, MIN_SPLASH_DURATION - elapsed);
+    
+    let progress = 0;
+    const intervalTime = 50; // Update every 50ms
+    const step = 100 / (delay / intervalTime);
 
+    const progressInterval = setInterval(() => {
+        progress += step;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(progressInterval);
+        }
+        if (splashImg) {
+            // Update the CSS variable
+            splashImg.style.setProperty('--load-progress', progress + '%');
+        }
+    }, intervalTime);
+
+    // 3. Close Splash
     setTimeout(() => {
+        clearInterval(progressInterval); // Ensure it's cleared
+        if (splashImg) splashImg.style.setProperty('--load-progress', '100%');
+        
         if (splashScreen) splashScreen.classList.add('hidden');
         scrollFinalize();
-        // Run background calculations 1 second AFTER the site is interactive
         if (!isCacheLoaded || desktopPathCache.length === 0 || mobilePathCache.length === 0 || tabletPathCache.length === 0) {
             setTimeout(calculateMissingCaches, 1000);
         }
     }, delay);
 
-    // fade-in animation control
+    // Intersection Observer logic
     const isMobile = window.innerWidth <= 600;
-
     const observerOptions = { 
         root: null, 
-        // For Mobile: Trigger much earlier (only 10% margin)
-        // For Desktop: Keep the late trigger (25% margin)
         rootMargin: isMobile ? '0px 0px -10% 0px' : '0px 0px -25% 0px', 
-        
-        // For Mobile: Trigger when 20% is visible
-        // For Desktop: Trigger when 50% is visible
         threshold: isMobile ? 0.2 : 0.6 
     };
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { 
             if (e.isIntersecting) { 
@@ -1393,10 +1411,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
         });
     }, observerOptions);
-
-    containers.forEach(c => observer.observe(c));
+    containers.forEach(c => observer.observe(c)); 
 }
-    // --- EVENT LISTENERS & INITIALIZATION ---
+
+// --- EVENT LISTENERS & INITIALIZATION ---
     window.onload = () => {
         const startTime = performance.now(); // Start timer immediately on load
 

@@ -1,38 +1,44 @@
 /* 1. Core Layout & Fonts */
 html.lenis, html.lenis body {
-  height: auto;
+    height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+    scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+    overscroll-behavior: contain;
 }
 
-/* --- Splash Screen Styles - Dark Grey Background --- */
-body.loading-active {
-    overflow: hidden !important;
-    height: 100vh !important;
+/* Enable native smooth scrolling ONLY for non-desktop devices */
+@media (max-width: 1024px) {
+    html {
+        scroll-behavior: smooth;
+        /* Restore native momentum on iOS/Android */
+        -webkit-overflow-scrolling: touch; 
+    }
 }
 
-html {
-    /* 'mandatory' is required to force a stop in both directions */
-    scroll-snap-type: y mandatory !important;
-    scroll-behavior: auto !important; /* Lenis handles smoothing; CSS smoothing must be off */
+/* Ensure Lenis doesn't fight with CSS on Desktop */
+@media (min-width: 1025px) {
+    html.lenis {
+        height: auto;
+    }
+    .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+    }
 }
 
 .state-container {
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    /* This ensures the snap "anchor" is at the very top of the section */
-    scroll-margin-top: 0px; 
 }
 
-/* 3. Disable snapping for the Footer and Landing Page if you want free-scrolling there */
-#landing-page-container, .footer {
-    scroll-snap-align: none;
+/* --- Splash Screen Styles --- */
+body.loading-active {
+    overflow: hidden !important;
+    height: 100vh !important;
 }
 
 #splash-screen {
@@ -43,7 +49,6 @@ html {
     height: 100vh;
     background-color: #222222;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -57,51 +62,57 @@ html {
     visibility: hidden;
 }
 
-/* ---------------------------------------------------- */
-/* --- Responsive Splash Image Scaling (Optimized) --- */
-/* ---------------------------------------------------- */
+/* Wrapper to center donut on image */
+.splash-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 #splash-image {
-    filter: brightness(1.2);
+    filter: grayscale(calc(100% - var(--load-progress, 0%))) brightness(1.2);
+    transition: filter 0.2s linear; /* Smooth micro-steps */
     max-width: 40vw;
     max-height: 50vh;
     width: auto;
     height: auto;
     object-fit: contain;
-    margin-bottom: 50px;
+    display: block;
 }
 
-/* --- Media Query for Tablets (Portrait) --- */
-@media (max-width: 1024px) {
-    #splash-image {
-        max-width: 55vw;
-        max-height: 55vh;
-        margin-bottom: 40px;
-    }
+/* We don't need the .colored class anymore, but keeping it for safety */
+#splash-image.colored {
+    filter: grayscale(0%) brightness(1.2);
 }
 
-/* --- Media Query for Mobile Devices (Small Screens) --- */
-@media (max-width: 600px) {
-    #splash-image {
-        max-width: 75vw;
-        max-height: 40vh;
-        margin-bottom: 30px;
-    }
-}
-
-/* --- Rotating Loader Animation (UNCHANGED, but visible against dark background) --- */
+/* The Loader - Perfectly centered via absolute positioning */
 .loader {
-    border: 5px solid #444;
-    border-top: 5px solid #0EA63C;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #444;
+    border-top: 8px solid #0EA63C;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     animation: spin 1s linear infinite;
+    z-index: 10000;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+    #splash-image { max-width: 55vw; max-height: 55vh; }
+}
+
+@media (max-width: 600px) {
+    #splash-image { max-width: 75vw; max-height: 40vh; }
 }
 
 html, body {
