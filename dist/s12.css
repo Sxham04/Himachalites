@@ -268,7 +268,7 @@ MAIN CONTENT CONTAINERS (DESKTOP STYLES)
 /* --- Image Gallery Container --- */
 .image-gallery-container {
     margin-top: 10vh;
-    margin-bottom: 10vh;
+    margin-bottom: -5vh;
     text-align: center;
 }
 
