@@ -92,6 +92,24 @@ header {
     position: relative;
 }
 
+.link-disabled {
+    position: relative;
+    display: inline-block;
+}
+
+.link-disabled::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background-color: #382F30;
+    transform: rotate(-10deg); /* Angled "cancelled" look */
+    pointer-events: none;
+    opacity: 0.6;
+}
+
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -144,8 +162,9 @@ header {
 }
 
 .logo img {
-    height: 150px;
+    height: 130px;
     padding: 0 10px;
+    padding-top: 10px;
 }
 
 .main-nav {
