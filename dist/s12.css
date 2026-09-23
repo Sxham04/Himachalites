@@ -89,22 +89,25 @@ header {
     position: relative;
 }
 
-.link-disabled {
-    position: relative;
-    display: inline-block;
+/* Unavailable nav/footer link: muted text + "Soon" badge */
+li.link-disabled a,
+li.link-disabled a:hover {
+    color: #9a9a9a;
+    cursor: not-allowed;
 }
 
-.link-disabled::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    width: 80%;
-    height: 2px;
-    background-color: #382F30;
-    transform: rotate(-10deg); /* Angled "cancelled" look */
-    pointer-events: none;
-    opacity: 0.6;
+li.link-disabled a::after {
+    content: 'Soon';
+    margin-left: 6px;
+    padding: 2px 6px;
+    font-size: 0.6em;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: super;
+    border-radius: 999px;
+    background: #382F30;
+    color: #fff;
 }
 
 .top-bar {
