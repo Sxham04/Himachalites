@@ -18,8 +18,10 @@ html.lenis, html.lenis body {
         /* Restore native momentum on iOS/Android */
         -webkit-overflow-scrolling: touch;
     }
-    /* No native rubber-band / pull-to-refresh: index.html plays its own bounce animation at the edges */
-    html, body {
+    /* No native rubber-band / pull-to-refresh: index.html plays its own bounce animation at the edges.
+       html only: body is also a scroll container here (overflow-x: hidden on both), and
+       overscroll-behavior on it stops touch scrolls from chaining to the page, freezing scroll. */
+    html {
         overscroll-behavior-y: none;
     }
 }
