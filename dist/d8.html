@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
@@ -47,6 +44,7 @@
             </button>
         </nav>
     </header>
+    <div id="nav-anchor-trigger"></div>
 
 <main class="main-content">
 
@@ -99,7 +97,7 @@ stroke-linecap="round"/>
 
         <div class="split-feature-inner">
             <div class="split-col image-col">
-                <img src="img/Mandi.png" alt="Solan Scenery" class="feature-img">
+                <img src="img/Mandi.webp" alt="Mandi scenery" class="feature-img">
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
@@ -213,104 +211,6 @@ stroke-linecap="round"/>
         </div>
     </div>
 
-    <script>
-        // Simple mobile menu toggle script
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const navbar = document.querySelector('.navbar');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', () => {
-                navbar.classList.toggle('nav-open');
-            });
-        }
-    </script>
-    <script>
-        history.scrollRestoration = 'manual';
-    </script>
-    <script>
-        // This script enables the hover animation on the footer headings
-        document.addEventListener('DOMContentLoaded', () => {
-            const footerColumns = document.querySelectorAll('.footer-column');
-
-            footerColumns.forEach(column => {
-                const heading = column.querySelector('h4');
-                const list = column.querySelector('ul');
-
-                if (heading && list) {
-                    // When the mouse enters the list of links, activate the heading animation
-                    list.addEventListener('mouseenter', () => {
-                        heading.classList.add('is-active');
-                    });
-
-                    // When the mouse leaves, deactivate it
-                    list.addEventListener('mouseleave', () => {
-                        heading.classList.remove('is-active');
-                    });
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const allPills = document.querySelectorAll('.pill:not(.is-active)');
-
-            allPills.forEach(pill => {
-                const label = pill.querySelector('.pill-label');
-                const labelHover = pill.querySelector('.pill-label-hover');
-                const h = pill.getBoundingClientRect().height;
-
-                // Set initial positions
-                gsap.set(label, {
-                    y: 0
-                });
-                gsap.set(labelHover, {
-                    y: h + 12,
-                    opacity: 0
-                });
-
-                // Create the animation timeline for text and icons
-                const tl = gsap.timeline({
-                    paused: true
-                });
-                tl.to(label, {
-                        y: -(h + 8),
-                        duration: 0.4,
-                        ease: 'power3.easeOut'
-                    })
-                    .to(labelHover, {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.4,
-                        ease: 'power3.easeOut'
-                    }, 0);
-
-                // Add event listeners
-                pill.addEventListener('mouseenter', () => tl.play());
-                pill.addEventListener('mouseleave', () => tl.reverse());
-            });
-        });
-    </script>
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const navbar = document.querySelector('.navbar');
-            // We use the header's full height as the trigger point
-            const header = document.querySelector('header');
-            const stickyPoint = header.offsetHeight;
-            // Get the height of the navbar to prevent content from jumping
-            const navHeight = navbar.offsetHeight;
-
-            window.onscroll = function() {
-                // Check if the user has scrolled past the header
-                if (window.pageYOffset > stickyPoint) {
-                    navbar.classList.add('navbar--anchored');
-                    // Add padding to the body to prevent the content from jumping up
-                    document.body.style.paddingTop = navHeight + 'px';
-                } else {
-                    navbar.classList.remove('navbar--anchored');
-                    // Remove the padding when scrolling back to the top
-                    document.body.style.paddingTop = '0';
-                }
-            };
-        });
-    </script>
+    <script src="../js/common.js"></script>
 </body>
 </html>

@@ -942,10 +942,8 @@ header {
 
 .button-text {
     color: white;
-    /* font-weight: 600; */
     font-size: 1.2rem;
     font-family: Arial, Helvetica, sans-serif;
-    /* -webkit-text-stroke: 0.6px black; */
 }
 
 .overlay-button::after {
@@ -1082,7 +1080,6 @@ header {
     position: absolute;
     width: 80px;         /* Adjust based on your cloud image size */
     opacity: 1;
-    /* filter: blur(2px); */
     animation: float-around 8s ease-in-out infinite alternate;
 }
 
@@ -1173,14 +1170,6 @@ header {
     display: block;
     margin-left: -12rem;
 }
-
-/* --- Hide Altitude Values without removing from DOM --- */
-/* .altitude-value, 
-.altitude-unit {
-    opacity: 0 !important;
-    pointer-events: none;  
-    visibility: visible;
-} */
 
 /* Responsive adjustment for Mobile */
 @media (max-width: 600px) {

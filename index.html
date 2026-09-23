@@ -926,24 +926,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (e) { return false; }
     }
 
-    // --- NEW: BACKGROUND CALCULATION FOR REMAINING DEVICES ---
-    // function calculateMissingCaches() {
-    //     const width = window.innerWidth;
-    //     // Calculate Desktop if missing and not on desktop
-    //     if (width <= 1024 && desktopPathCache.length === 0) {
-    //         desktopPathCache = buildPathCache(pathElement, pathElement.getTotalLength());
-    //     }
-    //     // Calculate Tablet if missing and not on tablet
-    //     if ((width > 1024 || width <= 600) && tabletPathCache.length === 0) {
-    //         tabletPathCache = buildPathCache(tabletPathElement, tabletPathElement.getTotalLength());
-    //     }
-    //     // Calculate Mobile if missing and not on mobile
-    //     if (width > 600 && mobilePathCache.length === 0) {
-    //         mobilePathCache = buildPathCache(mobilePathElement, mobilePathElement.getTotalLength());
-    //     }
-    //     savePathCacheToLocalStorage(); // Final save of all three versions
-    // }
-
     function savePathCacheToLocalStorage() {
         const data = {
             desktop: desktopPathCache,
@@ -1400,9 +1382,6 @@ function initializeHeavyContent(startTime) {
         
         if (splashScreen) splashScreen.classList.add('hidden');
         scrollFinalize();
-        if (!isCacheLoaded || desktopPathCache.length === 0 || mobilePathCache.length === 0 || tabletPathCache.length === 0) {
-            setTimeout(calculateMissingCaches, 1000);
-        }
     }, delay);
 
     // Intersection Observer logic
