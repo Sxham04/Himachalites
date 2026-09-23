@@ -980,6 +980,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return cache;
     }
 
+    const counterTextElement = svgTipCounter ? svgTipCounter.querySelector('.counter-text') : null;
+    const feetFormat = new Intl.NumberFormat('en-US');
+    let lastCounterText = '';
+    let pendingPopups = null;
+
     function updateMainCounter(currentIconYPosition) {
         if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
 
@@ -1006,10 +1011,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const currentValue = startCheckpoint.value - (progress * altitudeRange);
 
-        const textElement = svgTipCounter.querySelector('.counter-text');
-
-        if (textElement) {
-            textElement.textContent = `${Math.round(Math.max(0, currentValue)).toLocaleString('en-US')} ft`;
+        // Only touch the DOM when the number changes: a text change forces layout and a repaint of the bus layer.
+        const text = `${feetFormat.format(Math.round(Math.max(0, currentValue)))} ft`;
+        if (counterTextElement && text !== lastCounterText) {
+            counterTextElement.textContent = text;
+            lastCounterText = text;
         }
     }
 
@@ -1081,7 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /** CORRECTED FIX: Prevents counter drop by only making it visible once positioned. */
-    function updateCounterPosition(progress, pathLength, svg, pathCache) {
+    function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, lineTop) {
         if (!svgTipCounter || pathLength === 0 || !svg) return 0;
 
         const isVisible = (progress > 0.01 && progress < 0.99);
@@ -1099,7 +1105,6 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (angleDifference < -180) totalRotation += 360;
         lastRotationAngle = totalRotation;
 
-        const svgRect = svg.getBoundingClientRect();
         let currentIconY = 0;
 
         if (svgRect.width > 0 && svgRect.height > 0) {
@@ -1111,7 +1116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const y = (currentPoint.y * scaleY) + counterOffsetY;
 
             svgTipCounter.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${totalRotation}deg)`;
-            currentIconY = dashedLineContainer.offsetTop + (currentPoint.y * scaleY);
+            currentIconY = lineTop + (currentPoint.y * scaleY);
 
             // Fix for initial drop: Set flag only if the position is calculated off top/left
             if (!counterPositionedOnce) {
@@ -1142,45 +1147,54 @@ document.addEventListener("DOMContentLoaded", () => {
         return modifiedProgress;
     }
 
-    function animateMobileDashedLine() {
+    function animateMobileDashedLine(svgRect) {
         const mobileMaskPath = document.getElementById('mobile-mask-path');
         if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
         const triggerPointY = window.innerHeight * 0.4;
-        const svgRect = mobileSvgLine.getBoundingClientRect();
-        if (svgRect.height === 0) return 0;
+        if (!svgRect || svgRect.height === 0) return 0;
         const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
         const clampedProgress = Math.max(0, Math.min(1, progress));
         mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
         return clampedProgress;
     }
 
-    function animateTabletDashedLine() {
+    function animateTabletDashedLine(svgRect) {
         const tabletMaskPath = document.getElementById('tablet-mask-path');
         if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
         const triggerPointY = window.innerHeight * 0.7;
-        const svgRect = tabletSvgLine.getBoundingClientRect();
-        if (svgRect.height === 0) return 0;
+        if (!svgRect || svgRect.height === 0) return 0;
         const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
         const clampedProgress = Math.max(0, Math.min(1, progress));
         tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - (tabletPathTotalLength * clampedProgress);
         return clampedProgress;
     }
 
-    function checkAndAnimatePopups() {
+    // Reads only. Shown popups drop out of the list, so this costs nothing once all are visible.
+    function findPopupsToShow() {
+        if (!pendingPopups) pendingPopups = [...document.querySelectorAll('.h2-popup:not(.visible)')];
         const triggerThreshold = window.innerHeight * 0.20;
-        document.querySelectorAll('.h2-popup').forEach(popup => {
-            if (popup.classList.contains('visible')) return;
+        const toShow = [];
+        pendingPopups = pendingPopups.filter(popup => {
             const h2 = popup.nextElementSibling;
-            if (!h2) return;
+            if (!h2) return false;
             const h2Rect = h2.getBoundingClientRect();
-            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return;
+            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return true;
             const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
             if (h2TriggerPoint > triggerThreshold) {
-                popup.classList.add('visible');
-                const altitudeValueElement = popup.querySelector('.altitude-value');
-                if (altitudeValueElement) {
-                    animateAltitude(altitudeValueElement);
-                }
+                toShow.push(popup);
+                return false;
+            }
+            return true;
+        });
+        return toShow;
+    }
+
+    function showPopups(popups) {
+        popups.forEach(popup => {
+            popup.classList.add('visible');
+            const altitudeValueElement = popup.querySelector('.altitude-value');
+            if (altitudeValueElement) {
+                animateAltitude(altitudeValueElement);
             }
         });
     }
@@ -1196,13 +1210,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const isScrollingUp = touchY > lastTouchY;
         const atTop = window.pageYOffset === 0;
         if (atTop && isScrollingUp && topContentWrapper) {
-            event.preventDefault(); isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
+            isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
             setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
         }
         const isScrollingDown = touchY < lastTouchY;
         const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
         if (atBottom && isScrollingDown && landingPage) {
-            event.preventDefault(); isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
+            isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
             setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
         }
         lastTouchY = touchY;
@@ -1213,36 +1227,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function runAnimations() {
+        animationFrameId = null;
         const screenWidth = window.innerWidth;
         let progress = 0;
         let currentIconY = 0;
 
+        // All layout reads first, then all writes. A read after a write forces a synchronous
+        // layout mid-frame, which WebKit (every iOS browser) pays for far more than Blink does.
+        const svg = screenWidth > 1024 ? svgLine : (screenWidth > 600 ? tabletSvgLine : mobileSvgLine);
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const lineTop = dashedLineContainer ? dashedLineContainer.offsetTop : 0;
+        const popupsToShow = findPopupsToShow();
+
         if (screenWidth > 1024) {
             progress = animateDashedLine();
-            currentIconY = updateCounterPosition(progress, pathTotalLength, svgLine, desktopPathCache);
+            currentIconY = updateCounterPosition(progress, pathTotalLength, svgLine, desktopPathCache, svgRect, lineTop);
         }
         else if (screenWidth > 600) {
-            progress = animateTabletDashedLine();
-            currentIconY = updateCounterPosition(progress, tabletPathTotalLength, tabletSvgLine, tabletPathCache);
+            progress = animateTabletDashedLine(svgRect);
+            currentIconY = updateCounterPosition(progress, tabletPathTotalLength, tabletSvgLine, tabletPathCache, svgRect, lineTop);
         }
         else {
-            progress = animateMobileDashedLine();
-            currentIconY = updateCounterPosition(progress, mobilePathTotalLength, mobileSvgLine, mobilePathCache);
+            progress = animateMobileDashedLine(svgRect);
+            currentIconY = updateCounterPosition(progress, mobilePathTotalLength, mobileSvgLine, mobilePathCache, svgRect, lineTop);
         }
 
         updateMainCounter(currentIconY);
-        checkAndAnimatePopups();
-        animationFrameId = null;
-    }
-
-    function scrollFinalize() {
-        // Remove scroll lock
-        body.classList.remove('loading-active');
-
-        // Final, definitive scroll to the bottom element's top edge
-        setTimeout(() => {
-            if (landingPage) landingPage.scrollIntoView({ behavior: 'instant' });
-        }, 10);
+        showPopups(popupsToShow);
     }
 
     //function to display the scroll up prompt
@@ -1303,9 +1314,6 @@ function showScrollTutorial() {
         if (landingPage) {
             // Move to bottom instantly
             landingPage.scrollIntoView({ behavior: 'instant' });
-            
-            // Wait for the "snap" to settle before showing tutorial
-            setTimeout(showScrollTutorial, 300);
         }
     }
 
@@ -1473,7 +1481,9 @@ function initializeHeavyContent(startTime) {
         if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
     }, { passive: true });
 
-    window.addEventListener('touchmove', handleOverscroll, { passive: false });
+    // Passive: a non-passive touchmove on window makes iOS wait for the main thread before every scroll step.
+    // The native rubber-band this used to preventDefault is now off via overscroll-behavior-y in style4.css.
+    window.addEventListener('touchmove', handleOverscroll, { passive: true });
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
     history.scrollRestoration = 'manual';
 </script>

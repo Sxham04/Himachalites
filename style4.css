@@ -16,7 +16,11 @@ html.lenis, html.lenis body {
     html {
         scroll-behavior: smooth;
         /* Restore native momentum on iOS/Android */
-        -webkit-overflow-scrolling: touch; 
+        -webkit-overflow-scrolling: touch;
+    }
+    /* No native rubber-band / pull-to-refresh: index.html plays its own bounce animation at the edges */
+    html, body {
+        overscroll-behavior-y: none;
     }
 }
 
