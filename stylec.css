@@ -630,20 +630,6 @@ li.link-disabled a::after {
         gap: 10px;
     }
 
-    /* --- Mobile Pill Nav --- */
-    .pill-nav-items {
-        width: 95%;
-        gap: 5px;
-        padding: 5px;
-        flex-wrap: wrap;
-    }
-    .pill {
-        padding: 0.8rem 1rem;
-    }
-    .pill-nav-items {
-       --nav-font-size: 14px;
-    }
-
     /* --- Mobile Content Font Size --- */
     .info-container p {
         font-size: 0.9rem;
@@ -830,25 +816,20 @@ li.link-disabled a::after {
     }
 }
 
-/* ==============================================
-    ENHANCED MOBILE PILL NAVIGATION
-============================================== */
 
-/* For screens 600px and smaller */
-@media (max-width: 600px) {
-    .pill-nav-items {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-    }
+/* Inline SVG icons (replace Font Awesome): sized by font-size like the old font icons */
+.icon {
+    display: inline-block;
+    fill: currentColor;
+    vertical-align: -0.125em;
+}
 
-    .pill {
-        padding: 1.2rem 1rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
+/* Menu button shows bars when closed, a cross when open (aria-expanded is set by the menu JS) */
+.icon-close,
+[aria-expanded="true"] > .icon-bars {
+    display: none;
+}
 
-    .pill-nav-items {
-        --nav-font-size: 16px;
-    }
+[aria-expanded="true"] > .icon-close {
+    display: inline-block;
 }

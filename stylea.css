@@ -678,3 +678,19 @@ li.link-disabled a::after {
         bottom: 35%;
     }
 }
+/* Inline SVG icons (replace Font Awesome): sized by font-size like the old font icons */
+.icon {
+    display: inline-block;
+    fill: currentColor;
+    vertical-align: -0.125em;
+}
+
+/* Menu button shows bars when closed, a cross when open (aria-expanded is set by the menu JS) */
+.icon-close,
+[aria-expanded="true"] > .icon-bars {
+    display: none;
+}
+
+[aria-expanded="true"] > .icon-close {
+    display: inline-block;
+}

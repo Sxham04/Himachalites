@@ -16,12 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const isExpanded = navbar.classList.contains('nav-open');
             mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-
-            const icon = mobileMenuToggle.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars', !isExpanded);
-                icon.classList.toggle('fa-times', isExpanded);
-            }
         });
     }
 

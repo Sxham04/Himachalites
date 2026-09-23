@@ -905,7 +905,7 @@ STYLES FOR INSTAGRAM REEL CONTAINER
     transition: background-color 0.2s ease, transform 0.3s ease-out;
 }
 
-.reel-play-button i {
+.reel-play-button .icon {
     color: #ffffff;
     font-size: 24px;
     transform: translateX(2px);
@@ -926,7 +926,7 @@ STYLES FOR INSTAGRAM REEL CONTAINER
         width: 45px;
         height: 45px;
     }
-    .reel-play-button i {
+    .reel-play-button .icon {
         font-size: 18px;
     }
     .instagram-reel-link:hover {
@@ -1451,4 +1451,20 @@ RESPONSIVE STYLES (TABLET/MOBILE)
     .footer-column ul { 
         gap: 10px; 
     }
+}
+/* Inline SVG icons (replace Font Awesome): sized by font-size like the old font icons */
+.icon {
+    display: inline-block;
+    fill: currentColor;
+    vertical-align: -0.125em;
+}
+
+/* Menu button shows bars when closed, a cross when open (aria-expanded is set by the menu JS) */
+.icon-close,
+[aria-expanded="true"] > .icon-bars {
+    display: none;
+}
+
+[aria-expanded="true"] > .icon-close {
+    display: inline-block;
 }
