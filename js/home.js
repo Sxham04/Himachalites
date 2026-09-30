@@ -194,9 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     // --- GLOBAL VARIABLES & INITIAL SETUP ---
-    const CACHE_KEY = 'path_cache_v1';
-    const CACHE_TTL = 86400000; // 24 hours
-    const MIN_SPLASH_DURATION = 1200; // Minimum 1.2-second splash screen duration
+    const SPLASH_DURATION = 800;
 
     const landingPage = document.getElementById('landing-page-container');
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
@@ -228,57 +226,45 @@ document.addEventListener("DOMContentLoaded", () => {
     // Tracks if the counter has been positioned for the first time
     let counterPositionedOnce = false;
 
-    // --- CACHING UTILITY FUNCTIONS ---
-    function loadPathCacheFromLocalStorage() {
-        try {
-            const cachedData = localStorage.getItem(CACHE_KEY);
-            if (!cachedData) return false;
-
-            const { data, timestamp } = JSON.parse(cachedData);
-            if (Date.now() - timestamp > CACHE_TTL) {
-                localStorage.removeItem(CACHE_KEY);
-                return false;
-            }
-
-            // Restore available data
-            desktopPathCache = data.desktop || [];
-            mobilePathCache = data.mobile || [];
-            tabletPathCache = data.tablet || [];
-
-            const width = window.innerWidth;
-            // VALIDATION: Only return true if the specific path needed for THIS device is ready
-            if (width > 1024 && desktopPathCache.length > 0) {
-                pathTotalLength = desktopPathCache.length * CACHE_STEP;
-                return true;
-            } 
-            if (width <= 1024 && width > 600 && tabletPathCache.length > 0) {
-                tabletPathTotalLength = tabletPathCache.length * CACHE_STEP;
-                return true;
-            }
-            if (width <= 600 && mobilePathCache.length > 0) {
-                mobilePathTotalLength = mobilePathCache.length * CACHE_STEP;
-                return true;
-            }
-            return false; 
-        } catch (e) { return false; }
+    // --- BUS PATH CACHE ---
+    // The bus position/angle along each dashed path depends only on the path's `d` attribute (viewBox
+    // units), so it is precomputed once into js/path-cache/<device>.json as flat [x, y, angle, ...].
+    // Measuring it in the browser took 4-13 seconds per path. If a path's `d` changes, regenerate its
+    // file: run buildPathCache() on that path and save the rounded values in the same flat format.
+    function deviceKey() {
+        const width = window.innerWidth;
+        return width > 1024 ? 'desktop' : (width > 600 ? 'tablet' : 'mobile');
     }
 
-    function savePathCacheToLocalStorage() {
-        const data = {
-            desktop: desktopPathCache,
-            mobile: mobilePathCache,
-            tablet: tabletPathCache,
-        };
-        const cacheEntry = {
-            data: data,
-            timestamp: Date.now(),
-        };
+    function pathCacheFor(key) {
+        return key === 'desktop' ? desktopPathCache : (key === 'tablet' ? tabletPathCache : mobilePathCache);
+    }
+
+    async function loadPathCache(key) {
+        let cache;
         try {
-            localStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
+            const response = await fetch(`js/path-cache/${key}.json`);
+            if (!response.ok) throw new Error(response.status);
+            const flat = await response.json();
+            cache = [];
+            for (let i = 0; i < flat.length; i += 3) {
+                cache.push({ x: flat[i], y: flat[i + 1], angle: flat[i + 2] });
+            }
         } catch (e) {
-            console.error('Error saving cache:', e);
+            // No file (e.g. page opened via file://): fall back to measuring the path, slow but correct.
+            const path = key === 'desktop' ? pathElement : (key === 'tablet' ? tabletPathElement : mobilePathElement);
+            cache = buildPathCache(path, path.getTotalLength());
         }
+        if (key === 'desktop') desktopPathCache = cache;
+        else if (key === 'tablet') tabletPathCache = cache;
+        else mobilePathCache = cache;
     }
+
+    // Start fetching now, in parallel with the page's images, instead of after window.onload.
+    const initialPathCache = loadPathCache(deviceKey());
+
+    // The old in-browser cache (~400 KB of localStorage) is no longer read.
+    try { localStorage.removeItem('path_cache_v1'); } catch (e) {}
 
     // --- CORE LOGIC FUNCTIONS ---
     function setupPathLengthsAndDasharrays() {
@@ -657,25 +643,10 @@ function showScrollTutorial() {
     // ----------------------------------------------------
     // --- CRITICAL FIX: Asynchronous Initialization ---
     // ----------------------------------------------------
-function initializeHeavyContent(startTime) {
-    const isCacheLoaded = loadPathCacheFromLocalStorage();
+async function initializeHeavyContent() {
+    await initialPathCache;
     const width = window.innerWidth;
     const splashImg = document.getElementById('splash-image');
-
-    // 1. Existing Path Calculation Logic
-    if (!isCacheLoaded) {
-        if (width > 1024) {
-            pathTotalLength = pathElement.getTotalLength();
-            desktopPathCache = buildPathCache(pathElement, pathTotalLength);
-        } else if (width > 600) {
-            tabletPathTotalLength = tabletPathElement.getTotalLength();
-            tabletPathCache = buildPathCache(tabletPathElement, tabletPathTotalLength);
-        } else {
-            mobilePathTotalLength = mobilePathElement.getTotalLength();
-            mobilePathCache = buildPathCache(mobilePathElement, mobilePathTotalLength);
-        }
-        savePathCacheToLocalStorage();
-    }
 
     // Apply DashArrays
     const m = document.getElementById('mask-path'), tm = document.getElementById('tablet-mask-path'), mm = document.getElementById('mobile-mask-path');
@@ -701,9 +672,8 @@ function initializeHeavyContent(startTime) {
     updateNavLayout();
 
     // 2. PROGRESSIVE COLOR LOGIC
-    const elapsed = performance.now() - startTime;
-    const delay = isCacheLoaded ? 800 : Math.max(1500, MIN_SPLASH_DURATION - elapsed);
-    
+    const delay = SPLASH_DURATION;
+
     let progress = 0;
     const intervalTime = 50; // Update every 50ms
     const step = 100 / (delay / intervalTime);
@@ -749,20 +719,20 @@ function initializeHeavyContent(startTime) {
 
 // --- EVENT LISTENERS & INITIALIZATION ---
     window.onload = () => {
-        const startTime = performance.now(); // Start timer immediately on load
-
         // CRITICAL: Apply the scroll lock immediately on load
         body.classList.add('loading-active');
 
         // 1. Synchronous setup of SVG lengths
         setupPathLengthsAndDasharrays();
 
-        // 2. DEFER THE HEAVY WORK
-        const delay = loadPathCacheFromLocalStorage() ? 5 : 50;
-        setTimeout(() => initializeHeavyContent(startTime), delay);
+        // 2. Path cache is already loading (started above); finish setup once it arrives
+        initializeHeavyContent();
     };
 
     window.addEventListener('resize', () => {
+        // Crossing a breakpoint (e.g. rotating a phone) switches to a path whose cache isn't loaded yet
+        const key = deviceKey();
+        if (pathCacheFor(key).length === 0) loadPathCache(key).then(runAnimations);
         if (window.innerWidth <= 1024) {
             positionMobileDashedLine();
         } else {
