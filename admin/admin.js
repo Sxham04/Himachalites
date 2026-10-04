@@ -53,7 +53,12 @@
         const password = $('login-password').value;
         if (!password) return say(msg, 'Enter your password, or use "Email me a sign-in link".', false);
         const { error } = await db.auth.signInWithPassword({ email: $('login-email').value.trim(), password });
-        if (error) say(msg, 'That email and password do not match an account.', false);
+        if (error) {
+            // Show Supabase's reason for anything other than a wrong password (unconfirmed email, bad config, network)
+            say(msg, error.message === 'Invalid login credentials'
+                ? 'That email and password do not match an account.'
+                : `Could not sign in: ${error.message}`, false);
+        }
     });
 
     $('login-link').addEventListener('click', async () => {

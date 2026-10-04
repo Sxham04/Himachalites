@@ -6,6 +6,6 @@
 // While these are empty, the site behaves exactly as before: the blog spot
 // stays hidden and the district text in the HTML is shown unchanged.
 window.HIMACHALITES_SUPABASE = {
-    url: 'https://hueydxkdzxfpxhtbclba.supabase.co/rest/v1/',
+    url: 'https://hueydxkdzxfpxhtbclba.supabase.co',
     anonKey: 'sb_publishable_AMaz4g2nTr0V-RJ_Eg5Wqw_bCwRS-zZ',
 };
