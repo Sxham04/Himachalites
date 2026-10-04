@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow">
     <title>Admin - Himachalites</title>
     <link rel="icon" type="image/webp" href="../img/Frame 9.webp">
@@ -13,164 +13,304 @@
 </head>
 <body>
 
-<!-- Signed out -->
+<!-- Icons: one stroke family, 24px grid -->
+<svg class="sprite" aria-hidden="true">
+    <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 19 9.5 8l4 6.5L16 11l5 8H3z"/></symbol>
+    <symbol id="i-story" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c1.9.8 3 2.7 3 5.5"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 17l5-5-5-5M20 12H9"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></symbol>
+</svg>
+
+<!-- ============ Signed out ============ -->
 <main id="view-login" class="login" hidden>
-    <form id="login-form" class="login-card">
-        <div class="login-logo">
-            <img src="../img/Frame 9.webp" alt="Himachalites logo">
-            <h1>Himachalites admin</h1>
-        </div>
-        <label class="fld" for="login-email">Email
+    <form id="login-form" class="login-card" novalidate>
+        <img class="login-logo" src="../img/Frame 9.webp" alt="Himachalites" width="64" height="64">
+        <h1 class="display">Sign in</h1>
+        <p class="login-sub">Edit district pages and publish stories.</p>
+        <div class="field">
+            <label for="login-email">Email</label>
             <input id="login-email" type="email" autocomplete="username" required>
-        </label>
-        <label class="fld" for="login-password">Password
+        </div>
+        <div class="field">
+            <label for="login-password">Password</label>
             <input id="login-password" type="password" autocomplete="current-password">
-        </label>
-        <button class="btn" type="submit">Sign in</button>
-        <button class="btn ghost" type="button" id="login-link">Email me a sign-in link</button>
-        <p class="msg" id="login-msg" role="status"></p>
-        <p class="hint">Accounts are created by the admin. There is no public sign-up.</p>
+        </div>
+        <p class="form-msg" id="login-msg" role="alert"></p>
+        <button class="btn btn-primary btn-block" type="submit" id="login-submit">Sign in</button>
+        <button class="btn btn-text" type="button" id="login-link">Email me a sign-in link instead</button>
     </form>
+    <p class="login-foot">Accounts are created by the Himachalites admin. There is no public sign-up.</p>
 </main>
 
-<!-- Signed in -->
-<div id="view-app" class="dash" hidden>
-    <nav class="side" aria-label="Admin sections">
-        <div class="who" id="who"></div>
-        <a href="#districts" data-view="districts" data-admin-only>Districts</a>
-        <a href="#posts" data-view="posts">Posts</a>
-        <a href="#authors" data-view="authors" data-admin-only>Authors</a>
-        <a href="../index.html">View site</a>
-        <button type="button" id="sign-out">Sign out</button>
-    </nav>
+<!-- ============ Signed in ============ -->
+<div id="view-app" class="shell" hidden>
+    <aside class="rail">
+        <a class="brand" href="#">
+            <img src="../img/Frame 9.webp" alt="" width="36" height="36">
+            <span><b>Himachalites</b><small>Admin</small></span>
+        </a>
 
-    <main class="main" id="main">
-        <!-- Districts -->
-        <section id="panel-districts" hidden>
-            <div class="main-top">
-                <h2>Districts</h2>
-                <label class="fld inline" for="district-select">District
-                    <select id="district-select"></select>
-                </label>
+        <nav class="rail-nav" aria-label="Admin sections">
+            <a href="#districts" data-view="districts" data-admin-only><svg><use href="#i-mountain"/></svg><span>Districts</span></a>
+            <a href="#posts" data-view="posts"><svg><use href="#i-story"/></svg><span>Stories</span></a>
+            <a href="#authors" data-view="authors" data-admin-only><svg><use href="#i-users"/></svg><span>Authors</span></a>
+        </nav>
+
+        <div class="account">
+            <button class="account-toggle" type="button" id="account-toggle" aria-expanded="false" aria-controls="account-menu">
+                <span class="avatar" id="account-avatar"></span>
+                <span class="account-text"><b id="account-name"></b><small id="account-role"></small></span>
+            </button>
+            <div class="account-menu" id="account-menu">
+                <p class="account-email" id="account-email"></p>
+                <a class="menu-item" href="../index.html" target="_blank" rel="noopener"><svg><use href="#i-external"/></svg>View live site</a>
+                <button class="menu-item" type="button" id="sign-out"><svg><use href="#i-logout"/></svg>Sign out</button>
             </div>
-            <form id="district-form" class="stack">
-                <div class="panel">
-                    <h3>Intro</h3>
-                    <label class="fld" for="district-headline">Headline
-                        <input id="district-headline" type="text" required>
-                    </label>
-                    <label class="fld" for="district-description">Description
-                        <textarea id="district-description" rows="7"></textarea>
-                        <span class="hint">Line breaks are kept on the page.</span>
-                    </label>
+        </div>
+    </aside>
+
+    <main class="work" id="work" tabindex="-1">
+
+        <!-- ---------- Districts ---------- -->
+        <section id="panel-districts" class="panel-view" hidden>
+            <header class="page-head">
+                <div>
+                    <h1 class="display">Districts</h1>
+                    <p class="page-sub">What visitors read on each district page.</p>
                 </div>
-                <div class="panel">
-                    <div class="main-top">
-                        <h3>Himachalites recommends · <span id="spot-count">0</span> spots</h3>
-                        <button class="btn ghost" type="button" id="add-spot">Add a spot</button>
+            </header>
+
+            <div class="districts-layout">
+                <nav class="district-list" id="district-list" aria-label="Choose a district"></nav>
+
+                <form id="district-form" class="district-editor" novalidate>
+                    <div class="editor-head">
+                        <h2 id="district-title"></h2>
+                        <a class="btn btn-quiet" id="district-view" href="#" target="_blank" rel="noopener"><svg><use href="#i-external"/></svg>View live page</a>
                     </div>
-                    <div id="spots"></div>
-                </div>
-                <div class="row">
-                    <button class="btn" type="submit">Save changes</button>
-                    <a class="btn ghost" id="district-view" href="#" target="_blank" rel="noopener">View page</a>
-                    <span class="msg" id="district-msg" role="status"></span>
-                </div>
-            </form>
-        </section>
 
-        <!-- Posts list -->
-        <section id="panel-posts" hidden>
-            <div class="main-top">
-                <h2>Posts</h2>
-                <button class="btn" type="button" id="new-post">New post</button>
-            </div>
-            <div class="panel scroll-x">
-                <table class="posts-table">
-                    <thead><tr><th>Title</th><th>District</th><th>Author</th><th>Status</th><th>Updated</th></tr></thead>
-                    <tbody id="posts-body"></tbody>
-                </table>
-                <p class="hint" id="posts-empty" hidden>No posts yet. Use "New post" to write the first one.</p>
-            </div>
-        </section>
-
-        <!-- Post editor -->
-        <section id="panel-editor" hidden>
-            <div class="main-top">
-                <h2 id="editor-heading">New post</h2>
-                <a class="btn ghost" href="#posts">Back to posts</a>
-            </div>
-            <form id="post-form" class="panel">
-                <div class="row">
-                    <label class="fld grow" for="post-title">Title
-                        <input id="post-title" type="text" required maxlength="140">
-                    </label>
-                    <label class="fld" for="post-district">District
-                        <select id="post-district" required></select>
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="fld grow" for="post-slug">Link text
-                        <input id="post-slug" type="text" required pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Lowercase letters, numbers and hyphens">
-                        <span class="hint">Used in the story's address. Filled in from the title.</span>
-                    </label>
-                    <label class="fld" for="post-tag">Tag
-                        <input id="post-tag" type="text" maxlength="40" placeholder="e.g. Food &amp; farms">
-                    </label>
-                </div>
-                <label class="fld" for="post-excerpt">Short summary
-                    <textarea id="post-excerpt" rows="2" maxlength="280"></textarea>
-                    <span class="hint">Shown under the title on the district page.</span>
-                </label>
-                <div class="fld">Cover image
-                    <div class="row">
-                        <img id="post-cover-preview" class="cover-preview" alt="" hidden>
-                        <label class="btn ghost" for="post-cover">Upload cover image</label>
-                        <input id="post-cover" type="file" accept="image/webp,image/jpeg,image/png" class="visually-hidden">
-                        <button class="btn ghost" type="button" id="post-cover-remove" hidden>Remove</button>
+                    <div class="card">
+                        <h2 class="card-title">Intro</h2>
+                        <div class="field">
+                            <label for="district-headline">Headline</label>
+                            <input id="district-headline" type="text" required maxlength="140">
+                        </div>
+                        <div class="field">
+                            <label for="district-description">Description</label>
+                            <textarea id="district-description" rows="6" data-autosize></textarea>
+                            <p class="help">Line breaks are kept on the page.</p>
+                        </div>
                     </div>
-                    <span class="hint">JPEG, PNG or WebP. Converted to WebP and resized to at most 1600px wide.</span>
-                </div>
-                <div class="editor">
-                    <label class="fld" for="post-body">Story (Markdown)
-                        <textarea id="post-body" rows="16"></textarea>
-                        <span class="hint">## for a subheading, &gt; for a quote, **bold**, [link](https://…)</span>
-                    </label>
-                    <div class="fld">Preview
-                        <div class="preview" id="post-preview"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <button class="btn ghost" type="submit" data-status="draft" id="save-draft">Save draft</button>
-                    <button class="btn" type="submit" data-status="published" id="save-publish">Publish</button>
-                    <button class="btn danger" type="button" id="delete-post" hidden>Delete</button>
-                    <span class="msg" id="post-msg" role="status"></span>
-                </div>
-            </form>
-        </section>
 
-        <!-- Authors -->
-        <section id="panel-authors" hidden>
-            <div class="main-top"><h2>Authors</h2></div>
-            <div class="panel">
-                <p class="hint">To add someone: Supabase dashboard › Authentication › Users › Invite user. They appear here after accepting. Give them the Author role to let them write and publish.</p>
-                <div class="scroll-x">
-                    <table class="posts-table">
-                        <thead><tr><th>Email</th><th>Name shown on posts</th><th>Role</th><th></th></tr></thead>
-                        <tbody id="authors-body"></tbody>
-                    </table>
-                </div>
+                    <div class="card">
+                        <div class="card-title-row">
+                            <h2 class="card-title">Himachalites recommends</h2>
+                            <span class="count" id="spot-count"></span>
+                        </div>
+                        <p class="help">Numbered in the order they appear on the page.</p>
+                        <ol class="spots" id="spots"></ol>
+                        <button class="add-row" type="button" id="add-spot"><svg><use href="#i-plus"/></svg>Add a spot</button>
+                    </div>
+
+                    <div class="save-bar" id="district-bar" hidden>
+                        <span class="save-bar-text" id="district-bar-text">Unsaved changes</span>
+                        <button class="btn btn-secondary" type="button" id="district-discard">Discard</button>
+                        <button class="btn btn-primary" type="submit" id="district-save">Save changes</button>
+                    </div>
+                </form>
             </div>
         </section>
 
-        <p id="no-access" class="panel" hidden>Your account doesn't have access yet. Ask the Himachalites admin to give you the Author role, then sign in again.</p>
+        <!-- ---------- Stories list ---------- -->
+        <section id="panel-posts" class="panel-view" hidden>
+            <header class="page-head">
+                <div>
+                    <h1 class="display">Stories</h1>
+                    <p class="page-sub" id="posts-sub">Blog posts shown under the reels on each district page.</p>
+                </div>
+                <a class="btn btn-primary" href="#new"><svg><use href="#i-plus"/></svg>New story</a>
+            </header>
+
+            <div class="segmented" role="radiogroup" aria-label="Show" id="post-filter">
+                <label><input type="radio" name="post-filter" value="all" checked><span>All <i data-count="all"></i></span></label>
+                <label><input type="radio" name="post-filter" value="published"><span>Published <i data-count="published"></i></span></label>
+                <label><input type="radio" name="post-filter" value="draft"><span>Drafts <i data-count="draft"></i></span></label>
+            </div>
+
+            <ul class="post-list" id="post-list" aria-live="polite"></ul>
+
+            <div class="empty" id="posts-empty" hidden>
+                <svg><use href="#i-pen"/></svg>
+                <h2>No stories yet</h2>
+                <p>Stories appear under the reels on their district's page as soon as they're published.</p>
+                <a class="btn btn-primary" href="#new"><svg><use href="#i-plus"/></svg>Write the first story</a>
+            </div>
+        </section>
+
+        <!-- ---------- Story editor ---------- -->
+        <section id="panel-editor" class="panel-view" hidden>
+            <header class="page-head editor-top">
+                <a class="back-link" href="#posts"><svg><use href="#i-back"/></svg>Stories</a>
+                <div class="editor-title-row">
+                    <h1 class="display" id="editor-heading">New story</h1>
+                    <span class="pill" id="editor-status"></span>
+                </div>
+            </header>
+
+            <div class="tabs" role="tablist" aria-label="Editor view" id="editor-tabs">
+                <button type="button" role="tab" aria-selected="true" data-tab="write"><svg><use href="#i-pen"/></svg>Write</button>
+                <button type="button" role="tab" aria-selected="false" data-tab="preview"><svg><use href="#i-eye"/></svg>Preview</button>
+            </div>
+
+            <div class="story-layout" id="story-layout" data-tab="write">
+                <form id="post-form" class="story-form" novalidate>
+                    <div class="card">
+                        <div class="field">
+                            <label for="post-title">Title</label>
+                            <input id="post-title" class="input-lg" type="text" required maxlength="140" placeholder="e.g. Barog station at dusk">
+                        </div>
+
+                        <fieldset class="field">
+                            <legend>District</legend>
+                            <div class="chips" id="post-district"></div>
+                        </fieldset>
+
+                        <div class="field-row">
+                            <div class="field grow">
+                                <label for="post-slug">Link text</label>
+                                <div class="input-group">
+                                    <span class="input-prefix" aria-hidden="true">…&amp;p=</span>
+                                    <input id="post-slug" type="text" required>
+                                </div>
+                                <p class="help" id="post-slug-help">Part of the story's web address. Filled in from the title.</p>
+                            </div>
+                            <div class="field">
+                                <label for="post-tag">Tag <span class="optional">optional</span></label>
+                                <input id="post-tag" type="text" maxlength="40" placeholder="e.g. Food &amp; farms">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="post-excerpt">Short summary <span class="optional">optional</span></label>
+                                <span class="counter" id="post-excerpt-count">0 / 200</span>
+                            </div>
+                            <textarea id="post-excerpt" rows="2" maxlength="200" data-autosize></textarea>
+                            <p class="help">Shown under the title when this is the featured story.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="card-title">Cover image</h2>
+                        <div class="dropzone" id="cover-drop">
+                            <img id="cover-img" alt="" hidden>
+                            <div class="dropzone-empty" id="cover-empty">
+                                <svg><use href="#i-image"/></svg>
+                                <p><b>Drop an image here</b> or choose a file</p>
+                                <p class="help">JPEG, PNG or WebP. Resized to 1600px wide and saved as WebP.</p>
+                            </div>
+                            <div class="dropzone-progress" id="cover-progress" hidden>Uploading…</div>
+                        </div>
+                        <div class="button-row">
+                            <label class="btn btn-secondary" for="post-cover"><svg><use href="#i-image"/></svg><span id="cover-choose-label">Choose image</span></label>
+                            <input id="post-cover" type="file" accept="image/webp,image/jpeg,image/png" class="visually-hidden">
+                            <button class="btn btn-quiet" type="button" id="cover-remove" hidden>Remove cover</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="label-row">
+                            <label class="card-title" for="post-body">Story</label>
+                            <span class="counter" id="post-words">0 words · 1 min read</span>
+                        </div>
+                        <textarea id="post-body" class="input-story" rows="16" data-autosize placeholder="Write in plain text. Leave an empty line between paragraphs."></textarea>
+                        <p class="help">Formatting: <code>## Subheading</code> · <code>&gt; Quote</code> · <code>**bold**</code> · <code>[link text](https://…)</code></p>
+                    </div>
+
+                    <div class="card danger-zone" id="danger-zone" hidden>
+                        <div>
+                            <h2 class="card-title">Delete this story</h2>
+                            <p class="help">Removes it from the site and from the admin. This can't be undone.</p>
+                        </div>
+                        <button class="btn btn-danger" type="button" id="delete-post"><svg><use href="#i-trash"/></svg>Delete story</button>
+                    </div>
+
+                    <div class="save-bar is-sticky" id="post-bar">
+                        <span class="save-bar-text" id="post-bar-text">Not saved yet</span>
+                        <button class="btn btn-secondary" type="submit" data-status="draft" id="save-draft">Save draft</button>
+                        <button class="btn btn-primary" type="submit" data-status="published" id="save-publish">Publish</button>
+                    </div>
+                </form>
+
+                <aside class="preview" aria-label="Live preview">
+                    <div class="preview-bar">
+                        <div class="segmented small" role="radiogroup" aria-label="Preview page">
+                            <label><input type="radio" name="preview-page" value="district" checked><span>District page</span></label>
+                            <label><input type="radio" name="preview-page" value="story"><span>Story page</span></label>
+                        </div>
+                        <div class="segmented small icon-only" role="radiogroup" aria-label="Preview width">
+                            <label title="Desktop"><input type="radio" name="preview-width" value="1024" checked><span><svg><use href="#i-desktop"/></svg><span class="visually-hidden">Desktop</span></span></label>
+                            <label title="Phone"><input type="radio" name="preview-width" value="390"><span><svg><use href="#i-phone"/></svg><span class="visually-hidden">Phone</span></span></label>
+                        </div>
+                    </div>
+                    <div class="preview-stage" id="preview-stage">
+                        <iframe id="preview-frame" title="Preview of the district page" tabindex="-1"></iframe>
+                    </div>
+                    <p class="preview-note" id="preview-note">How it will look on the live page. Other published stories from this district are shown beside it.</p>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ---------- Authors ---------- -->
+        <section id="panel-authors" class="panel-view" hidden>
+            <header class="page-head">
+                <div>
+                    <h1 class="display">Authors</h1>
+                    <p class="page-sub">Who can sign in, and what they can do.</p>
+                </div>
+            </header>
+
+            <ul class="author-list" id="author-list"></ul>
+
+            <div class="card help-card">
+                <h2 class="card-title">Adding someone</h2>
+                <ol class="steps">
+                    <li>In the Supabase dashboard, open Authentication › Users › Invite user and enter their email.</li>
+                    <li>Once they accept, they appear in this list with no access.</li>
+                    <li>Set their role to Author and save. Authors can write and publish their own stories.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="panel-no-access" class="panel-view" hidden>
+            <div class="empty">
+                <svg><use href="#i-users"/></svg>
+                <h2>Your account doesn't have access yet</h2>
+                <p>Ask the Himachalites admin to give you the Author role, then reload this page.</p>
+            </div>
+        </section>
     </main>
 </div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 <script src="../js/supabase-config.js"></script>
+<script src="../js/content-api.js"></script>
+<script src="admin-lib.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>

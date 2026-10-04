@@ -17,6 +17,24 @@
         "value": "helvetica",
         "createdAt": "2026-10-04T17:38:55.282Z",
         "reason": "Claude: Helvetica is the site's existing body font in dist/s12.css and style4.css; admin matches it"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "tests/unit/content-api.test.js"
+        ],
+        "createdAt": "2026-10-04T18:31:47.913Z",
+        "reason": "Claude: deliberate XSS strings in a unit test, not rendered UI"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "admin/index.html"
+        ],
+        "createdAt": "2026-10-04T18:43:30.935Z",
+        "reason": "user confirmed: asked for the beige/off-white primary palette for the admin"
       }
     ]
   }
