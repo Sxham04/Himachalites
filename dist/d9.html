@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Solan.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Sol.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Not a stop. The district that builds Himachal.</h2>
-        <p>Solan is one of Himachal’s most active districts. It brings together the industrial muscle of Baddi, the student life of Nauni, Waknaghat, and Shoolini, and the quiet discipline of old cantonments like Kasauli, Dagshai, and Sabathu.<br>
+        <h2 data-field="headline">Not a stop. The district that builds Himachal.</h2>
+        <p data-field="description">Solan is one of Himachal’s most active districts. It brings together the industrial muscle of Baddi, the student life of Nauni, Waknaghat, and Shoolini, and the quiet discipline of old cantonments like Kasauli, Dagshai, and Sabathu.<br>
         This district has a strong farming base, with wide fields, vegetables, seasonal crops, mixed farming, and its famous mushrooms and tomatoes. In many areas, you’ll see working farmland that doesn’t look like the usual tourist Himachal. This is Himachal’s productive side: steady, practical, and always moving.</p>
     </div>
 </div>
@@ -104,7 +105,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Karol ka Tibba (Solan side)</strong>: This is Solan’s real hill test. It’s a steady climb through quiet pine and deodar trees, with a view that makes you forget the highway. Go early in the morning. If you’re lucky, you’ll see clouds below you like a blanket.</li>
                     <li><strong>Jatoli Shiv Temple (Solan city) + tea outside</strong>: Don’t just visit the temple. Sit outside for ten minutes. The bells, the wind, and the local crowd moving in their own rhythm give you the real Solan vibe. Grab some tea from the nearby stalls. Simple and perfect.</li>
                     <li><strong>Phantom Hill (Solan ridge)</strong>: Locals don’t oversell this place. It’s a quiet ridge where you can park, take a short walk, and let your mind relax. It’s best at sunset or on foggy mornings. There’s no market noise and no tourist crowds.</li>
@@ -143,6 +144,12 @@ stroke-linecap="round"/>
         </div>
     </div>
     <script async src="//www.instagram.com/embed.js"></script>
+</section>
+
+
+<section class="blog-spot" data-district="solan" hidden>
+    <h2 class="blog-spot-title">From the Solan journal</h2>
+    <div class="blog-spot-body"></div>
 </section>
 
 </main>
@@ -218,5 +225,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

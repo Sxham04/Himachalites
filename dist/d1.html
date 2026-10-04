@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Lahaul.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,8 +93,8 @@ stroke-linecap="round"/>
         <img src="../img/lh.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Two valleys. One tough kind of calm.</h2>
-        <p>Lahaul-Spiti is the highest and most remote region of Himachal, where nature sets the terms of life. Lahaul is greener and faster, with short summers and urgent work rhythms. Potato harvests are crucial, and one early snowfall can ruin an entire year. The Atal Tunnel has brought major changes, better access to hospitals and winter travel, but also crowds, waste, and a loss of the old open-door culture.<br>
+        <h2 data-field="headline">Two valleys. One tough kind of calm.</h2>
+        <p data-field="description">Lahaul-Spiti is the highest and most remote region of Himachal, where nature sets the terms of life. Lahaul is greener and faster, with short summers and urgent work rhythms. Potato harvests are crucial, and one early snowfall can ruin an entire year. The Atal Tunnel has brought major changes, better access to hospitals and winter travel, but also crowds, waste, and a loss of the old open-door culture.<br>
         <br>Spiti is quieter and harsher. Winters are long, and life centers around one warm room, stored food, and careful preparation. Villages come alive indoors with games, stories, and slow time. Water is strictly shared under the Churpon’s rules, and faith remains simple and practical, monasteries in Spiti, devtas in Lahaul, coexisting without rivalry.</p>
     </div>
 </div>
@@ -127,7 +128,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Spiti winter evenings (bukhari + Cholo culture)</strong>: If you visit Spiti in winter, the real experience is indoors. People gather around the bukhari, share endless cups of tea, and play Cholo, a dice game, for hours. This is how villages spend long nights when everything outside is still.</li>
                     <li><strong>Udaipur (Trilokinath Temple)</strong>: This is a rare place where Hindus and Buddhists both come to pray. Take a slow walk, sit quietly for a few minutes, and you’ll understand why locals have so much respect for it.</li>
                     <li><strong>Ladarcha Fair (Kaza side)</strong>: Today, it’s a cultural fair, but people remember it as Spiti’s old trade meeting spot. If you visit during the season, you’ll find wool, local goods, dances, and the strong spirit of the border valley all together.</li>
@@ -153,6 +154,12 @@ stroke-linecap="round"/>
 </blockquote>
 <script async src="//www.instagram.com/embed.js"></script> -->
     </section>
+
+
+<section class="blog-spot" data-district="lahaul-spiti" hidden>
+    <h2 class="blog-spot-title">From the Lahaul &amp; Spiti journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -227,5 +234,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

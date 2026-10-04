@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Una.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Una.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Himachal’s plain district. With hills waiting in the background.</h2>
-        <p>Una stands out from the rest of Himachal, and that’s what makes it special. It has its own charm. Here, the land gets warmer, flatter, and life moves a bit quicker. You’ll find long fields in the Swan valley, busy roads, dhabas, truck routes, factories, and a bazaar that runs on routine <br>
+        <h2 data-field="headline">Himachal’s plain district. With hills waiting in the background.</h2>
+        <p data-field="description">Una stands out from the rest of Himachal, and that’s what makes it special. It has its own charm. Here, the land gets warmer, flatter, and life moves a bit quicker. You’ll find long fields in the Swan valley, busy roads, dhabas, truck routes, factories, and a bazaar that runs on routine <br>
         But Una isn’t just plain. Go towards Bangana and Chintpurni, and you’ll start to feel the hills, slow-paced villages, ridge viewpoints, forest patches, and old shrines that locals truly value. Una is a place where cultures blend easily. The food has a Punjabi touch, but the faith and manners remain Himachali.<br>
         So, Una isn’t a “tourist district.” It’s a real place: hardworking, practical, and closely tied to its temples, deras, and local traditions.</p>
     </div>
@@ -105,7 +106,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Chintpurni Temple (Amb side)</strong>: Yes, it’s famous, but for locals, it’s personal. People come here for life events, not just darshan. If you visit during Navratri, you’ll understand how big this faith really is.</li>
                     <li><strong>Dera Baba Barbhag Singh (Mairi)</strong>: A powerful Sikh dera with a strong belief culture around healing and blessings. During Hola Mohalla, the whole region gathers, devotion, kirtan, and pure crowd energy.</li>
                     <li><strong>Piplu Ridge (Bangana side)</strong>: One of Una’s best viewpoints, open sky, hill wind, and Gobind Sagar views. It’s quiet most days, and that’s what makes it special.</li>
@@ -129,6 +130,12 @@ stroke-linecap="round"/>
     <!-- <section class="image-gallery-container">
         <h2>Our Stories in Motion</h2>  
     </section> -->
+
+
+<section class="blog-spot" data-district="una" hidden>
+    <h2 class="blog-spot-title">From the Una journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -203,5 +210,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

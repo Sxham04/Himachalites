@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Kangra.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Kang.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>So many worlds, quietly together.</h2>
-        <p>Kangra is open and spacious. Life flows between tea gardens, old forts, monasteries, markets, and quiet farming villages. One side of the district faces the plains, while the other looks up at the Dhauladhar mountains. People here juggle farming, small businesses, government jobs, and tourism, which shifts with the seasons. Unlike other districts, Kangra doesn’t feel crowded. Instead, it offers space, variety, and the feeling that many different worlds exist together in peace.</p>
+        <h2 data-field="headline">So many worlds, quietly together.</h2>
+        <p data-field="description">Kangra is open and spacious. Life flows between tea gardens, old forts, monasteries, markets, and quiet farming villages. One side of the district faces the plains, while the other looks up at the Dhauladhar mountains. People here juggle farming, small businesses, government jobs, and tourism, which shifts with the seasons. Unlike other districts, Kangra doesn’t feel crowded. Instead, it offers space, variety, and the feeling that many different worlds exist together in peace.</p>
     </div>
 </div>
 
@@ -103,7 +104,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Masroor Rock-Cut Temples</strong>: These stone temples are carved from a single rock and set away from the main road. Locals visit for peaceful darshan and to relax by the water tank in front.</li>
                     <li><strong>Bathu Ki Ladi</strong>: Most of the year, these old temples are underwater. When the water goes down, they slowly come into view again. Visiting them is a seasonal experience that feels truly local.</li>
                     <li><strong>Neugal & Gunehar side</strong>: These are short walking paths near Palampur and Bir where locals go for evening strolls and small picnics. They are simple spots, not typical tourist attractions.</li>
@@ -130,6 +131,12 @@ stroke-linecap="round"/>
 </blockquote>
 <script async src="//www.instagram.com/embed.js"></script>
     </section>
+
+
+<section class="blog-spot" data-district="kangra" hidden>
+    <h2 class="blog-spot-title">From the Kangra journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -204,5 +211,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

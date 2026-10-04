@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Sirmaur.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/SIr.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Hills that start like plains, and end at Shiva’s doorstep.</h2>
-        <p>Sirmaur marks the southern entrance to Himachal. It begins in the warm plains of Paonta, where both the weather and the pace of life feel Punjabi-Haryanvi. From there, the land gently rises into pine forests, orchards, and areas rich in old mountain traditions.<br>
+        <h2 data-field="headline">Hills that start like plains, and end at Shiva’s doorstep.</h2>
+        <p data-field="description">Sirmaur marks the southern entrance to Himachal. It begins in the warm plains of Paonta, where both the weather and the pace of life feel Punjabi-Haryanvi. From there, the land gently rises into pine forests, orchards, and areas rich in old mountain traditions.<br>
         <br>This district has a very specific vibe: it shifts every 30–40 km. One side runs on factories, highways, and the Yamuna belt. The other side runs on village devtas, seasonal fairs, and long pilgrim walks to peaks like Churdhar.</p>
     </div>
 </div>
@@ -104,7 +105,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Churdhar (Shiva peak walk)</strong>: Not a casual trek. This is a proper old-school Himachali pilgrimage. People still walk for days to reach the top and pay respect at the Shiva temple. Go if you want to see mountain faith in its real form.</li>
                     <li><strong>Renuka Valley (Dadahu–Renuka Ji)</strong>: This is the heart of Sirmaur. There is a sacred lake, a temple beside the water, and a valley filled with fields and a slower pace of life. If you come during the Renuka Fair after Diwali, you will see the whole district gather as if it is a yearly tradition.</li>
                     <li><strong>Rajgarh (Peach Valley belt)</strong>: This area of Sirmaur is famous for its orchards, with peaches, plums, apples, and fresh mornings. It is greener, cooler, and more peaceful than most people expect from the lower parts of Himachal.</li>
@@ -130,6 +131,12 @@ stroke-linecap="round"/>
 </blockquote>
 <script async src="//www.instagram.com/embed.js"></script>
     </section>
+
+
+<section class="blog-spot" data-district="sirmaur" hidden>
+    <h2 class="blog-spot-title">From the Sirmaur journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -204,5 +211,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

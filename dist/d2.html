@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Kinnaur.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Kang.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Life follows the land.</h2>
-        <p>Kinnaur is not a place you rush through. The land changes fast here: orchards, rock, then high cold stretches, and people move with it. Villages sit close to mountains and rivers, and Kinner Kailash is always there, watching over daily life. People work in apple orchards, tend animals, and follow customs that mix Hindu devta worship with Buddhist traditions. Nothing feels forced. The terrain decides the pace, the weather decides the day, and people adjust without complaint. Kinnaur feels quiet, serious, and deeply rooted, because living here has always required attention and respect.</p>
+        <h2 data-field="headline">Life follows the land.</h2>
+        <p data-field="description">Kinnaur is not a place you rush through. The land changes fast here: orchards, rock, then high cold stretches, and people move with it. Villages sit close to mountains and rivers, and Kinner Kailash is always there, watching over daily life. People work in apple orchards, tend animals, and follow customs that mix Hindu devta worship with Buddhist traditions. Nothing feels forced. The terrain decides the pace, the weather decides the day, and people adjust without complaint. Kinnaur feels quiet, serious, and deeply rooted, because living here has always required attention and respect.</p>
     </div>
 </div>
 
@@ -103,7 +104,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Roghi (near Kalpa)</strong>: This is a quiet village with narrow stairways and old wooden doors. Visit early in the morning, when mist still covers the Sutlej valley.</li>
                     <li><strong>Kamru Fort (Sangla side)</strong>: This wooden fort-temple complex sits above the valley. Most people stop at the gate, but you should go inside to truly experience it.</li>
                     <li><strong>Rakcham Meadows</strong>: The riverbank between Sangla and Chitkul is wide and open, filled with wildflowers and birds during summer. It feels calm and unhurried.</li>
@@ -140,6 +141,12 @@ stroke-linecap="round"/>
         </div>
     </div>
     <script async src="//www.instagram.com/embed.js"></script>
+</section>
+
+
+<section class="blog-spot" data-district="kinnaur" hidden>
+    <h2 class="blog-spot-title">From the Kinnaur journal</h2>
+    <div class="blog-spot-body"></div>
 </section>
 
 </main>
@@ -215,5 +222,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

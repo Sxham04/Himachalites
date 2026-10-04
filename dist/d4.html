@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Manali.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Kul.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Devta land, everyday hustle.</h2>
-        <p>Kullu looks like a valley people “visit”, but for locals it’s a place they negotiate with daily: weather, roads, orchards, and devtas. Life here runs on two calendars: the one on your phone, and the one decided by the village deity through the gur (oracle). The Beas keeps the main valley busy from Bhuntar to Manali, but the real Kullu lives a little away from the highway in side valleys where kath-kuni homes still stand, old traditions still matter, and silence is treated like good manners. Tourism is loud, yes, but the valley itself is not.
+        <h2 data-field="headline">Devta land, everyday hustle.</h2>
+        <p data-field="description">Kullu looks like a valley people “visit”, but for locals it’s a place they negotiate with daily: weather, roads, orchards, and devtas. Life here runs on two calendars: the one on your phone, and the one decided by the village deity through the gur (oracle). The Beas keeps the main valley busy from Bhuntar to Manali, but the real Kullu lives a little away from the highway in side valleys where kath-kuni homes still stand, old traditions still matter, and silence is treated like good manners. Tourism is loud, yes, but the valley itself is not.
         </p>
     </div>
 </div>
@@ -104,7 +105,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Lug Valley (Tiun–Peeni side)</strong>: You’ll find rough roads, peaceful villages, and old wooden houses here. This is the real Kullu, slow, traditional, and authentic.</li>
                     <li><strong>Garsa Valley (Bhalan belt)</strong>: It’s a lush, hidden spot that most visitors miss. You’ll see forests, terraced fields, and village life that still feels untouched.</li>
                     <li><strong>Kath-Kuni homes (Banjar/Naggar side)</strong>: These traditional houses are built with layers of wood and stone. When there’s an earthquake, the wood lets the house move a bit instead of breaking like cement buildings do. That’s why many Kath-Kuni homes handle earthquakes better. They’re designed for the mountains, not just for appearance.</li>
@@ -131,6 +132,12 @@ stroke-linecap="round"/>
 </blockquote>
 <script async src="//www.instagram.com/embed.js"></script>
     </section>
+
+
+<section class="blog-spot" data-district="kullu" hidden>
+    <h2 class="blog-spot-title">From the Kullu journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -205,5 +212,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "admin/index.html"
+        ],
+        "createdAt": "2026-10-04T17:34:05.950Z",
+        "reason": "Claude: #post-cover-preview is hidden and its src is set by admin.js after a cover upload"
+      },
+      {
+        "rule": "overused-font",
+        "value": "helvetica",
+        "createdAt": "2026-10-04T17:38:55.282Z",
+        "reason": "Claude: Helvetica is the site's existing body font in dist/s12.css and style4.css; admin matches it"
+      }
+    ]
+  }
+}

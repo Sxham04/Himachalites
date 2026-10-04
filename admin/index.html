@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin - Himachalites</title>
+    <link rel="icon" type="image/webp" href="../img/Frame 9.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- Signed out -->
+<main id="view-login" class="login" hidden>
+    <form id="login-form" class="login-card">
+        <div class="login-logo">
+            <img src="../img/Frame 9.webp" alt="Himachalites logo">
+            <h1>Himachalites admin</h1>
+        </div>
+        <label class="fld" for="login-email">Email
+            <input id="login-email" type="email" autocomplete="username" required>
+        </label>
+        <label class="fld" for="login-password">Password
+            <input id="login-password" type="password" autocomplete="current-password">
+        </label>
+        <button class="btn" type="submit">Sign in</button>
+        <button class="btn ghost" type="button" id="login-link">Email me a sign-in link</button>
+        <p class="msg" id="login-msg" role="status"></p>
+        <p class="hint">Accounts are created by the admin. There is no public sign-up.</p>
+    </form>
+</main>
+
+<!-- Signed in -->
+<div id="view-app" class="dash" hidden>
+    <nav class="side" aria-label="Admin sections">
+        <div class="who" id="who"></div>
+        <a href="#districts" data-view="districts" data-admin-only>Districts</a>
+        <a href="#posts" data-view="posts">Posts</a>
+        <a href="#authors" data-view="authors" data-admin-only>Authors</a>
+        <a href="../index.html">View site</a>
+        <button type="button" id="sign-out">Sign out</button>
+    </nav>
+
+    <main class="main" id="main">
+        <!-- Districts -->
+        <section id="panel-districts" hidden>
+            <div class="main-top">
+                <h2>Districts</h2>
+                <label class="fld inline" for="district-select">District
+                    <select id="district-select"></select>
+                </label>
+            </div>
+            <form id="district-form" class="stack">
+                <div class="panel">
+                    <h3>Intro</h3>
+                    <label class="fld" for="district-headline">Headline
+                        <input id="district-headline" type="text" required>
+                    </label>
+                    <label class="fld" for="district-description">Description
+                        <textarea id="district-description" rows="7"></textarea>
+                        <span class="hint">Line breaks are kept on the page.</span>
+                    </label>
+                </div>
+                <div class="panel">
+                    <div class="main-top">
+                        <h3>Himachalites recommends · <span id="spot-count">0</span> spots</h3>
+                        <button class="btn ghost" type="button" id="add-spot">Add a spot</button>
+                    </div>
+                    <div id="spots"></div>
+                </div>
+                <div class="row">
+                    <button class="btn" type="submit">Save changes</button>
+                    <a class="btn ghost" id="district-view" href="#" target="_blank" rel="noopener">View page</a>
+                    <span class="msg" id="district-msg" role="status"></span>
+                </div>
+            </form>
+        </section>
+
+        <!-- Posts list -->
+        <section id="panel-posts" hidden>
+            <div class="main-top">
+                <h2>Posts</h2>
+                <button class="btn" type="button" id="new-post">New post</button>
+            </div>
+            <div class="panel scroll-x">
+                <table class="posts-table">
+                    <thead><tr><th>Title</th><th>District</th><th>Author</th><th>Status</th><th>Updated</th></tr></thead>
+                    <tbody id="posts-body"></tbody>
+                </table>
+                <p class="hint" id="posts-empty" hidden>No posts yet. Use "New post" to write the first one.</p>
+            </div>
+        </section>
+
+        <!-- Post editor -->
+        <section id="panel-editor" hidden>
+            <div class="main-top">
+                <h2 id="editor-heading">New post</h2>
+                <a class="btn ghost" href="#posts">Back to posts</a>
+            </div>
+            <form id="post-form" class="panel">
+                <div class="row">
+                    <label class="fld grow" for="post-title">Title
+                        <input id="post-title" type="text" required maxlength="140">
+                    </label>
+                    <label class="fld" for="post-district">District
+                        <select id="post-district" required></select>
+                    </label>
+                </div>
+                <div class="row">
+                    <label class="fld grow" for="post-slug">Link text
+                        <input id="post-slug" type="text" required pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Lowercase letters, numbers and hyphens">
+                        <span class="hint">Used in the story's address. Filled in from the title.</span>
+                    </label>
+                    <label class="fld" for="post-tag">Tag
+                        <input id="post-tag" type="text" maxlength="40" placeholder="e.g. Food &amp; farms">
+                    </label>
+                </div>
+                <label class="fld" for="post-excerpt">Short summary
+                    <textarea id="post-excerpt" rows="2" maxlength="280"></textarea>
+                    <span class="hint">Shown under the title on the district page.</span>
+                </label>
+                <div class="fld">Cover image
+                    <div class="row">
+                        <img id="post-cover-preview" class="cover-preview" alt="" hidden>
+                        <label class="btn ghost" for="post-cover">Upload cover image</label>
+                        <input id="post-cover" type="file" accept="image/webp,image/jpeg,image/png" class="visually-hidden">
+                        <button class="btn ghost" type="button" id="post-cover-remove" hidden>Remove</button>
+                    </div>
+                    <span class="hint">JPEG, PNG or WebP. Converted to WebP and resized to at most 1600px wide.</span>
+                </div>
+                <div class="editor">
+                    <label class="fld" for="post-body">Story (Markdown)
+                        <textarea id="post-body" rows="16"></textarea>
+                        <span class="hint">## for a subheading, &gt; for a quote, **bold**, [link](https://…)</span>
+                    </label>
+                    <div class="fld">Preview
+                        <div class="preview" id="post-preview"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn ghost" type="submit" data-status="draft" id="save-draft">Save draft</button>
+                    <button class="btn" type="submit" data-status="published" id="save-publish">Publish</button>
+                    <button class="btn danger" type="button" id="delete-post" hidden>Delete</button>
+                    <span class="msg" id="post-msg" role="status"></span>
+                </div>
+            </form>
+        </section>
+
+        <!-- Authors -->
+        <section id="panel-authors" hidden>
+            <div class="main-top"><h2>Authors</h2></div>
+            <div class="panel">
+                <p class="hint">To add someone: Supabase dashboard › Authentication › Users › Invite user. They appear here after accepting. Give them the Author role to let them write and publish.</p>
+                <div class="scroll-x">
+                    <table class="posts-table">
+                        <thead><tr><th>Email</th><th>Name shown on posts</th><th>Role</th><th></th></tr></thead>
+                        <tbody id="authors-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <p id="no-access" class="panel" hidden>Your account doesn't have access yet. Ask the Himachalites admin to give you the Author role, then sign in again.</p>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

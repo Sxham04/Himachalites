@@ -1,0 +1,312 @@
+/* Blog spot (district pages) and the post page (post.html).
+   Every selector is scoped to .blog-spot or .blog-post so nothing else on the page changes.
+   Look follows s12.css: "Shadows Into Light Two" headings, Helvetica body, #382F30 accent,
+   12px radius like the reel cards. */
+
+/* ---------- Blog spot on district pages ---------- */
+.blog-spot {
+    /* the reels section above ends with margin-bottom: -5vh */
+    margin-top: 12vh;
+    margin-bottom: 4rem;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+.blog-spot-title {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: 3rem;
+    color: #333;
+    text-align: center;
+    margin: 0 0 2.5rem;
+}
+
+.blog-spot-body {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.blog-spot-body.blog-spot-single {
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+}
+
+.blog-spot-feature,
+.blog-spot-list {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+}
+
+.blog-spot-list {
+    gap: 0;
+}
+
+.blog-spot img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    background: #f4f4f4;
+}
+
+.blog-spot-cover img {
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.blog-spot h3,
+.blog-spot h4 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    color: #333;
+    margin: 0;
+    line-height: 1.12;
+}
+
+.blog-spot h3 {
+    font-size: 2.3rem;
+}
+
+.blog-spot h4 {
+    font-size: 1.35rem;
+    margin-bottom: 4px;
+}
+
+.blog-spot h3 a,
+.blog-spot h4 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.blog-spot h3 a:hover,
+.blog-spot h4 a:hover {
+    color: #7d7d7d;
+}
+
+.blog-spot-feature p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #555;
+}
+
+.blog-spot-tag {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #382F30;
+}
+
+.blog-spot-meta {
+    font-size: 0.8rem;
+    color: #7d7d7d;
+}
+
+.blog-spot-link {
+    color: #382F30;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+.blog-spot-item {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.blog-spot-item:first-child {
+    padding-top: 0;
+}
+
+/* The square shows as a neutral tile when a post has no cover, so list rows stay aligned */
+.blog-spot-thumb {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f4f4f4;
+}
+
+.blog-spot-thumb img {
+    height: 100%;
+}
+
+.blog-spot-more {
+    margin-top: 20px;
+}
+
+.blog-spot-button {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #fff;
+    background: #382F30;
+    border-radius: 999px;
+    padding: 11px 26px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.blog-spot-button:hover {
+    background: #4a4a4a;
+}
+
+.blog-spot a:focus-visible {
+    outline: 2px solid #382F30;
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .blog-spot-title {
+        font-size: 2.3rem;
+    }
+
+    .blog-spot-body {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .blog-spot h3 {
+        font-size: 1.9rem;
+    }
+
+    .blog-spot-item {
+        grid-template-columns: 76px minmax(0, 1fr);
+    }
+}
+
+/* ---------- Post page (post.html) ---------- */
+.blog-post {
+    max-width: 720px;
+    margin: 0 auto 4rem;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333;
+    display: grid;
+    gap: 18px;
+}
+
+.blog-post-crumb {
+    font-size: 0.85rem;
+    color: #7d7d7d;
+}
+
+.blog-post-crumb a {
+    color: inherit;
+}
+
+.blog-post h1 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    line-height: 1.08;
+    color: #333;
+    margin: 0;
+}
+
+.blog-post-cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f4f4f4;
+}
+
+.blog-post-body {
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+.blog-post-body > * {
+    margin: 0 0 1.1em;
+}
+
+.blog-post-body h2,
+.blog-post-body h3 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.2;
+}
+
+.blog-post-body h2 {
+    font-size: 2rem;
+}
+
+.blog-post-body h3 {
+    font-size: 1.6rem;
+}
+
+.blog-post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.blog-post-body blockquote {
+    padding: 4px 0 4px 18px;
+    border-left: 3px solid #382F30;
+    font-family: "Kalam", cursive;
+    font-size: 1.3rem;
+    color: #382F30;
+}
+
+.blog-post-body a {
+    color: #382F30;
+}
+
+.blog-post-nav {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.blog-post-nav a {
+    color: #382F30;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+.blog-post-empty {
+    text-align: center;
+    color: #7d7d7d;
+}
+
+/* The all-stories list on post.html reuses the list item look */
+.blog-post .blog-spot-item h4 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin: 0 0 4px;
+}
+
+.blog-post .blog-spot-item h4 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.blog-post .blog-spot-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f4f4f4;
+}

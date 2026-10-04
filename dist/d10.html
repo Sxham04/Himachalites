@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Bilaspur.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Bil.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Seven hills. Steady life.</h2>
-        <p>Bilaspur is a quieter side of Himachal, without the hustle and bustle. Life here revolves around hills, water, temples, fairs, and evening walks by the lake. There aren’t crowds or cafés competing for attention. Instead, you’ll find open spaces, wide skies, and a town that feels like home. Many people come here just passing through, but often end up staying longer than they expected.</p>
+        <h2 data-field="headline">Seven hills. Steady life.</h2>
+        <p data-field="description">Bilaspur is a quieter side of Himachal, without the hustle and bustle. Life here revolves around hills, water, temples, fairs, and evening walks by the lake. There aren’t crowds or cafés competing for attention. Instead, you’ll find open spaces, wide skies, and a town that feels like home. Many people come here just passing through, but often end up staying longer than they expected.</p>
     </div>
 </div>
 
@@ -103,7 +104,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Gobind Sagar Lake</strong>: The lake has still waters, wide horizons, fishing boats, and sunsets that make you slow down. Boating here is peaceful and not rushed.</li>
                     <li><strong>Bandla Hill</strong>: You get open views, can watch paragliders in the sky, and see how Bilaspur quietly stretches out below.</li>
                     <li><strong>Bahadurpur Hill</strong>: The highest point of the district, known for deodar forests, cool air, fort ruins and wide views. It’s a place locals respect, and one that feels best when visitors do the same, and it's not meant for careless crowds.</li>
@@ -147,6 +148,12 @@ stroke-linecap="round"/>
 </section>
 
 
+
+
+<section class="blog-spot" data-district="bilaspur" hidden>
+    <h2 class="blog-spot-title">From the Bilaspur journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -221,5 +228,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

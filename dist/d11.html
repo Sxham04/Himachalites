@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Hamirpur.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/Hamir.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Work, study, return.</h2>
-        <p>Hamirpur might look small on the map, but life here is always busy. People move between work, classes, and home all day. The roads link nearly every village, so nowhere feels out of reach. Mornings are full of people heading to offices and coaching centers. By evening, it’s time for chai: friends meet up, students gather at cafés, and you see familiar faces everywhere.<br>
+        <h2 data-field="headline">Work, study, return.</h2>
+        <p data-field="description">Hamirpur might look small on the map, but life here is always busy. People move between work, classes, and home all day. The roads link nearly every village, so nowhere feels out of reach. Mornings are full of people heading to offices and coaching centers. By evening, it’s time for chai: friends meet up, students gather at cafés, and you see familiar faces everywhere.<br>
         Education is a big part of life here. Coaching centers, colleges, and NIT keep Hamirpur lively and full of young people. Village life is always close by, too. Many locals have army or government backgrounds, and even after retirement, they stay active. They work in their fields, catch up with friends at favorite spots, or join the many seven-day Bhagwat kathas held throughout the year. In Hamirpur, it’s common to spend one day at the office and the next in the fields, just because you feel like it.
     </p>
     </div>
@@ -105,7 +106,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Sujanpur Chaugan (sunrise)</strong>: Take an early walk and watch kite flyers as the mist rises from the Beas. It’s peaceful before the town wakes up.</li>
                     <li><strong>Narbadeshwar Temple Murals (Sujanpur)</strong>: The old wall paintings here are rich in detail. If you go with a local, you’ll spot things you might otherwise miss.</li>
                     <li><strong>Nadaun River Ghats</strong>: Enjoy evening tea while anglers wait patiently and the Beas flows wide and calm.</li>
@@ -129,6 +130,12 @@ stroke-linecap="round"/>
     <!-- <section class="image-gallery-container">
         <h2>Our Stories in Motion</h2>
     </section> -->
+
+
+<section class="blog-spot" data-district="hamirpur" hidden>
+    <h2 class="blog-spot-title">From the Hamirpur journal</h2>
+    <div class="blog-spot-body"></div>
+</section>
 
 </main>
 
@@ -203,5 +210,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>

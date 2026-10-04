@@ -12,6 +12,7 @@
     <meta property="og:image" content="img/Chamba.webp">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="s12.css">
+    <link rel="stylesheet" href="blog-spot.css">
     <link rel="icon" type="image/png" href="../img/Frame 9.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,8 +70,8 @@ stroke-linecap="round"/>
         <img src="../img/cha.webp" alt="Scenic Solan" class="side-image">
     </div>
     <div class="right-side">
-        <h2>Old ways, held close.</h2>
-        <p>Chamba reminds you of Himachal before things sped up. Life here still moves with the seasons, local songs, and the land. People farm on terraces, walk long distances without fuss, and gather at temples and fairs that have mattered for generations. In winter, roads close; during the monsoon, rains cut off valleys. This distance has helped Chamba stay true to itself. It’s quieter, slower, and follows its own steady rhythm.</p>
+        <h2 data-field="headline">Old ways, held close.</h2>
+        <p data-field="description">Chamba reminds you of Himachal before things sped up. Life here still moves with the seasons, local songs, and the land. People farm on terraces, walk long distances without fuss, and gather at temples and fairs that have mattered for generations. In winter, roads close; during the monsoon, rains cut off valleys. This distance has helped Chamba stay true to itself. It’s quieter, slower, and follows its own steady rhythm.</p>
     </div>
 </div>
 
@@ -103,7 +104,7 @@ stroke-linecap="round"/>
             </div>
             <div class="split-col text-col">
                 <h2>Our Hidden Favourites (Himachalites Recommends)</h2>
-                <ul>
+                <ul data-field="recommended">
                     <li><strong>Saho Hanuman Temple</strong>: This village temple, with its narrow lanes, ringing bells, and daily prayers, gives you a real sense of local life.</li>
                     <li><strong>Chhatrari Devi Temple</strong>: This old hill shrine sits among cedar trees and springs. Quiet, powerful, and still deeply respected.</li>
                     <li><strong>Bhalei Mata Temple</strong>: You reach it by walking through forest paths, and it gets especially busy during Navratri. The views of Dalhousie from here are breathtaking.</li>
@@ -137,6 +138,12 @@ stroke-linecap="round"/>
 
     </div>
     <script async src="//www.instagram.com/embed.js"></script>
+</section>
+
+
+<section class="blog-spot" data-district="chamba" hidden>
+    <h2 class="blog-spot-title">From the Chamba journal</h2>
+    <div class="blog-spot-body"></div>
 </section>
 
 </main>
@@ -212,5 +219,8 @@ stroke-linecap="round"/>
     </div>
 
     <script src="../js/common.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/content-api.js"></script>
+    <script src="../js/district-content.js"></script>
 </body>
 </html>
