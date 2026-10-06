@@ -1,4 +1,4 @@
-// Shared by about.html, contact.html and the district pages (dist/d*.html).
+// Shared by about.html, contact.html and the district pages (dist/<District>.html).
 // index.html has its own navbar/menu logic and does not load this file.
 history.scrollRestoration = 'manual';
 

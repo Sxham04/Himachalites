@@ -35,11 +35,11 @@ test('formatDate uses Indian time, so late-evening UTC posts get the next day', 
     assert.equal(site.formatDate('2026-07-09T20:00:00Z'), '10 Jul 2026');
 });
 
-test('districtPage maps slugs to d1..d12 in page order', () => {
-    assert.equal(site.districtPage('lahaul-spiti'), 'd1.html');
-    assert.equal(site.districtPage('solan'), 'd9.html');
-    assert.equal(site.districtPage('una'), 'd12.html');
-    assert.equal(site.districtPage('nowhere'), '../index.html');
+test('districtPage maps slugs to the clean page names', () => {
+    assert.equal(site.districtPage('lahaul-spiti'), 'Lahaul-Spiti');
+    assert.equal(site.districtPage('solan'), 'Solan');
+    assert.equal(site.districtPage('una'), 'Una');
+    assert.equal(site.districtPage('nowhere'), '../');
     assert.equal(site.DISTRICTS.length, 12);
 });
 
@@ -47,10 +47,10 @@ test('blogSpotHtml features the first post and lists the rest', () => {
     const html = site.blogSpotHtml('solan', [post(), post({ slug: 'second', title: 'Second' })]);
     assert.match(html, /class="blog-spot-feature"/);
     assert.match(html, /Featured · Rail/);
-    assert.match(html, /<h3><a href="post\.html\?d=solan&p=barog-station-at-dusk">Barog station at dusk<\/a><\/h3>/);
+    assert.match(html, /<h3><a href="post\?d=solan&p=barog-station-at-dusk">Barog station at dusk<\/a><\/h3>/);
     assert.match(html, /class="blog-spot-list"/);
     assert.match(html, /9 Jul 2026 · 2 min read/);
-    assert.match(html, /href="post\.html\?d=solan">All stories/);
+    assert.match(html, /href="post\?d=solan">All stories/);
 });
 
 test('blogSpotHtml with one post has no list column, and with none returns nothing', () => {
@@ -76,6 +76,6 @@ test('storyHtml shows author, meta, cover, the given body and the next story lin
     assert.match(html, /<h1>Barog station at dusk<\/h1>/);
     assert.match(html, /By Himachalites team · 9 Jul 2026 · 2 min read/);
     assert.match(html, /<div class="blog-post-body"><p>Body<\/p><\/div>/);
-    assert.match(html, /href="d9\.html">Back to Solan/);
+    assert.match(html, /href="Solan">Back to Solan/);
     assert.match(html, /Next story: Next one/);
 });

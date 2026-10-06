@@ -157,7 +157,7 @@ test.describe('districts', () => {
         await expect(page.locator('#district-bar')).toBeHidden();
         await expect(page.locator('#district-list button[data-slug="solan"] small')).toHaveText('8');
 
-        await page.goto('/dist/d9.html');
+        await page.goto('/dist/Solan');
         await expect(page.locator('[data-field="headline"]')).toHaveText('Solan, rewritten by the admin');
         const items = page.locator('[data-field="recommended"] li');
         await expect(items).toHaveCount(8);
@@ -242,7 +242,7 @@ test.describe('stories', () => {
         await expect(page.locator('#editor-status')).toHaveText('Draft');
         await expect(page).toHaveURL(/#edit\//);
 
-        await page.goto('/dist/d9.html');
+        await page.goto('/dist/Solan');
         await expect(page.locator('.blog-spot-feature h3')).toHaveText('Barog station at dusk');
 
         await page.goBack();
@@ -252,7 +252,7 @@ test.describe('stories', () => {
         await expect(page.locator('#editor-status')).toHaveText('Published');
         await expect(page.getByRole('button', { name: 'Unpublish' })).toBeVisible();
 
-        await page.goto('/dist/d9.html');
+        await page.goto('/dist/Solan');
         await expect(page.locator('.blog-spot')).toBeVisible();
         await expect(page.locator('.blog-spot-feature h3')).toHaveText('Dagshai before the town wakes up');
         await page.locator('.blog-spot-feature h3 a').click();
@@ -374,16 +374,44 @@ test.describe('layout', () => {
 // ---------------------------------------------------------------------------
 test.describe('public pages', () => {
     test('the district page shows the blog spot with published stories only', async ({ page }) => {
-        await page.goto('/dist/d9.html');
+        await page.goto('/dist/Solan');
         await expect(page.locator('.blog-spot')).toBeVisible();
         await expect(page.locator('.blog-spot-feature h3')).toHaveText('Barog station at dusk');
-        await page.goto('/dist/d6.html');
+        await page.goto('/dist/Kangra');
         await expect(page.locator('.blog-spot')).toBeHidden(); // Kangra only has a draft
         await expectNoSidewaysScroll(page);
     });
 
+    test('district pages have clean addresses like /dist/Solan', async ({ page }) => {
+        await page.goto('/index.html');
+        const href = await page.locator('a.info-button[href="dist/Solan"]').getAttribute('href');
+        expect(href).toBe('dist/Solan');
+        await page.goto('/dist/Solan');
+        await expect(page).toHaveTitle('Solan - Himachalites');
+        await expect(page.locator('.blog-spot-feature h3')).toHaveText('Barog station at dusk');
+        await page.locator('.blog-spot-feature h3 a').click();
+        await expect(page).toHaveURL(/\/dist\/post\?d=solan&p=barog-station-at-dusk$/);
+        await page.locator('.blog-post-nav a', { hasText: 'Back to Solan' }).click();
+        await expect(page).toHaveURL(/\/dist\/Solan$/);
+    });
+
+    test('old district addresses redirect to the new ones', async ({ page }) => {
+        await page.goto('/dist/d9.html');
+        await expect(page).toHaveURL(/\/dist\/Solan$/);
+        await page.goto('/dist/d1.html');
+        await expect(page).toHaveURL(/\/dist\/Lahaul-Spiti$/);
+    });
+
+    test('about and contact links have no .html', async ({ page }) => {
+        await page.goto('/dist/Kangra');
+        const links = await page.locator('a[href]').evaluateAll(as => as.map(a => a.getAttribute('href')));
+        expect(links.filter(h => /\.html(\?|#|$)/.test(h) && !h.startsWith('http'))).toEqual([]);
+        await page.goto('/about');
+        await expect(page).toHaveTitle(/About/);
+    });
+
     test('a draft cannot be opened on the public story page', async ({ page }) => {
-        await page.goto('/dist/post.html?d=kangra&p=guest-draft');
+        await page.goto('/dist/post?d=kangra&p=guest-draft');
         await expect(page.locator('.blog-post-empty')).toContainText('not available');
     });
 });

@@ -240,7 +240,9 @@ const server = http.createServer(async (req, res) => {
     }
 
     // Static files
-    const file = path.join(ROOT, decodeURIComponent(url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname));
+    // Like GitHub Pages: /dir/ serves dir/index.html and /name serves name.html
+    let file = path.join(ROOT, decodeURIComponent(url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname));
+    if (!path.extname(file) && fs.existsSync(`${file}.html`)) file = `${file}.html`;
     if (!file.startsWith(ROOT)) return send(res, 403, 'forbidden', 'text/plain');
     fs.readFile(file, (error, data) => {
         if (error) return send(res, 404, 'not found', 'text/plain');

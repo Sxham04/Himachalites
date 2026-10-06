@@ -1,13 +1,15 @@
-// Shared by the district pages, post.html and the admin preview:
+// Shared by the district pages, the story page (dist/post.html) and the admin preview:
 // - read-only access to the Supabase REST API (plain fetch; visitors only ever read)
 // - the HTML for the blog spot and the story page, so the admin preview matches the live site exactly
 // Also loadable from Node (module.exports) for the unit tests.
 (function (root) {
     const config = root.HIMACHALITES_SUPABASE || {};
 
-    // District slug -> page, in the same order as dist/d1.html ... d12.html
+    // District slugs in page order; each page is dist/<PageName>.html, served as dist/<PageName>
     const DISTRICTS = ['lahaul-spiti', 'kinnaur', 'chamba', 'kullu', 'shimla', 'kangra',
         'sirmaur', 'mandi', 'solan', 'bilaspur', 'hamirpur', 'una'];
+    const PAGES = ['Lahaul-Spiti', 'Kinnaur', 'Chamba', 'Kullu', 'Shimla', 'Kangra',
+        'Sirmaur', 'Mandi', 'Solan', 'Bilaspur', 'Hamirpur', 'Una'];
 
     async function get(path) {
         // apikey alone works for both key types (legacy anon JWT and the newer sb_publishable_ keys);
@@ -35,11 +37,11 @@
     }
 
     function districtPage(slug) {
-        return DISTRICTS.includes(slug) ? `d${DISTRICTS.indexOf(slug) + 1}.html` : '../index.html';
+        return DISTRICTS.includes(slug) ? PAGES[DISTRICTS.indexOf(slug)] : '../';
     }
 
     function postUrl(slug, post) {
-        return `post.html?d=${encodeURIComponent(slug)}&p=${encodeURIComponent(post.slug)}`;
+        return `post?d=${encodeURIComponent(slug)}&p=${encodeURIComponent(post.slug)}`;
     }
 
     function postMeta(post) {
@@ -71,7 +73,7 @@
                             <span class="blog-spot-meta">${postMeta(post)}</span>
                         </div>
                     </article>`).join('')}
-                <div class="blog-spot-more"><a class="blog-spot-button" href="post.html?d=${encodeURIComponent(slug)}">All stories</a></div>
+                <div class="blog-spot-more"><a class="blog-spot-button" href="post?d=${encodeURIComponent(slug)}">All stories</a></div>
             </div>` : ''}`;
     }
 
@@ -80,7 +82,7 @@
         const esc = escapeHtml;
         const page = districtPage(slug);
         return `
-            <div class="blog-post-crumb"><a href="${page}">${esc(districtName)}</a> › <a href="post.html?d=${encodeURIComponent(slug)}">Stories</a></div>
+            <div class="blog-post-crumb"><a href="${page}">${esc(districtName)}</a> › <a href="post?d=${encodeURIComponent(slug)}">Stories</a></div>
             ${post.tag ? `<span class="blog-spot-tag">${esc(post.tag)}</span>` : ''}
             <h1>${esc(post.title)}</h1>
             <span class="blog-spot-meta">${post.author_name ? `By ${esc(post.author_name)} · ` : ''}${postMeta(post)}</span>
