@@ -1,0 +1,181 @@
+/* Shared by every page: header bar, navbar, footer and its parallax layers, icons.
+   Loaded first; each page's own stylesheet comes after it. */
+
+/* Unavailable nav/footer link: muted text + "Soon" badge */
+li.link-disabled a,
+li.link-disabled a:hover {
+    color: #9a9a9a;
+    cursor: not-allowed;
+}
+
+li.link-disabled a::after {
+    content: 'Soon';
+    margin-left: 6px;
+    padding: 2px 6px;
+    font-size: 0.6em;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: super;
+    border-radius: 999px;
+    background: #382F30;
+    color: #fff;
+}
+
+.top-bar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #4a4a4a;
+    left: 10%;
+    right: 10%;
+}
+
+.top-bar p {
+    margin: 0;
+    color: black;
+    font-size: 1.2em;
+}
+
+.social-links {
+    display: flex;
+    gap: 20px;
+}
+
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #ccc;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    flex-grow: 1;
+}
+
+.logo img {
+    height: 130px;
+    padding: 0 10px;
+    padding-top: 10px;
+}
+
+.nav-left {
+    justify-content: space-evenly;
+}
+
+.nav-right {
+    justify-content: space-evenly;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: 150;
+    font-size: 1.1em;
+    padding: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    transition: color 0.3s ease-out;
+}
+
+.main-nav a:hover {
+    color: #7d7d7d;
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.footer-column h4.is-active::after {
+    background-size: 100% 100%;
+}
+
+.footer-column a:hover {
+    color: #6f6f6f;
+}
+
+/* Footer parallax: layer containers and their stacking order */
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.layer-1 { z-index: 1; }
+
+.layer-2 { z-index: 2; }
+
+.layer-3 { z-index: 3; }
+
+.layer-4 { z-index: 4; }
+
+.layer-5 { z-index: 5; }
+
+.layer-4 .figure-left { left: 0; }
+
+.layer-4 .figure-right { right: 0; }
+
+@media (min-width:1025px) {
+    .navbar.navbar--anchored .nav-left {
+        justify-content: flex-end;
+    }
+
+    .navbar.navbar--anchored .nav-right {
+        justify-content: flex-start;
+    }
+
+}
+
+@keyframes dropDownItem {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width:768px) {
+    .footer-column {
+        text-align: left;
+        width: 100%;
+    }
+
+    .footer-column h4 {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+}
+
+/* Inline SVG icons (replace Font Awesome): sized by font-size like the old font icons */
+.icon {
+    display: inline-block;
+    fill: currentColor;
+    vertical-align: -0.125em;
+}
+
+/* Menu button shows bars when closed, a cross when open (aria-expanded is set by the menu JS) */
+.icon-close,
+[aria-expanded="true"] > .icon-bars {
+    display: none;
+}
+
+[aria-expanded="true"] > .icon-close {
+    display: inline-block;
+}

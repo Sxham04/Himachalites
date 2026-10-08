@@ -486,12 +486,6 @@ body.noscroll {
     }
 }
 
-.footer-column h4 {
-    font-size: 1.2rem;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    position: relative;
-}
 
 .footer-column a .icon {
     margin-left: 8px;
@@ -543,15 +537,6 @@ body.noscroll {
         display: none;
     }
 
-    .footer-column {
-        text-align: left;
-        width: 100%;
-    }
-
-    .footer-column h4 {
-        font-size: 0.9rem;
-        margin-bottom: 15px;
-    }
 
     .footer-column h4::after {
         left: 0;
@@ -572,9 +557,6 @@ body.noscroll {
 /*
   2. THE UNDERLINE'S ACTIVE STATE (Triggered by JavaScript)
 */
-.footer-column h4.is-active::after {
-    background-size: 100% 100%;
-}
 
 .footer-column ul {
     list-style: none;
@@ -596,9 +578,6 @@ body.noscroll {
     transition: color 0.3s;
 }
 
-.footer-column a:hover {
-    color: #6f6f6f;
-}
 
 /* --- Background Image Layer Containers --- */
 .parallax-backgrounds {
@@ -609,25 +588,11 @@ body.noscroll {
     height: 100%;
 }
 
-.parallax-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .parallax-layer img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
-
-/* --- Z-index Stacking Order --- */
-.layer-1 { z-index: 1; }
-.layer-2 { z-index: 2; }
-.layer-3 { z-index: 3; }
-.layer-4 { z-index: 4; }
-.layer-5 { z-index: 5; }
 
 
 /* --- Definitive Control Panel for Image Layers --- */
@@ -668,12 +633,6 @@ body.noscroll {
     object-fit: contain;
 }
 
-.layer-4 .figure-left {
-    left: 0;
-}
-.layer-4 .figure-right {
-    right: 0;
-}
 
 .layer-5 img {
     position: absolute;
@@ -742,26 +701,6 @@ header {
     z-index: 1;
 }
 
-/* Unavailable nav/footer link: muted text + "Soon" badge */
-li.link-disabled a,
-li.link-disabled a:hover {
-    color: #9a9a9a;
-    cursor: not-allowed;
-}
-
-li.link-disabled a::after {
-    content: 'Soon';
-    margin-left: 6px;
-    padding: 2px 6px;
-    font-size: 0.6em;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    vertical-align: super;
-    border-radius: 999px;
-    background: #382F30;
-    color: #fff;
-}
 
 .top-bar {
     display: flex;
@@ -773,51 +712,6 @@ li.link-disabled a::after {
     font-size: 0.9em;
 }
 
-.top-bar::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    background-color: #4a4a4a;
-    left: 10%;
-    right: 10%;
-}
-
-.top-bar p {
-    margin: 0;
-    color: black;
-    font-size: 1.2em;
-}
-
-.social-links {
-    display: flex;
-    gap: 20px;
-}
-
-.social-links a {
-    color: #333;
-    text-decoration: none;
-    font-size: 1.2em;
-    transition: color 0.3s ease;
-}
-
-.social-links a:hover {
-    color: #ccc;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5%;
-    flex-grow: 1;
-}
-
-.logo img {
-    height: 130px;
-    padding: 0 10px;
-    padding-top: 10px;
-}
 
 .navbar .logo img {
     cursor: pointer;
@@ -832,27 +726,6 @@ li.link-disabled a::after {
     align-items: center;
 }
 
-.nav-left {
-    justify-content: space-evenly;
-}
-
-.nav-right {
-    justify-content: space-evenly;
-}
-
-.main-nav a {
-    text-decoration: none;
-    color: black;
-    font-weight: 150;
-    font-size: 1.1em;
-    padding: 20px;
-    font-family: Helvetica, Arial, sans-serif;
-    transition: color 0.3s ease-out;
-}
-
-.main-nav a:hover {
-    color: #7d7d7d;
-}
 
 .main-nav a.active {
     color: #7d7d7d;
@@ -1290,9 +1163,6 @@ li.link-disabled a::after {
 
 .info-button:hover::before {
     transform: translateX(0);
-}
-
-@media (min-width: 1025px) {
 }
 
 /* 4. UI Elements */
@@ -1819,16 +1689,6 @@ li.link-disabled a::after {
 }
 
 /* 6. Animations */
-@keyframes dropDownItem {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 @keyframes pull-down-bounce {
     0% {
@@ -1906,13 +1766,6 @@ li.link-disabled a::after {
         flex: 1;
     }
 
-    .navbar.navbar--anchored .nav-left {
-        justify-content: flex-end;
-    }
-
-    .navbar.navbar--anchored .nav-right {
-        justify-content: flex-start;
-    }
 
     .navbar.navbar--anchored .logo img {
         height: 8vh;
@@ -1923,20 +1776,4 @@ li.link-disabled a::after {
         padding: 2rem;
         font-size: 1em;
     }
-}
-/* Inline SVG icons (replace Font Awesome): sized by font-size like the old font icons */
-.icon {
-    display: inline-block;
-    fill: currentColor;
-    vertical-align: -0.125em;
-}
-
-/* Menu button shows bars when closed, a cross when open (aria-expanded is set by the menu JS) */
-.icon-close,
-[aria-expanded="true"] > .icon-bars {
-    display: none;
-}
-
-[aria-expanded="true"] > .icon-close {
-    display: inline-block;
 }
