@@ -16,7 +16,7 @@
         "rule": "overused-font",
         "value": "helvetica",
         "createdAt": "2026-10-04T17:38:55.282Z",
-        "reason": "Claude: Helvetica is the site's existing body font in dist/s12.css and style4.css; admin matches it"
+        "reason": "Claude: Helvetica is the site's existing body font in css/district.css and css/home.css; admin matches it"
       },
       {
         "rule": "broken-image",

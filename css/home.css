@@ -1,3 +1,5 @@
+/* Home page (index.html) only. Loaded after base.css. */
+
 /* 1. Core Layout & Fonts */
 html.lenis, html.lenis body {
     height: auto;
@@ -682,7 +684,7 @@ body.noscroll {
     width: 100%;
     height: 75%;
     z-index: -1;
-    background-image: url('img/header.webp');
+    background-image: url('../img/header.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -1107,19 +1109,19 @@ header {
     background-position: 25% 50%;
 }
 
-.header-1 { background-image: url('img/lh bg.webp'); }
-.header-2 { background-image: url('img/Kin bg.webp'); }
-.header-3 { background-image: url('img/cha bg.webp'); }
-.header-4 { background-image: url('img/Kul bg.webp'); }
-.header-5 { background-image: url('img/Shm bg.webp'); }
-.header-6 { background-image: url('img/Kang bg.webp'); }
-.header-7 { background-image: url('img/Sir bg.webp'); }
-.header-8 { background-image: url('img/Man bg.webp'); }
-.header-9 { background-image: url('img/Sol bg.webp'); }
-.header-10 { background-image: url('img/Bil bg.webp'); }
-.header-11 { background-image: url('img/Hamir bg.webp'); }
+.header-1 { background-image: url('../img/lh bg.webp'); }
+.header-2 { background-image: url('../img/Kin bg.webp'); }
+.header-3 { background-image: url('../img/cha bg.webp'); }
+.header-4 { background-image: url('../img/Kul bg.webp'); }
+.header-5 { background-image: url('../img/Shm bg.webp'); }
+.header-6 { background-image: url('../img/Kang bg.webp'); }
+.header-7 { background-image: url('../img/Sir bg.webp'); }
+.header-8 { background-image: url('../img/Man bg.webp'); }
+.header-9 { background-image: url('../img/Sol bg.webp'); }
+.header-10 { background-image: url('../img/Bil bg.webp'); }
+.header-11 { background-image: url('../img/Hamir bg.webp'); }
 .header-12 {
-    background-image: url('img/Una bg.webp');
+    background-image: url('../img/Una bg.webp');
     padding: 6rem 20rem 1rem 1.5rem;
 }
 

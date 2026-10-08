@@ -1,3 +1,6 @@
+/* District pages (dist/<District>.html) and the story page (dist/post.html).
+   Loaded after base.css and subpage.css; blog.css comes after it. */
+
 /* ==============================================
 CORE LAYOUT & GLOBAL STYLES (Applies to all devices)
 ============================================== */

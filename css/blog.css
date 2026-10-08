@@ -1,6 +1,6 @@
 /* Blog spot (district pages) and the post page (post.html).
    Every selector is scoped to .blog-spot or .blog-post so nothing else on the page changes.
-   Look follows s12.css: "Shadows Into Light Two" headings, Helvetica body, #382F30 accent,
+   Look follows district.css: "Shadows Into Light Two" headings, Helvetica body, #382F30 accent,
    12px radius like the reel cards. */
 
 /* ---------- Blog spot on district pages ---------- */

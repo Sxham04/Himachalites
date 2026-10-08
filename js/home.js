@@ -786,7 +786,7 @@ async function initializeHeavyContent() {
     }, { passive: true });
 
     // Passive: a non-passive touchmove on window makes iOS wait for the main thread before every scroll step.
-    // The native rubber-band this used to preventDefault is now off via overscroll-behavior-y in style4.css.
+    // The native rubber-band this used to preventDefault is now off via overscroll-behavior-y in css/home.css.
     window.addEventListener('touchmove', handleOverscroll, { passive: true });
     window.addEventListener('keydown', preventKeyboardJump, { passive: false });
     history.scrollRestoration = 'manual';

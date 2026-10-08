@@ -760,7 +760,7 @@
             <base href="${base}">
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Shadows+Into+Light+Two&display=swap">
             <link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="../css/subpage.css">
-            <link rel="stylesheet" href="s12.css"><link rel="stylesheet" href="blog-spot.css">
+            <link rel="stylesheet" href="../css/district.css"><link rel="stylesheet" href="../css/blog.css">
             <style>html,body{background:#fff;min-height:0} a{pointer-events:none} main.main-content{padding-top:2.5rem} .blog-spot{margin-top:0}</style>
             </head><body><main class="main-content">${body}</main></body></html>`;
     }
