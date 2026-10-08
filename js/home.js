@@ -1,24 +1,9 @@
-// Home page (index.html) behaviour: footer hover, footer parallax, navbar anchoring,
-// Lenis smooth scroll on desktop, and the dashed line / bus / altitude animations.
-// Loaded at the end of <body>, so the DOM above it already exists.
-document.addEventListener('DOMContentLoaded', () => {
-    const footerColumns = document.querySelectorAll('.footer-column');
-
-    footerColumns.forEach(column => {
-        const heading = column.querySelector('h4');
-        const list = column.querySelector('ul');
-
-        if (heading && list) {
-            list.addEventListener('mouseenter', () => {
-                heading.classList.add('is-active');
-            });
-
-            list.addEventListener('mouseleave', () => {
-                heading.classList.remove('is-active');
-            });
-        }
-    });
-});
+// Home page (index.html) only. Loaded at the end of <body> after js/common.js, which already
+// handles the phone menu, footer heading hover and scroll restoration. In file order:
+// sections (search for "=====") are:
+//   footer parallax / navbar / Lenis smooth scroll / setup and bus path cache (js/path-cache/) /
+//   core logic / initialisation / event listeners
+// ===== Footer parallax (GSAP, desktop only) =====
 document.addEventListener("DOMContentLoaded", () => {
     // Ensure GSAP and ScrollTrigger are loaded
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
@@ -80,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     });
 });
+// ===== Navbar: logo click reloads, navbar anchors past the landing image =====
 document.addEventListener('DOMContentLoaded', () => {
     const logoImage = document.querySelector('.navbar .logo img');
     if (logoImage) {
@@ -122,513 +108,464 @@ document.addEventListener("DOMContentLoaded", () => {
 
     observer.observe(landingPageContainer);
 });
-    // 1. DEFINE VARIABLES IN GLOBAL SCOPE
-    let lenis = null;
+// ===== Lenis smooth scroll (desktop) and the Explore / scroll buttons =====
+// 1. DEFINE VARIABLES IN GLOBAL SCOPE
+let lenis = null;
 
-    // 2. ONLY LOAD/RUN IF ON DESKTOP
-    // This prevents the script from even "thinking" on mobile
-    // typeof guard: one file now, so a failed Lenis CDN load must not stop the rest of it
-    if (window.innerWidth > 1024 && typeof Lenis !== "undefined") {
-        
-        // Initialize Lenis
-        lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            wheelMultiplier: 0.4,
-            infinite: false,
-        });
+// 2. ONLY LOAD/RUN IF ON DESKTOP
+// This prevents the script from even "thinking" on mobile
+// typeof guard: one file now, so a failed Lenis CDN load must not stop the rest of it
+if (window.innerWidth > 1024 && typeof Lenis !== "undefined") {
+    
+    // Initialize Lenis
+    lenis = new Lenis({
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.4,
+        infinite: false,
+    });
 
-        // The animation loop only runs on Desktop
-        function raf(time) {
-            if (lenis) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
+    // The animation loop only runs on Desktop
+    function raf(time) {
+        if (lenis) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
-
-        // Sync with your existing animations
-        lenis.on('scroll', () => {
-            if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
-                animationFrameId = requestAnimationFrame(runAnimations);
-            }
-        });
-    } else {
-        // MOBILE FALLBACK: 
-        // Just use the standard native scroll for your Bus/Path animations
-        window.addEventListener('scroll', () => {
-            if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
-                animationFrameId = requestAnimationFrame(runAnimations);
-            }
-        }, { passive: true });
     }
+    requestAnimationFrame(raf);
 
-    // 3. UNIFIED UI LOGIC (Safe for all devices)
-    document.addEventListener('DOMContentLoaded', () => {
-        const overlayButton = document.querySelector('.overlay-button');
-        const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-        const landingPage = document.getElementById('landing-page-container');
-
-        // Scroll navigation that detects if Lenis is present
-        const safeScroll = (target) => {
-            if (lenis && window.innerWidth > 1024) {
-                lenis.scrollTo(target, { duration: 1.5 });
-            } else {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        };
-
-        if (overlayButton && landingPage) {
-            overlayButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                safeScroll(landingPage);
-            });
-        }
-
-        if (scrollToTopBtn && landingPage) {
-            scrollToTopBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                safeScroll(landingPage);
-            });
+    // Sync with your existing animations
+    lenis.on('scroll', () => {
+        if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
+            animationFrameId = requestAnimationFrame(runAnimations);
         }
     });
-    // --- GLOBAL VARIABLES & INITIAL SETUP ---
-    const SPLASH_DURATION = 800;
+} else {
+    // MOBILE FALLBACK: 
+    // Just use the standard native scroll for your Bus/Path animations
+    window.addEventListener('scroll', () => {
+        if (typeof animationFrameId !== 'undefined' && !animationFrameId) {
+            animationFrameId = requestAnimationFrame(runAnimations);
+        }
+    }, { passive: true });
+}
 
-    const landingPage = document.getElementById('landing-page-container');
+// 3. UNIFIED UI LOGIC (Safe for all devices)
+document.addEventListener('DOMContentLoaded', () => {
+    const overlayButton = document.querySelector('.overlay-button');
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const topContentWrapper = document.querySelector('.top-content-wrapper');
-    const dashedLineContainer = document.querySelector('.dashed-line');
-    const svgTipCounter = document.getElementById('svg-tip-counter');
-    const pathElement = document.getElementById('Line');
-    const mobilePathElement = document.getElementById('mobile-line-path');
-    const tabletPathElement = document.getElementById('tablet-line-path');
-    const svgLine = document.querySelector(".dashed-line-center");
-    const mobileSvgLine = document.getElementById('mobile-line-svg');
-    const tabletSvgLine = document.getElementById('tablet-line-svg');
-    const splashScreen = document.getElementById('splash-screen');
-    const body = document.body;
+    const landingPage = document.getElementById('landing-page-container');
 
-    let pathTotalLength = 0;
-    let mobilePathTotalLength = 0;
-    let tabletPathTotalLength = 0;
-    let checkpointsData = [];
-    let animationFrameId = null;
-    let lastRotationAngle = 90;
-
-    let desktopPathCache = [];
-    let mobilePathCache = [];
-    let tabletPathCache = [];
-    const CACHE_STEP = 3;
-
-    // Tracks if the counter has been positioned for the first time
-    let counterPositionedOnce = false;
-
-    // --- BUS PATH CACHE ---
-    // The bus position/angle along each dashed path depends only on the path's `d` attribute (viewBox
-    // units), so it is precomputed once into js/path-cache/<device>.json as flat [x, y, angle, ...].
-    // Measuring it in the browser took 4-13 seconds per path. If a path's `d` changes, regenerate its
-    // file: run buildPathCache() on that path and save the rounded values in the same flat format.
-    function deviceKey() {
-        const width = window.innerWidth;
-        return width > 1024 ? 'desktop' : (width > 600 ? 'tablet' : 'mobile');
-    }
-
-    function pathCacheFor(key) {
-        return key === 'desktop' ? desktopPathCache : (key === 'tablet' ? tabletPathCache : mobilePathCache);
-    }
-
-    async function loadPathCache(key) {
-        let cache;
-        try {
-            const response = await fetch(`js/path-cache/${key}.json`);
-            if (!response.ok) throw new Error(response.status);
-            const flat = await response.json();
-            cache = [];
-            for (let i = 0; i < flat.length; i += 3) {
-                cache.push({ x: flat[i], y: flat[i + 1], angle: flat[i + 2] });
-            }
-        } catch (e) {
-            // No file (e.g. page opened via file://): fall back to measuring the path, slow but correct.
-            const path = key === 'desktop' ? pathElement : (key === 'tablet' ? tabletPathElement : mobilePathElement);
-            cache = buildPathCache(path, path.getTotalLength());
-        }
-        if (key === 'desktop') desktopPathCache = cache;
-        else if (key === 'tablet') tabletPathCache = cache;
-        else mobilePathCache = cache;
-    }
-
-    // Start fetching now, in parallel with the page's images, instead of after window.onload.
-    const initialPathCache = loadPathCache(deviceKey());
-
-    // The old in-browser cache (~400 KB of localStorage) is no longer read.
-    try { localStorage.removeItem('path_cache_v1'); } catch (e) {}
-
-    // --- CORE LOGIC FUNCTIONS ---
-    function setupPathLengthsAndDasharrays() {
-        const maskPath = document.getElementById('mask-path');
-        const mobileMaskPath = document.getElementById('mobile-mask-path');
-        const tabletMaskPath = document.getElementById('tablet-mask-path');
-
-        if (pathElement && maskPath) {
-            pathTotalLength = pathElement.getTotalLength();
-            maskPath.style.strokeDasharray = pathTotalLength;
-        }
-        if (mobilePathElement && mobileMaskPath) {
-            mobilePathTotalLength = mobilePathElement.getTotalLength();
-            mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
-        }
-        if (tabletPathElement && tabletMaskPath) {
-            tabletPathTotalLength = tabletPathElement.getTotalLength();
-            tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
-        }
-    }
-
-    function buildPathCache(path, pathLength) {
-        if (!path || pathLength === 0) return [];
-
-        const cache = [];
-        for (let i = 0; i <= pathLength; i += CACHE_STEP) {
-            const length = Math.min(i, pathLength);
-
-            const currentPoint = path.getPointAtLength(length);
-            const previousPoint = path.getPointAtLength(Math.max(0, length - 1));
-
-            const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
-
-            cache.push({ x: currentPoint.x, y: currentPoint.y, angle: angle + 90 });
-        }
-        return cache;
-    }
-
-    const counterTextElement = svgTipCounter ? svgTipCounter.querySelector('.counter-text') : null;
-    const feetFormat = new Intl.NumberFormat('en-US');
-    let lastCounterText = '';
-    let pendingPopups = null;
-
-    function updateMainCounter(currentIconYPosition) {
-        if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
-
-        let startCheckpoint = checkpointsData[0];
-        let endCheckpoint = checkpointsData[0];
-
-        for (let i = 0; i < checkpointsData.length - 1; i++) {
-            if (currentIconYPosition >= checkpointsData[i].y && currentIconYPosition <= checkpointsData[i+1].y) {
-                startCheckpoint = checkpointsData[i];
-                endCheckpoint = checkpointsData[i+1];
-                break;
-            }
-        }
-
-        const scrollDistance = endCheckpoint.y - startCheckpoint.y;
-        const altitudeRange = startCheckpoint.value - endCheckpoint.value;
-
-        let progress = 0;
-        if (scrollDistance > 0) {
-            progress = (currentIconYPosition - startCheckpoint.y) / scrollDistance;
-        }
-
-        progress = Math.max(0, Math.min(1, progress));
-
-        const currentValue = startCheckpoint.value - (progress * altitudeRange);
-
-        // Only touch the DOM when the number changes: a text change forces layout and a repaint of the bus layer.
-        const text = `${feetFormat.format(Math.round(Math.max(0, currentValue)))} ft`;
-        if (counterTextElement && text !== lastCounterText) {
-            counterTextElement.textContent = text;
-            lastCounterText = text;
-        }
-    }
-
-    function animateAltitude(element) {
-        const finalValue = parseInt(element.dataset.finalValue, 10);
-        if (isNaN(finalValue) || element.dataset.animated) return;
-        element.dataset.animated = 'true';
-        const startValue = parseInt(element.textContent.replace(/,/g, ''), 10);
-        const duration = 1500;
-        let startTime = null;
-        function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-            const easedProgress = 1 - Math.pow(1 - progress, 3);
-            const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
-            element.textContent = currentValue.toLocaleString('en-US');
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            } else {
-                element.textContent = finalValue.toLocaleString('en-US');
-            }
-        }
-        requestAnimationFrame(step);
-    }
-
-    function updateNavLayout() {
-        const isMobile = window.innerWidth <= 600;
-        const navLeft = document.querySelector('.nav-left');
-        const navRight = document.querySelector('.nav-right');
-        if (isMobile) {
-            if (navRight && navRight.children.length > 0) {
-                while (navRight.firstElementChild) {
-                    navLeft.appendChild(navRight.firstElementChild);
-                }
-            }
-            if (navRight) navRight.style.display = 'none';
+    // Scroll navigation that detects if Lenis is present
+    const safeScroll = (target) => {
+        if (lenis && window.innerWidth > 1024) {
+            lenis.scrollTo(target, { duration: 1.5 });
         } else {
-            if (navRight) navRight.style.display = 'flex';
+            target.scrollIntoView({ behavior: 'smooth' });
         }
-    }
-
-    function positionDashedLine() {
-        if (window.innerWidth <= 1024) return;
-        const stateContainer1 = document.querySelector('.state-container-1');
-        const stateContainer12 = document.querySelector('.state-container-12');
-        if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) return;
-        const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
-        const state1Rect = stateContainer1.getBoundingClientRect();
-        const state12Rect = stateContainer12.getBoundingClientRect();
-        const offset = 0;
-        const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
-        const state12MiddleY =(state12Rect.bottom);
-        const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
-        dashedLineContainer.style.top = `${actualDashedLineTop}px`;
-        dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
-    }
-
-    function positionMobileDashedLine() {
-        if (window.innerWidth > 1024) return;
-        const firstSection = document.querySelector('.state-container-1');
-        const lastSection = document.querySelector('.state-container-12');
-        if (!firstSection || !lastSection || !dashedLineContainer) return;
-        const bottomOffset = -40;
-        const topPosition = firstSection.offsetTop;
-        const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
-        const containerHeight = bottomPosition - topPosition;
-        dashedLineContainer.style.top = `${topPosition}px`;
-        dashedLineContainer.style.height = `${containerHeight}px`;
-    }
-
-    /** CORRECTED FIX: Prevents counter drop by only making it visible once positioned. */
-    function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, lineTop) {
-        if (!svgTipCounter || pathLength === 0 || !svg) return 0;
-
-        const isVisible = (progress > 0.01 && progress < 0.99);
-
-        const clampedDrawLength = Math.max(0, Math.min(progress * pathLength, pathLength));
-
-        const cacheIndex = Math.floor(clampedDrawLength / CACHE_STEP);
-        const cachedData = pathCache[cacheIndex] || pathCache[pathCache.length - 1] || {x: 0, y: 0, angle: 90};
-
-        const currentPoint = { x: cachedData.x, y: cachedData.y };
-        let totalRotation = cachedData.angle;
-
-        let angleDifference = totalRotation - lastRotationAngle;
-        if (angleDifference > 180) totalRotation -= 360;
-        else if (angleDifference < -180) totalRotation += 360;
-        lastRotationAngle = totalRotation;
-
-        let currentIconY = 0;
-
-        if (svgRect.width > 0 && svgRect.height > 0) {
-            const scaleY = svgRect.height / svg.viewBox.baseVal.height;
-            const scaleX = svgRect.width / svg.viewBox.baseVal.width;
-            const counterOffsetY = (svg !== svgLine) ? 30 : 0;
-
-            const x = currentPoint.x * scaleX;
-            const y = (currentPoint.y * scaleY) + counterOffsetY;
-
-            svgTipCounter.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${totalRotation}deg)`;
-            currentIconY = lineTop + (currentPoint.y * scaleY);
-
-            // Fix for initial drop: Set flag only if the position is calculated off top/left
-            if (!counterPositionedOnce) {
-                if (x !== 0 || y !== 0) {
-                    counterPositionedOnce = true;
-                }
-            }
-        }
-
-        // Only manage opacity once the counter has been positioned at least once
-        if (counterPositionedOnce) {
-            svgTipCounter.style.opacity = isVisible ? '1' : '0';
-        }
-
-        return currentIconY;
-    }
-
-    function animateDashedLine() {
-        const maskPath = document.getElementById('mask-path');
-        if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) return 0;
-        const animationStartScrollY = topContentWrapper.offsetTop;
-        const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
-        linearProgress = Math.max(0, Math.min(1, linearProgress));
-        const modifiedProgress = Math.pow(linearProgress, 0.95);
-        maskPath.style.strokeDashoffset = pathTotalLength - (pathTotalLength * modifiedProgress);
-        return modifiedProgress;
-    }
-
-    function animateMobileDashedLine(svgRect) {
-        const mobileMaskPath = document.getElementById('mobile-mask-path');
-        if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
-        const triggerPointY = window.innerHeight * 0.4;
-        if (!svgRect || svgRect.height === 0) return 0;
-        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
-        const clampedProgress = Math.max(0, Math.min(1, progress));
-        mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
-        return clampedProgress;
-    }
-
-    function animateTabletDashedLine(svgRect) {
-        const tabletMaskPath = document.getElementById('tablet-mask-path');
-        if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
-        const triggerPointY = window.innerHeight * 0.7;
-        if (!svgRect || svgRect.height === 0) return 0;
-        const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
-        const clampedProgress = Math.max(0, Math.min(1, progress));
-        tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - (tabletPathTotalLength * clampedProgress);
-        return clampedProgress;
-    }
-
-    // Reads only. Shown popups drop out of the list, so this costs nothing once all are visible.
-    function findPopupsToShow() {
-        if (!pendingPopups) pendingPopups = [...document.querySelectorAll('.h2-popup:not(.visible)')];
-        const triggerThreshold = window.innerHeight * 0.20;
-        const toShow = [];
-        pendingPopups = pendingPopups.filter(popup => {
-            const h2 = popup.nextElementSibling;
-            if (!h2) return false;
-            const h2Rect = h2.getBoundingClientRect();
-            if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return true;
-            const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
-            if (h2TriggerPoint > triggerThreshold) {
-                toShow.push(popup);
-                return false;
-            }
-            return true;
-        });
-        return toShow;
-    }
-
-    function showPopups(popups) {
-        popups.forEach(popup => {
-            popup.classList.add('visible');
-            const altitudeValueElement = popup.querySelector('.altitude-value');
-            if (altitudeValueElement) {
-                animateAltitude(altitudeValueElement);
-            }
-        });
-    }
-
-    let lastTouchY = 0;
-    let isBouncingTop = false;
-    let isBouncingBottom = false;
-    const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
-
-    function handleOverscroll(event) {
-        if (window.innerWidth > 1024 || body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
-        const touchY = event.touches[0].clientY;
-        const isScrollingUp = touchY > lastTouchY;
-        const atTop = window.pageYOffset === 0;
-        if (atTop && isScrollingUp && topContentWrapper) {
-            isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
-            setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
-        }
-        const isScrollingDown = touchY < lastTouchY;
-        const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
-        if (atBottom && isScrollingDown && landingPage) {
-            isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
-            setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
-        }
-        lastTouchY = touchY;
-    }
-
-    function preventKeyboardJump(e) {
-        if (scrollBlockingKeys.includes(e.key)) e.preventDefault();
-    }
-
-    function runAnimations() {
-        animationFrameId = null;
-        const screenWidth = window.innerWidth;
-        let progress = 0;
-        let currentIconY = 0;
-
-        // All layout reads first, then all writes. A read after a write forces a synchronous
-        // layout mid-frame, which WebKit (every iOS browser) pays for far more than Blink does.
-        const svg = screenWidth > 1024 ? svgLine : (screenWidth > 600 ? tabletSvgLine : mobileSvgLine);
-        const svgRect = svg ? svg.getBoundingClientRect() : null;
-        const lineTop = dashedLineContainer ? dashedLineContainer.offsetTop : 0;
-        const popupsToShow = findPopupsToShow();
-
-        if (screenWidth > 1024) {
-            progress = animateDashedLine();
-            currentIconY = updateCounterPosition(progress, pathTotalLength, svgLine, desktopPathCache, svgRect, lineTop);
-        }
-        else if (screenWidth > 600) {
-            progress = animateTabletDashedLine(svgRect);
-            currentIconY = updateCounterPosition(progress, tabletPathTotalLength, tabletSvgLine, tabletPathCache, svgRect, lineTop);
-        }
-        else {
-            progress = animateMobileDashedLine(svgRect);
-            currentIconY = updateCounterPosition(progress, mobilePathTotalLength, mobileSvgLine, mobilePathCache, svgRect, lineTop);
-        }
-
-        updateMainCounter(currentIconY);
-        showPopups(popupsToShow);
-    }
-
-    //function to display the scroll up prompt
-
-/* 
-function showScrollTutorial() {
-    const tutorial = document.getElementById('scroll-tutorial');
-    if (!tutorial) return;
-
-    // --- COOLDOWN LOGIC (30 Minutes) ---
-    const COOLDOWN_MS = 30 * 60 * 1000; // 30 mins in milliseconds
-    const lastSeen = localStorage.getItem('tutorialLastSeen');
-    const now = Date.now();
-
-    // If seen recently (less than 30 mins ago), hide and exit
-    if (lastSeen && (now - lastSeen < COOLDOWN_MS)) {
-        tutorial.style.display = 'none';
-        return;
-    }
-
-    // 1. Show the element
-    tutorial.style.display = 'flex';
-    
-    // 2. Force a reflow and fade in
-    setTimeout(() => {
-        tutorial.style.opacity = '1';
-    }, 100);
-
-    const dismissTutorial = () => {
-        tutorial.style.opacity = '0';
-        setTimeout(() => {
-            tutorial.style.display = 'none';
-            document.body.classList.remove('noscroll');
-            
-            // --- UPDATE TIMESTAMP ON DISMISS ---
-            localStorage.setItem('tutorialLastSeen', Date.now());
-        }, 800);
-
-        window.removeEventListener('wheel', dismissTutorial);
-        window.removeEventListener('touchstart', dismissTutorial);
     };
 
-    // 3. Grace period before listening for scroll
-    setTimeout(() => {
-        window.addEventListener('wheel', dismissTutorial, { passive: true, once: true });
-        window.addEventListener('touchstart', dismissTutorial, { passive: true, once: true });
-    }, 1000);
+    if (overlayButton && landingPage) {
+        overlayButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            safeScroll(landingPage);
+        });
+    }
 
-    // 4. Auto-dismiss after 4 seconds total
-    setTimeout(dismissTutorial, 3000);
+    if (scrollToTopBtn && landingPage) {
+        scrollToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            safeScroll(landingPage);
+        });
+    }
+});
+// ===== Setup: element lookups and the bus path cache =====
+const SPLASH_DURATION = 800;
+
+const landingPage = document.getElementById('landing-page-container');
+const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
+const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+const topContentWrapper = document.querySelector('.top-content-wrapper');
+const dashedLineContainer = document.querySelector('.dashed-line');
+const svgTipCounter = document.getElementById('svg-tip-counter');
+const pathElement = document.getElementById('Line');
+const mobilePathElement = document.getElementById('mobile-line-path');
+const tabletPathElement = document.getElementById('tablet-line-path');
+const svgLine = document.querySelector(".dashed-line-center");
+const mobileSvgLine = document.getElementById('mobile-line-svg');
+const tabletSvgLine = document.getElementById('tablet-line-svg');
+const splashScreen = document.getElementById('splash-screen');
+const body = document.body;
+
+let pathTotalLength = 0;
+let mobilePathTotalLength = 0;
+let tabletPathTotalLength = 0;
+let checkpointsData = [];
+let animationFrameId = null;
+let lastRotationAngle = 90;
+
+let desktopPathCache = [];
+let mobilePathCache = [];
+let tabletPathCache = [];
+const CACHE_STEP = 3;
+
+// Tracks if the counter has been positioned for the first time
+let counterPositionedOnce = false;
+
+// --- BUS PATH CACHE ---
+// The bus position/angle along each dashed path depends only on the path's `d` attribute (viewBox
+// units), so it is precomputed once into js/path-cache/<device>.json as flat [x, y, angle, ...].
+// Measuring it in the browser took 4-13 seconds per path. If a path's `d` changes, regenerate its
+// file: run buildPathCache() on that path and save the rounded values in the same flat format.
+function deviceKey() {
+    const width = window.innerWidth;
+    return width > 1024 ? 'desktop' : (width > 600 ? 'tablet' : 'mobile');
 }
-*/
+
+function pathCacheFor(key) {
+    return key === 'desktop' ? desktopPathCache : (key === 'tablet' ? tabletPathCache : mobilePathCache);
+}
+
+async function loadPathCache(key) {
+    let cache;
+    try {
+        const response = await fetch(`js/path-cache/${key}.json`);
+        if (!response.ok) throw new Error(response.status);
+        const flat = await response.json();
+        cache = [];
+        for (let i = 0; i < flat.length; i += 3) {
+            cache.push({ x: flat[i], y: flat[i + 1], angle: flat[i + 2] });
+        }
+    } catch (e) {
+        // No file (e.g. page opened via file://): fall back to measuring the path, slow but correct.
+        const path = key === 'desktop' ? pathElement : (key === 'tablet' ? tabletPathElement : mobilePathElement);
+        cache = buildPathCache(path, path.getTotalLength());
+    }
+    if (key === 'desktop') desktopPathCache = cache;
+    else if (key === 'tablet') tabletPathCache = cache;
+    else mobilePathCache = cache;
+}
+
+// Start fetching now, in parallel with the page's images, instead of after window.onload.
+const initialPathCache = loadPathCache(deviceKey());
+
+// The old in-browser cache (~400 KB of localStorage) is no longer read.
+try { localStorage.removeItem('path_cache_v1'); } catch (e) {}
+
+// ===== Core logic: dashed line, bus position and angle, altitude counter, district pop-ups =====
+function setupPathLengthsAndDasharrays() {
+    const maskPath = document.getElementById('mask-path');
+    const mobileMaskPath = document.getElementById('mobile-mask-path');
+    const tabletMaskPath = document.getElementById('tablet-mask-path');
+
+    if (pathElement && maskPath) {
+        pathTotalLength = pathElement.getTotalLength();
+        maskPath.style.strokeDasharray = pathTotalLength;
+    }
+    if (mobilePathElement && mobileMaskPath) {
+        mobilePathTotalLength = mobilePathElement.getTotalLength();
+        mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
+    }
+    if (tabletPathElement && tabletMaskPath) {
+        tabletPathTotalLength = tabletPathElement.getTotalLength();
+        tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
+    }
+}
+
+function buildPathCache(path, pathLength) {
+    if (!path || pathLength === 0) return [];
+
+    const cache = [];
+    for (let i = 0; i <= pathLength; i += CACHE_STEP) {
+        const length = Math.min(i, pathLength);
+
+        const currentPoint = path.getPointAtLength(length);
+        const previousPoint = path.getPointAtLength(Math.max(0, length - 1));
+
+        const angle = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x) * (180 / Math.PI);
+
+        cache.push({ x: currentPoint.x, y: currentPoint.y, angle: angle + 90 });
+    }
+    return cache;
+}
+
+const counterTextElement = svgTipCounter ? svgTipCounter.querySelector('.counter-text') : null;
+const feetFormat = new Intl.NumberFormat('en-US');
+let lastCounterText = '';
+let pendingPopups = null;
+
+function updateMainCounter(currentIconYPosition) {
+    if (!checkpointsData || checkpointsData.length === 0 || !svgTipCounter) return;
+
+    let startCheckpoint = checkpointsData[0];
+    let endCheckpoint = checkpointsData[0];
+
+    for (let i = 0; i < checkpointsData.length - 1; i++) {
+        if (currentIconYPosition >= checkpointsData[i].y && currentIconYPosition <= checkpointsData[i+1].y) {
+            startCheckpoint = checkpointsData[i];
+            endCheckpoint = checkpointsData[i+1];
+            break;
+        }
+    }
+
+    const scrollDistance = endCheckpoint.y - startCheckpoint.y;
+    const altitudeRange = startCheckpoint.value - endCheckpoint.value;
+
+    let progress = 0;
+    if (scrollDistance > 0) {
+        progress = (currentIconYPosition - startCheckpoint.y) / scrollDistance;
+    }
+
+    progress = Math.max(0, Math.min(1, progress));
+
+    const currentValue = startCheckpoint.value - (progress * altitudeRange);
+
+    // Only touch the DOM when the number changes: a text change forces layout and a repaint of the bus layer.
+    const text = `${feetFormat.format(Math.round(Math.max(0, currentValue)))} ft`;
+    if (counterTextElement && text !== lastCounterText) {
+        counterTextElement.textContent = text;
+        lastCounterText = text;
+    }
+}
+
+function animateAltitude(element) {
+    const finalValue = parseInt(element.dataset.finalValue, 10);
+    if (isNaN(finalValue) || element.dataset.animated) return;
+    element.dataset.animated = 'true';
+    const startValue = parseInt(element.textContent.replace(/,/g, ''), 10);
+    const duration = 1500;
+    let startTime = null;
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        const currentValue = Math.floor(easedProgress * (finalValue - startValue) + startValue);
+        element.textContent = currentValue.toLocaleString('en-US');
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            element.textContent = finalValue.toLocaleString('en-US');
+        }
+    }
+    requestAnimationFrame(step);
+}
+
+function updateNavLayout() {
+    const isMobile = window.innerWidth <= 600;
+    const navLeft = document.querySelector('.nav-left');
+    const navRight = document.querySelector('.nav-right');
+    if (isMobile) {
+        if (navRight && navRight.children.length > 0) {
+            while (navRight.firstElementChild) {
+                navLeft.appendChild(navRight.firstElementChild);
+            }
+        }
+        if (navRight) navRight.style.display = 'none';
+    } else {
+        if (navRight) navRight.style.display = 'flex';
+    }
+}
+
+function positionDashedLine() {
+    if (window.innerWidth <= 1024) return;
+    const stateContainer1 = document.querySelector('.state-container-1');
+    const stateContainer12 = document.querySelector('.state-container-12');
+    if (!stateContainer1 || !stateContainer12 || !topContentWrapper || !dashedLineContainer) return;
+    const topContentWrapperRect = topContentWrapper.getBoundingClientRect();
+    const state1Rect = stateContainer1.getBoundingClientRect();
+    const state12Rect = stateContainer12.getBoundingClientRect();
+    const offset = 0;
+    const actualDashedLineTop = (state1Rect.top - topContentWrapperRect.top) - offset;
+    const state12MiddleY =(state12Rect.bottom);
+    const actualDashedLineHeight = (state12MiddleY - state1Rect.top);
+    dashedLineContainer.style.top = `${actualDashedLineTop}px`;
+    dashedLineContainer.style.height = `${actualDashedLineHeight}px`;
+}
+
+function positionMobileDashedLine() {
+    if (window.innerWidth > 1024) return;
+    const firstSection = document.querySelector('.state-container-1');
+    const lastSection = document.querySelector('.state-container-12');
+    if (!firstSection || !lastSection || !dashedLineContainer) return;
+    const bottomOffset = -40;
+    const topPosition = firstSection.offsetTop;
+    const bottomPosition = lastSection.offsetTop + lastSection.offsetHeight + bottomOffset;
+    const containerHeight = bottomPosition - topPosition;
+    dashedLineContainer.style.top = `${topPosition}px`;
+    dashedLineContainer.style.height = `${containerHeight}px`;
+}
+
+/** CORRECTED FIX: Prevents counter drop by only making it visible once positioned. */
+function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, lineTop) {
+    if (!svgTipCounter || pathLength === 0 || !svg) return 0;
+
+    const isVisible = (progress > 0.01 && progress < 0.99);
+
+    const clampedDrawLength = Math.max(0, Math.min(progress * pathLength, pathLength));
+
+    const cacheIndex = Math.floor(clampedDrawLength / CACHE_STEP);
+    const cachedData = pathCache[cacheIndex] || pathCache[pathCache.length - 1] || {x: 0, y: 0, angle: 90};
+
+    const currentPoint = { x: cachedData.x, y: cachedData.y };
+    let totalRotation = cachedData.angle;
+
+    let angleDifference = totalRotation - lastRotationAngle;
+    if (angleDifference > 180) totalRotation -= 360;
+    else if (angleDifference < -180) totalRotation += 360;
+    lastRotationAngle = totalRotation;
+
+    let currentIconY = 0;
+
+    if (svgRect.width > 0 && svgRect.height > 0) {
+        const scaleY = svgRect.height / svg.viewBox.baseVal.height;
+        const scaleX = svgRect.width / svg.viewBox.baseVal.width;
+        const counterOffsetY = (svg !== svgLine) ? 30 : 0;
+
+        const x = currentPoint.x * scaleX;
+        const y = (currentPoint.y * scaleY) + counterOffsetY;
+
+        svgTipCounter.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${totalRotation}deg)`;
+        currentIconY = lineTop + (currentPoint.y * scaleY);
+
+        // Fix for initial drop: Set flag only if the position is calculated off top/left
+        if (!counterPositionedOnce) {
+            if (x !== 0 || y !== 0) {
+                counterPositionedOnce = true;
+            }
+        }
+    }
+
+    // Only manage opacity once the counter has been positioned at least once
+    if (counterPositionedOnce) {
+        svgTipCounter.style.opacity = isVisible ? '1' : '0';
+    }
+
+    return currentIconY;
+}
+
+function animateDashedLine() {
+    const maskPath = document.getElementById('mask-path');
+    if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) return 0;
+    const animationStartScrollY = topContentWrapper.offsetTop;
+    const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
+    linearProgress = Math.max(0, Math.min(1, linearProgress));
+    const modifiedProgress = Math.pow(linearProgress, 0.95);
+    maskPath.style.strokeDashoffset = pathTotalLength - (pathTotalLength * modifiedProgress);
+    return modifiedProgress;
+}
+
+function animateMobileDashedLine(svgRect) {
+    const mobileMaskPath = document.getElementById('mobile-mask-path');
+    if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
+    const triggerPointY = window.innerHeight * 0.4;
+    if (!svgRect || svgRect.height === 0) return 0;
+    const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
+    const clampedProgress = Math.max(0, Math.min(1, progress));
+    mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
+    return clampedProgress;
+}
+
+function animateTabletDashedLine(svgRect) {
+    const tabletMaskPath = document.getElementById('tablet-mask-path');
+    if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
+    const triggerPointY = window.innerHeight * 0.7;
+    if (!svgRect || svgRect.height === 0) return 0;
+    const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
+    const clampedProgress = Math.max(0, Math.min(1, progress));
+    tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - (tabletPathTotalLength * clampedProgress);
+    return clampedProgress;
+}
+
+// Reads only. Shown popups drop out of the list, so this costs nothing once all are visible.
+function findPopupsToShow() {
+    if (!pendingPopups) pendingPopups = [...document.querySelectorAll('.h2-popup:not(.visible)')];
+    const triggerThreshold = window.innerHeight * 0.20;
+    const toShow = [];
+    pendingPopups = pendingPopups.filter(popup => {
+        const h2 = popup.nextElementSibling;
+        if (!h2) return false;
+        const h2Rect = h2.getBoundingClientRect();
+        if (h2Rect.bottom < 0 || h2Rect.top > window.innerHeight) return true;
+        const h2TriggerPoint = h2Rect.top + (h2Rect.height * 0.6);
+        if (h2TriggerPoint > triggerThreshold) {
+            toShow.push(popup);
+            return false;
+        }
+        return true;
+    });
+    return toShow;
+}
+
+function showPopups(popups) {
+    popups.forEach(popup => {
+        popup.classList.add('visible');
+        const altitudeValueElement = popup.querySelector('.altitude-value');
+        if (altitudeValueElement) {
+            animateAltitude(altitudeValueElement);
+        }
+    });
+}
+
+let lastTouchY = 0;
+let isBouncingTop = false;
+let isBouncingBottom = false;
+const scrollBlockingKeys = ['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'];
+
+function handleOverscroll(event) {
+    if (window.innerWidth > 1024 || body.classList.contains('noscroll') || isBouncingTop || isBouncingBottom) return;
+    const touchY = event.touches[0].clientY;
+    const isScrollingUp = touchY > lastTouchY;
+    const atTop = window.pageYOffset === 0;
+    if (atTop && isScrollingUp && topContentWrapper) {
+        isBouncingTop = true; topContentWrapper.classList.add('pull-down-bounce-animation');
+        setTimeout(() => { topContentWrapper.classList.remove('pull-down-bounce-animation'); isBouncingTop = false; }, 600);
+    }
+    const isScrollingDown = touchY < lastTouchY;
+    const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
+    if (atBottom && isScrollingDown && landingPage) {
+        isBouncingBottom = true; landingPage.classList.add('push-up-bounce-animation');
+        setTimeout(() => { landingPage.classList.remove('push-up-bounce-animation'); isBouncingBottom = false; }, 600);
+    }
+    lastTouchY = touchY;
+}
+
+function preventKeyboardJump(e) {
+    if (scrollBlockingKeys.includes(e.key)) e.preventDefault();
+}
+
+function runAnimations() {
+    animationFrameId = null;
+    const screenWidth = window.innerWidth;
+    let progress = 0;
+    let currentIconY = 0;
+
+    // All layout reads first, then all writes. A read after a write forces a synchronous
+    // layout mid-frame, which WebKit (every iOS browser) pays for far more than Blink does.
+    const svg = screenWidth > 1024 ? svgLine : (screenWidth > 600 ? tabletSvgLine : mobileSvgLine);
+    const svgRect = svg ? svg.getBoundingClientRect() : null;
+    const lineTop = dashedLineContainer ? dashedLineContainer.offsetTop : 0;
+    const popupsToShow = findPopupsToShow();
+
+    if (screenWidth > 1024) {
+        progress = animateDashedLine();
+        currentIconY = updateCounterPosition(progress, pathTotalLength, svgLine, desktopPathCache, svgRect, lineTop);
+    }
+    else if (screenWidth > 600) {
+        progress = animateTabletDashedLine(svgRect);
+        currentIconY = updateCounterPosition(progress, tabletPathTotalLength, tabletSvgLine, tabletPathCache, svgRect, lineTop);
+    }
+    else {
+        progress = animateMobileDashedLine(svgRect);
+        currentIconY = updateCounterPosition(progress, mobilePathTotalLength, mobileSvgLine, mobilePathCache, svgRect, lineTop);
+    }
+
+    updateMainCounter(currentIconY);
+    showPopups(popupsToShow);
+}
+
 
     function scrollFinalize() {
         // Unlock body from splash screen state
@@ -640,9 +577,7 @@ function showScrollTutorial() {
         }
     }
 
-    // ----------------------------------------------------
-    // --- CRITICAL FIX: Asynchronous Initialization ---
-    // ----------------------------------------------------
+// ===== Initialisation: splash screen and setup once the path cache has loaded =====
 async function initializeHeavyContent() {
     await initialPathCache;
     const width = window.innerWidth;
@@ -717,76 +652,70 @@ async function initializeHeavyContent() {
     containers.forEach(c => observer.observe(c)); 
 }
 
-// --- EVENT LISTENERS & INITIALIZATION ---
-    window.onload = () => {
-        // CRITICAL: Apply the scroll lock immediately on load
-        body.classList.add('loading-active');
+// ===== Event listeners: load, resize, touch and keyboard =====
+window.onload = () => {
+    // CRITICAL: Apply the scroll lock immediately on load
+    body.classList.add('loading-active');
 
-        // 1. Synchronous setup of SVG lengths
-        setupPathLengthsAndDasharrays();
+    // 1. Synchronous setup of SVG lengths
+    setupPathLengthsAndDasharrays();
 
-        // 2. Path cache is already loading (started above); finish setup once it arrives
-        initializeHeavyContent();
-    };
+    // 2. Path cache is already loading (started above); finish setup once it arrives
+    initializeHeavyContent();
+};
 
-    window.addEventListener('resize', () => {
-        // Crossing a breakpoint (e.g. rotating a phone) switches to a path whose cache isn't loaded yet
-        const key = deviceKey();
-        if (pathCacheFor(key).length === 0) loadPathCache(key).then(runAnimations);
-        if (window.innerWidth <= 1024) {
-            positionMobileDashedLine();
-        } else {
-            positionDashedLine();
-        }
-        runAnimations();
-        updateNavLayout();
-    });
+window.addEventListener('resize', () => {
+    // Crossing a breakpoint (e.g. rotating a phone) switches to a path whose cache isn't loaded yet
+    const key = deviceKey();
+    if (pathCacheFor(key).length === 0) loadPathCache(key).then(runAnimations);
+    if (window.innerWidth <= 1024) {
+        positionMobileDashedLine();
+    } else {
+        positionDashedLine();
+    }
+    runAnimations();
+    updateNavLayout();
+});
 
-    window.addEventListener('scroll', () => {
-        if (!animationFrameId) {
-            animationFrameId = requestAnimationFrame(runAnimations);
-        }
-
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
-        if (scrollFraction < 0.5) {
-            scrollToTopBtn.classList.remove('is-hidden');
-        } else {
-            scrollToTopBtn.classList.add('is-hidden');
-        }
-    }, { passive: true });
-
-    scrollToTopBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    const navbar = document.querySelector('.navbar');
-    mobileMenuToggle.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open');
-        body.classList.toggle('noscroll');
-        document.documentElement.classList.toggle('noscroll');
-        scrollToTopBtn.classList.toggle('is-hidden-by-nav');
-        const isExpanded = navbar.classList.contains('nav-open');
-        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-    });
-
-    const overlayButton = document.querySelector('.overlay-button');
-    if (overlayButton && landingPage) {
-        overlayButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            const targetScrollY = landingPage.offsetTop - window.innerHeight;
-            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-        });
+window.addEventListener('scroll', () => {
+    if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(runAnimations);
     }
 
-    window.addEventListener('touchstart', (e) => {
-        if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
-    }, { passive: true });
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollFraction = scrollableHeight > 0 ? (scrollTop / scrollableHeight) : 0;
+    if (scrollFraction < 0.5) {
+        scrollToTopBtn.classList.remove('is-hidden');
+    } else {
+        scrollToTopBtn.classList.add('is-hidden');
+    }
+}, { passive: true });
 
-    // Passive: a non-passive touchmove on window makes iOS wait for the main thread before every scroll step.
-    // The native rubber-band this used to preventDefault is now off via overscroll-behavior-y in css/home.css.
-    window.addEventListener('touchmove', handleOverscroll, { passive: true });
-    window.addEventListener('keydown', preventKeyboardJump, { passive: false });
-    history.scrollRestoration = 'manual';
+scrollToTopBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
+});
+
+// js/common.js opens and closes the menu; the home page also hides its scroll button meanwhile
+mobileMenuToggle.addEventListener('click', () => {
+    scrollToTopBtn.classList.toggle('is-hidden-by-nav');
+});
+
+const overlayButton = document.querySelector('.overlay-button');
+if (overlayButton && landingPage) {
+    overlayButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetScrollY = landingPage.offsetTop - window.innerHeight;
+        window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+    });
+}
+
+window.addEventListener('touchstart', (e) => {
+    if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
+}, { passive: true });
+
+// Passive: a non-passive touchmove on window makes iOS wait for the main thread before every scroll step.
+// The native rubber-band this used to preventDefault is now off via overscroll-behavior-y in css/home.css.
+window.addEventListener('touchmove', handleOverscroll, { passive: true });
+window.addEventListener('keydown', preventKeyboardJump, { passive: false });

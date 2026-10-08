@@ -1,5 +1,6 @@
-// Shared by about.html, contact.html and the district pages (dist/<District>.html).
-// index.html has its own navbar/menu logic and does not load this file.
+// Shared by every page: phone menu toggle, footer heading hover, scroll restoration.
+// Navbar anchoring runs only where #nav-anchor-trigger exists (not on index.html, whose
+// js/home.js anchors the navbar its own way).
 history.scrollRestoration = 'manual';
 
 document.addEventListener('DOMContentLoaded', () => {
