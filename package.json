@@ -1,8 +1,10 @@
 {
   "name": "himachalites",
   "private": true,
-  "description": "Static site; npm is only used to run the tests.",
+  "description": "Static site, no build step for deployment. npm runs the tests and copies the shared header/footer into pages.",
   "scripts": {
+    "build:pages": "node scripts/build-pages.js",
+    "check:pages": "node scripts/build-pages.js --check",
     "test": "node --test \"tests/unit/*.test.js\" && playwright test",
     "test:unit": "node --test \"tests/unit/*.test.js\"",
     "test:ui": "playwright test",
