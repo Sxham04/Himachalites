@@ -331,6 +331,20 @@ body.noscroll {
     flex-direction: column;
     width: 100%;
     min-height: auto;
+    /* Pull the district list (with the dashed line and bus) up into the footer's fog, so the
+       forest starts right above Lahaul & Spiti instead of after a blank white band. The whole
+       block moves together; keep the 50px padding-top of .state-content-sections, which the
+       altitude counter's checkpoints depend on. tests/ui/home-footer.spec.js checks the footer
+       links stay clickable. */
+    margin-top: -300px;
+    z-index: 2;
+}
+
+/* Phones: the footer is short and its links sit near its bottom edge, so overlap less */
+@media (max-width: 600px) {
+    .top-content-wrapper {
+        margin-top: -120px;
+    }
 }
 
 .state-content-sections {
@@ -633,6 +647,10 @@ body.noscroll {
     height: auto;
     bottom: 15%;
     object-fit: contain;
+    /* The rock under each figure ends in a straight cut; fade it out so the edge never shows
+       when the fog layer moves below it */
+    -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
 }
 
 
