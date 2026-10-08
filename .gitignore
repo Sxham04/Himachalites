@@ -2,3 +2,6 @@
 node_modules/
 test-results/
 playwright-report/
+__MACOSX/
+# Screenshot baselines: ~100 MB and specific to each OS, so made locally (npm run test:update-screenshots)
+tests/ui/*-snapshots/
