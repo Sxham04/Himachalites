@@ -124,9 +124,9 @@
         opacity: 0;
         /* Initialize with translate3d for hardware acceleration */
         transform: translate3d(0, 0, 0) translate(-50%, -50%) rotate(0deg);
-        /* Rely on transform for updates */
-        transition: opacity 0.3s ease,
-                    transform 0.1s linear;
+        /* Only the fade is animated: a transform transition made the bus trail ~80-100px behind
+           the end of the line while scrolling, at no performance gain */
+        transition: opacity 0.3s ease;
         /* Set left/top once */
         top: 0;
         left: 0;

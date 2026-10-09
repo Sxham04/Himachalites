@@ -403,11 +403,6 @@ body.noscroll {
         stroke-dashoffset: 1;
     }
 
-    #svg-tip-counter {
-        transition: top 0.05s linear,
-                    opacity 0.3s ease,
-                    transform 0.1s linear;
-    }
 }
 
 /*FOOTER*/
