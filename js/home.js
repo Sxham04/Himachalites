@@ -254,23 +254,51 @@ const initialPathCache = loadPathCache(deviceKey());
 try { localStorage.removeItem('path_cache_v1'); } catch (e) {}
 
 // ===== Core logic: dashed line, bus position and angle, altitude counter, district pop-ups =====
-function setupPathLengthsAndDasharrays() {
-    const maskPath = document.getElementById('mask-path');
-    const mobileMaskPath = document.getElementById('mobile-mask-path');
-    const tabletMaskPath = document.getElementById('tablet-mask-path');
+// Draws a dashed path from its start up to progress (0..1) by writing the reveal into the path's own
+// stroke-dasharray: its dash pattern repeated up to the drawn length, then one gap longer than the path.
+// This replaced an SVG mask animated with stroke-dashoffset, which looked the same but which WebKit
+// (Safari, every iOS browser) re-renders in software on every frame: it halved the frame rate on iPhones.
+const dashPatterns = new Map();
+const drawnLengths = new Map();
+function revealPath(path, length, progress) {
+    if (!dashPatterns.has(path)) {
+        // The pattern comes from CSS (css/home.css, the <style> in index.html, which differ by screen
+        // size) or the stroke-dasharray attribute; read it with the reveal cleared
+        path.style.removeProperty('stroke-dasharray');
+        const parts = getComputedStyle(path).strokeDasharray.split(/[ ,]+/).map(parseFloat).filter(n => n > 0);
+        dashPatterns.set(path, parts.length % 2 ? parts.concat(parts) : parts);
+    }
+    const drawn = Math.round(Math.max(0, Math.min(1, progress)) * length);
+    if (drawnLengths.get(path) === drawn) return;
+    drawnLengths.set(path, drawn);
+    const pattern = dashPatterns.get(path);
+    if (!pattern.length || !drawn) {
+        if (pattern.length) setDasharray(path, `0 ${length + 1}`);
+        return;
+    }
+    // Even entries are dashes, odd ones gaps (the pattern always has an even length)
+    const out = [];
+    for (let at = 0, i = 0; at < drawn; i = (i + 1) % pattern.length) {
+        const piece = Math.min(pattern[i], drawn - at);
+        out.push(piece);
+        at += piece;
+    }
+    // Hide everything after the drawn part: end on one gap longer than the whole path
+    if (out.length % 2) out.push(length + 1);
+    else out[out.length - 1] = length + 1;
+    setDasharray(path, out.join(' '));
+}
+// important: the tablet pattern in index.html is set with !important, which only an inline !important beats
+function setDasharray(path, value) {
+    path.style.setProperty('stroke-dasharray', value, 'important');
+}
+// The dash pattern changes across breakpoints (e.g. rotating a phone), so read it again after a resize
+window.addEventListener('resize', () => { dashPatterns.clear(); drawnLengths.clear(); });
 
-    if (pathElement && maskPath) {
-        pathTotalLength = pathElement.getTotalLength();
-        maskPath.style.strokeDasharray = pathTotalLength;
-    }
-    if (mobilePathElement && mobileMaskPath) {
-        mobilePathTotalLength = mobilePathElement.getTotalLength();
-        mobileMaskPath.style.strokeDasharray = mobilePathTotalLength;
-    }
-    if (tabletPathElement && tabletMaskPath) {
-        tabletPathTotalLength = tabletPathElement.getTotalLength();
-        tabletMaskPath.style.strokeDasharray = tabletPathTotalLength;
-    }
+function setupPathLengths() {
+    if (pathElement) pathTotalLength = pathElement.getTotalLength();
+    if (mobilePathElement) mobilePathTotalLength = mobilePathElement.getTotalLength();
+    if (tabletPathElement) tabletPathTotalLength = tabletPathElement.getTotalLength();
 }
 
 function buildPathCache(path, pathLength) {
@@ -445,37 +473,34 @@ function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, li
 }
 
 function animateDashedLine() {
-    const maskPath = document.getElementById('mask-path');
-    if (window.innerWidth <= 1024 || !maskPath || pathTotalLength === 0) return 0;
+    if (window.innerWidth <= 1024 || !pathElement || pathTotalLength === 0) return 0;
     const animationStartScrollY = topContentWrapper.offsetTop;
     const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
     linearProgress = Math.max(0, Math.min(1, linearProgress));
     const modifiedProgress = Math.pow(linearProgress, 0.95);
-    maskPath.style.strokeDashoffset = pathTotalLength - (pathTotalLength * modifiedProgress);
+    revealPath(pathElement, pathTotalLength, modifiedProgress);
     return modifiedProgress;
 }
 
 function animateMobileDashedLine(svgRect) {
-    const mobileMaskPath = document.getElementById('mobile-mask-path');
-    if (!mobileMaskPath || !mobilePathElement || mobilePathTotalLength === 0) return 0;
+    if (!mobilePathElement || mobilePathTotalLength === 0) return 0;
     const triggerPointY = window.innerHeight * 0.4;
     if (!svgRect || svgRect.height === 0) return 0;
     const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
     const clampedProgress = Math.max(0, Math.min(1, progress));
-    mobileMaskPath.style.strokeDashoffset = mobilePathTotalLength - (mobilePathTotalLength * clampedProgress);
+    revealPath(mobilePathElement, mobilePathTotalLength, clampedProgress);
     return clampedProgress;
 }
 
 function animateTabletDashedLine(svgRect) {
-    const tabletMaskPath = document.getElementById('tablet-mask-path');
-    if (!tabletMaskPath || !tabletPathElement || tabletPathTotalLength === 0) return 0;
+    if (!tabletPathElement || tabletPathTotalLength === 0) return 0;
     const triggerPointY = window.innerHeight * 0.7;
     if (!svgRect || svgRect.height === 0) return 0;
     const progress = 1 - ((triggerPointY - svgRect.top) / svgRect.height);
     const clampedProgress = Math.max(0, Math.min(1, progress));
-    tabletMaskPath.style.strokeDashoffset = tabletPathTotalLength - (tabletPathTotalLength * clampedProgress);
+    revealPath(tabletPathElement, tabletPathTotalLength, clampedProgress);
     return clampedProgress;
 }
 
@@ -583,12 +608,6 @@ async function initializeHeavyContent() {
     const width = window.innerWidth;
     const splashImg = document.getElementById('splash-image');
 
-    // Apply DashArrays
-    const m = document.getElementById('mask-path'), tm = document.getElementById('tablet-mask-path'), mm = document.getElementById('mobile-mask-path');
-    if(m) m.style.strokeDasharray = (desktopPathCache.length * CACHE_STEP) || pathElement.getTotalLength();
-    if(tm) tm.style.strokeDasharray = (tabletPathCache.length * CACHE_STEP) || tabletPathElement.getTotalLength();
-    if(mm) mm.style.strokeDasharray = (mobilePathCache.length * CACHE_STEP) || mobilePathElement.getTotalLength();
-
     // Setup Checkpoints
     const containers = document.querySelectorAll('.state-container');
     checkpointsData = [];
@@ -658,7 +677,7 @@ window.onload = () => {
     body.classList.add('loading-active');
 
     // 1. Synchronous setup of SVG lengths
-    setupPathLengthsAndDasharrays();
+    setupPathLengths();
 
     // 2. Path cache is already loading (started above); finish setup once it arrives
     initializeHeavyContent();
