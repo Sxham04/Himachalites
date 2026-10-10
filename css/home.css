@@ -1795,20 +1795,24 @@ header {
 
 /* Phones: refinements from the mobile UI review (tests/ui/mobile-layout.spec.js) */
 @media (max-width: 600px) {
-    /* District photos: show them whole. Their soft brushed edges were cropped into straight
-       cuts by the box (overflow: hidden), object-fit: cover and scale(1.1). */
+    /* District photos: full screen width at their own shape, so they show whole and large. Their
+       soft brushed edges were cut into straight lines by a fixed-height box (overflow: hidden),
+       object-fit: cover and scale(1.1). */
     .image-column {
+        height: auto;
         overflow: visible;
     }
 
     .image-column img {
-        object-fit: contain;
+        height: auto;
+        object-fit: initial;
         transform: none;
     }
 
-    /* District title artwork: show it whole instead of cropping it to the title box */
+    /* District title artwork: the title box takes the artwork's shape (946x414), so the cover
+       background shows the whole picture behind the name instead of cropping it */
     .info-column h2 {
-        background-size: contain;
+        aspect-ratio: 946 / 414;
     }
 
     /* The text column was pulled 3vw past the left edge; same text position without it */
@@ -1829,12 +1833,12 @@ header {
     /* Bottom bar: slimmer. Still fixed to the bottom edge above the home indicator / address bar */
     .navbar.navbar--anchored {
         min-height: 0;
-        height: calc(52px + env(safe-area-inset-bottom));
+        height: calc(62px + env(safe-area-inset-bottom));
     }
 
     .navbar.navbar--anchored .logo img {
-        height: 40px;
-        max-height: 40px;
+        height: 48px;
+        max-height: 48px;
     }
 
     .navbar.navbar--anchored .mobile-menu-button {

@@ -1043,8 +1043,12 @@ RESPONSIVE STYLES (TABLET/MOBILE)
     }
 }
 
-/* Phones: "Our Stories in Motion" smaller, with less space above it */
+/* Phones: "Our Stories in Motion" smaller, with less space above it; smaller recommendation points */
 @media (max-width: 600px) {
+    .text-col ul li {
+        font-size: 0.85rem;
+    }
+
     .image-gallery-container,
     .reel-gallery-container {
         margin-top: 4vh;
