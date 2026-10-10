@@ -41,6 +41,16 @@
             transform: translateY(clamp(10px, 8vw, 150px)) !important;
             margin-bottom: -2vw; 
         }
+        /* Phones: "LAHAUL & SPITI" is the longest title; keep it on one line and clear of the text above */
+        @media (max-width: 600px) {
+            .blended-h1-wrapper h1 {
+                font-size: 12vw !important;
+                white-space: nowrap;
+            }
+            .blended-h1-wrapper {
+                margin-top: 0;
+            }
+        }
     </style>
 </head>
 <body>

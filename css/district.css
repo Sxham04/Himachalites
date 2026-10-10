@@ -870,6 +870,7 @@ html, body {
     .rugged-content-middle {
         /* Add more padding so text inside dark box doesn't hit the ridges */
         padding: 80px 20px;
+        box-sizing: border-box; /* keeps the box screen-wide, so its content stays centred */
     }
 }
 
@@ -1039,5 +1040,19 @@ RESPONSIVE STYLES (TABLET/MOBILE)
     }
     .footer-column ul { 
         gap: 10px; 
+    }
+}
+
+/* Phones: "Our Stories in Motion" smaller, with less space above it */
+@media (max-width: 600px) {
+    .image-gallery-container,
+    .reel-gallery-container {
+        margin-top: 4vh;
+    }
+
+    .image-gallery-container h2,
+    .reel-gallery-container h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
     }
 }

@@ -1792,3 +1792,81 @@ header {
         font-size: 1em;
     }
 }
+
+/* Phones: refinements from the mobile UI review (tests/ui/mobile-layout.spec.js) */
+@media (max-width: 600px) {
+    /* District photos: show them whole. Their soft brushed edges were cropped into straight
+       cuts by the box (overflow: hidden), object-fit: cover and scale(1.1). */
+    .image-column {
+        overflow: visible;
+    }
+
+    .image-column img {
+        object-fit: contain;
+        transform: none;
+    }
+
+    /* District title artwork: show it whole instead of cropping it to the title box */
+    .info-column h2 {
+        background-size: contain;
+    }
+
+    /* The text column was pulled 3vw past the left edge; same text position without it */
+    .info-column {
+        margin-left: 0;
+        padding-left: 1.25rem;
+    }
+
+    /* Header: a smaller logo, no fixed minimum height */
+    .navbar {
+        min-height: 0;
+    }
+
+    .logo img {
+        height: 56px;
+    }
+
+    /* Bottom bar: slimmer. Still fixed to the bottom edge above the home indicator / address bar */
+    .navbar.navbar--anchored {
+        min-height: 0;
+        height: calc(52px + env(safe-area-inset-bottom));
+    }
+
+    .navbar.navbar--anchored .logo img {
+        height: 40px;
+        max-height: 40px;
+    }
+
+    .navbar.navbar--anchored .mobile-menu-button {
+        font-size: 1.4rem;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* The open menu fills the visible screen between the browser's bars (100vh stays as fallback) */
+    .navbar.nav-open,
+    .navbar.navbar--anchored.nav-open {
+        height: 100dvh;
+    }
+
+    /* Touch targets of at least 44x44px; the gaps they replace keep the spacing about the same */
+    .top-bar .social-links {
+        gap: 0;
+    }
+
+    .top-bar .social-links a,
+    .footer-column a[href] {
+        display: inline-flex;
+        align-items: center;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .top-bar .social-links a {
+        justify-content: center;
+    }
+
+    .footer-column ul {
+        gap: 0;
+    }
+}

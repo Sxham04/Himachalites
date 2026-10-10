@@ -74,6 +74,9 @@ npm test
 - `npm run test:ui` runs Playwright against `tests/mock-supabase.js`, a local stand-in for Supabase
   that also serves the site at http://127.0.0.1:8790. The real Supabase project is never touched.
   Every test runs at desktop, tablet and phone sizes.
+- `tests/ui/mobile-layout.spec.js` checks every page at 360px and 390px wide: no sideways
+  overflow, images not cut off by their boxes, centred district sections, and touch targets of at
+  least 44x44px.
 - `tests/ui/visual.spec.js` compares full-page screenshots of every public page, plus the open
   phone menu, the anchored navbar and link hover, with saved baselines. The baselines (~100 MB,
   specific to the operating system) are not in git. Make them once, on a version of the site you
