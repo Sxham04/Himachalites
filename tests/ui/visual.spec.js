@@ -30,6 +30,9 @@ async function settle(page) {
         document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
         await Promise.all([...document.images].map(img => img.decode().catch(() => {})));
         await document.fonts.ready;
+        // Home page: districts fade in as they scroll into view; show them all so the capture does
+        // not depend on which ones the observer has reached yet
+        document.querySelectorAll('.state-container').forEach(el => el.classList.add('is-visible'));
     });
     await page.waitForTimeout(1500); // splash fade and scroll-linked layout
 }
