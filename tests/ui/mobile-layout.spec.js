@@ -16,7 +16,7 @@ function findProblems() {
         (el.tagName === 'IMG' ? ` [${(el.currentSrc || el.src).split('/').pop()}]` : '');
     const shown = el => { const s = getComputedStyle(el); return s.display !== 'none' && s.visibility !== 'hidden' && parseFloat(s.opacity) > 0.05; };
     // Decorative layers that are meant to reach past the edges
-    const decorative = el => el.closest('.parallax-backgrounds, .dashed-line, .cloud-layer, .decorative-svg-wrapper, .rugged-edge');
+    const decorative = el => el.closest('.parallax-backgrounds, .dashed-line, .decorative-svg-wrapper, .rugged-edge');
     const clipper = el => { for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
         const s = getComputedStyle(a); if (/(hidden|clip)/.test(s.overflow + s.overflowX + s.overflowY)) return a; } return null; };
 
