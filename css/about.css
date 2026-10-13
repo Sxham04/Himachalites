@@ -31,16 +31,6 @@ main.main-content h1 {
 }
 
 
-/* 2. Info Container */
-
-.info-container p {
-    font-family: Helvetica, Arial, sans-serif;
-    text-align: left;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #000000;
-    margin-bottom: 5rem;
-}
 
 
 .top-bar {
@@ -132,12 +122,6 @@ main.main-content h1 {
     }
     .footer-column ul {
         gap: 10px;
-    }
-
-    /* --- Mobile Content Font Size --- */
-    .info-container p {
-        font-size: 0.9rem;
-        line-height: 1.5;
     }
 }
 
@@ -269,5 +253,267 @@ main.main-content h1 {
 
     .overlay-button {
         bottom: 35%;
+    }
+}
+
+/* ==============================================
+   ABOUT CONTENT: cover, story, pull quote, "what we do" band, team, call to action
+============================================== */
+.about-cover {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-kicker {
+    font-family: "Kalam", cursive;
+    color: #157a40;
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+main.main-content .about-cover h1 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    line-height: 1.1;
+    margin: 0.3rem 0 0.8rem;
+}
+
+main .about-cover h1::after {
+    content: none; /* no underline bar under this heading */
+}
+
+.about-lede {
+    font-size: 1.2rem;
+    color: #5b5652;
+    margin: 0;
+}
+
+.about-story {
+    max-width: 1000px;
+    margin: 3rem auto 0;
+    column-count: 2;
+    column-gap: 3rem;
+    color: #3a3633;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.about-story p {
+    margin: 0 0 1rem;
+    break-inside: avoid;
+}
+
+.about-story p:first-child::first-letter {
+    font-family: "Shadows Into Light Two", cursive;
+    float: left;
+    font-size: 4.2rem;
+    line-height: 0.9;
+    padding: 0.3rem 0.5rem 0 0;
+    color: #382F30;
+}
+
+.about-pull {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    text-align: center;
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.2;
+    color: #262626;
+}
+
+.about-pull::before,
+.about-pull::after {
+    content: '"';
+    color: #157a40;
+}
+
+/* Full-width dark band inside the centred main column */
+.about-band {
+    margin: 0 calc(50% - 50vw);
+    color: #fff;
+}
+
+.about-edge {
+    display: block;
+    width: 100%;
+    height: 60px;
+    fill: #382F30;
+}
+
+.about-band-inner {
+    background: #382F30;
+    padding: 2rem 1.25rem 3rem;
+    text-align: center;
+}
+
+.about-band-inner > * {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-band h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: 2.6rem;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+}
+
+.about-band-lede {
+    color: #ddd;
+    max-width: 640px;
+    margin-bottom: 2rem;
+}
+
+.about-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+}
+
+.about-pillars > div {
+    border-top: 2px solid #e9c98b;
+    padding-top: 1rem;
+}
+
+.about-pillars h3 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #e9c98b;
+    margin: 0 0 0.35rem;
+}
+
+.about-pillars p {
+    margin: 0;
+    color: #ddd;
+}
+
+.about-crew {
+    max-width: 1150px;
+    margin: 3.5rem auto 0;
+}
+
+.about-crew h2 {
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 400;
+    font-size: 2.6rem;
+    text-align: center;
+    margin: 0 0 2rem;
+}
+
+/* Grid rows stretch every card in a row to the same height */
+.about-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 1fr; /* every row as tall as the tallest, also when stacked */
+    gap: 1.25rem;
+}
+
+.about-cards-small {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 760px;
+    margin: 1.25rem auto 0;
+}
+
+.about-card {
+    background: #fbf6ee;
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.about-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #262626;
+}
+
+.about-card p {
+    margin: 0.6rem 0 0;
+    color: #5b5652;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.about-card .about-years {
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 3rem;
+    line-height: 1;
+    color: #382F30;
+    margin: 0 0 0.6rem;
+}
+
+.about-years span {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+    color: #5b5652;
+    margin-left: 0.3rem;
+}
+
+.about-card .about-role {
+    margin-top: 0.15rem;
+    color: #157a40;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.about-cards-small .about-card {
+    padding: 1.1rem 1.4rem;
+}
+
+.about-cta {
+    text-align: center;
+    padding: 3rem 0 1rem;
+}
+
+.about-cta p {
+    font-family: "Kalam", cursive;
+    font-size: 1.4rem;
+    margin: 0 0 1.25rem;
+    color: #262626;
+}
+
+.about-button {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    border: 2px solid #157a40;
+    border-radius: 999px;
+    color: #157a40;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.about-button:hover {
+    background: #157a40;
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .about-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .about-story {
+        column-count: 1;
+    }
+
+    .about-pillars,
+    .about-cards,
+    .about-cards-small {
+        grid-template-columns: 1fr;
+    }
+
+    .about-story,
+    .about-lede {
+        font-size: 1rem;
     }
 }
