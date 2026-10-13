@@ -474,12 +474,12 @@ main .about-cover h1::after {
 }
 
 .about-cta p {
-    font-family: "Kalam", cursive;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     margin: 0 0 1.25rem;
     color: #262626;
 }
 
+/* Same hover as the Explore buttons on the home page: the fill slides in from the left */
 .about-button {
     display: inline-block;
     padding: 0.8rem 1.8rem;
@@ -488,11 +488,30 @@ main .about-cover h1::after {
     color: #157a40;
     text-decoration: none;
     font-weight: 600;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s ease-out;
 }
 
-.about-button:hover {
-    background: #157a40;
+.about-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #157a40;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-out;
+    z-index: -1;
+}
+
+.about-button:hover,
+.about-button:focus-visible {
     color: #fff;
+}
+
+.about-button:hover::before,
+.about-button:focus-visible::before {
+    transform: translateX(0);
 }
 
 @media (max-width: 1024px) {
