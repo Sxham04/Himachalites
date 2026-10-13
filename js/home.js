@@ -157,19 +157,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollToTopBtn = document.getElementById('scrollToBottomBtn');
     const landingPage = document.getElementById('landing-page-container');
 
-    // Scroll navigation that detects if Lenis is present
+    // Smooth scroll to an element or a page position. On desktop it must go through Lenis: a native
+    // scroll started while Lenis is gliding is overwritten by Lenis on the next frame.
     const safeScroll = (target) => {
         if (lenis && window.innerWidth > 1024) {
             lenis.scrollTo(target, { duration: 1.5 });
+        } else if (typeof target === 'number') {
+            window.scrollTo({ top: target, behavior: 'smooth' });
         } else {
             target.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
+    // "Take the Road Home": up one screen from the landing image, to the first district
     if (overlayButton && landingPage) {
         overlayButton.addEventListener('click', (e) => {
             e.preventDefault();
-            safeScroll(landingPage);
+            safeScroll(landingPage.offsetTop - window.innerHeight);
         });
     }
 
@@ -428,7 +432,8 @@ function positionMobileDashedLine() {
 function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, lineTop) {
     if (!svgTipCounter || pathLength === 0 || !svg) return 0;
 
-    const isVisible = (progress > 0.01 && progress < 0.99);
+    // Shown whenever part of the line is drawn, so the line never appears without the bus at its end
+    const isVisible = (progress > 0 && progress < 0.99);
 
     const clampedDrawLength = Math.max(0, Math.min(progress * pathLength, pathLength));
 
@@ -711,24 +716,11 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-scrollToTopBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (landingPage) landingPage.scrollIntoView({ behavior: 'smooth' });
-});
-
 // js/common.js opens and closes the menu; the home page also hides its scroll button meanwhile
 mobileMenuToggle.addEventListener('click', () => {
     scrollToTopBtn.classList.toggle('is-hidden-by-nav');
 });
 
-const overlayButton = document.querySelector('.overlay-button');
-if (overlayButton && landingPage) {
-    overlayButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        const targetScrollY = landingPage.offsetTop - window.innerHeight;
-        window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-    });
-}
 
 window.addEventListener('touchstart', (e) => {
     if (window.innerWidth <= 1024) { lastTouchY = e.touches[0].clientY; }
