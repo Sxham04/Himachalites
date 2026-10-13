@@ -480,7 +480,9 @@ function updateCounterPosition(progress, pathLength, svg, pathCache, svgRect, li
 function animateDashedLine() {
     if (window.innerWidth <= 1024 || !pathElement || pathTotalLength === 0) return 0;
     const animationStartScrollY = topContentWrapper.offsetTop;
-    const animationScrollHeight = topContentWrapper.scrollHeight - window.innerHeight;
+    // offsetHeight, not scrollHeight: scrollHeight grows when the bus sticks out below the district
+    // list, which moved the line's progress, which moved the bus back: the line flickered every frame
+    const animationScrollHeight = topContentWrapper.offsetHeight - window.innerHeight;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     let linearProgress = 1 - ((scrollTop - animationStartScrollY) / animationScrollHeight);
     linearProgress = Math.max(0, Math.min(1, linearProgress));
